@@ -23,6 +23,11 @@ Thumbs.db
 /node_modules
 /public/hot
 /public/storage
+/public/css/app.css
+/public/fonts/vendor
+/public/images/vendor
+/public/js/app.js
+/public/mix-manifest.json
 /storage/*.key
 /vendor
 /.vagrant

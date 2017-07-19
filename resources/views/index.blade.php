@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>后台管理系统</title>
+    <title>Cumuli系统</title>
 
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}" type="text/css"/>
 

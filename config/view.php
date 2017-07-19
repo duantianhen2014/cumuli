@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'paths' => [
+    'paths' => array_get(module(), 'view.paths', [
         resource_path('views'),
-    ],
+    ]),
 
     /*
     |--------------------------------------------------------------------------

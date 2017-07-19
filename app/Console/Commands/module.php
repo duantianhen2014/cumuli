@@ -140,21 +140,45 @@ class module extends GeneratorCommand
         $this->makeDirectory($view);
 
         $this->files->put($path, $this->buildClass($name));
-        $this->files->put($view, 'success');
-        $this->files->put($composer, str_replace("\\/", "/", json_encode([
-            "name" => strtolower($this->getNameInput()),
-            "description" => 'cumuli module',
-            "type" => "cumuli-module",
-            "autoload" => [
-                "psr-4" => [
-                    $this->getNamespace($name) => "src/"
+        $this->files->put($view, $this->getNameInput());
+        $this->files->put($composer, str_replace('\/', '/', $this->unicodeDecode(json_encode([
+            'name' => strtolower($this->getNameInput()),
+            'description' => 'Cumuli系统功能模块',
+            'type' => 'cumuli-module',
+            'autoload' => [
+                'psr-4' => [
+                    $this->getNamespace($name) => 'src/'
+                ]
+            ],
+            'extra' => [
+                'menu' => [
+                    'index' => '查看',
+                    'create' => '添加',
+                    'store' => '保存',
+                    'show' => '查看',
+                    'edit' => '编辑',
+                    'update' => '修改',
+                    'destroy' => '删除',
                 ]
             ]
-        ], JSON_PRETTY_PRINT)));
+        ], JSON_PRETTY_PRINT))));
 
+        @shell_exec('composer dumpautoload');
         $this->info($this->type . ' created successfully.');
-        $this->call('composer dumpautoload');
         return true;
+    }
+
+    // 处理json_encode中的中文编码问题
+    private function unicodeDecode($str)
+    {
+        return preg_replace_callback(
+            '/\\\\u([0-9a-f]{4})/i',
+            create_function(
+                '$matches',
+                'return mb_convert_encoding(pack("H*", $matches[1]), "UTF-8", "UCS-2BE");'
+            ),
+            $str
+        );
     }
 
 }
