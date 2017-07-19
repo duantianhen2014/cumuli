@@ -3,23 +3,23 @@
         <div style="width:50%">
             <div title="面板1" collapsible="true">
                 <foreach name="loginList" item="log">
-                    11111111111111111111111<br/>
+                    1111111111
                 </foreach>
             </div>
 
             <div title="面板2" collapsible="true">
-                22222222222222222222222222222222222<br/>
+                22222222222
             </div>
 
         </div>
 
         <div style="width:50%">
             <div title="面板3" collapsible="true">
-                333333333333333333333<br/>
+                333333333
             </div>
 
             <div title="面板4" collapsible="true">
-                444444444444444444444444444444444
+                444444444444
             </div>
 
         </div>

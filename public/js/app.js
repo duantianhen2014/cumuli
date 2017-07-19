@@ -63,29 +63,29 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-window.$ = window.jQuery = __webpack_require__(4);
+window.$ = window.jQuery = __webpack_require__(8);
 __webpack_require__(2);
 __webpack_require__(3);
-__webpack_require__(34);
+__webpack_require__(6);
+__webpack_require__(7);
+__webpack_require__(5);
+__webpack_require__(4);
 
 /***/ }),
-
-/***/ 1:
+/* 1 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-
-/***/ 2:
+/* 2 */
 /***/ (function(module, exports) {
 
 ﻿/**
@@ -15652,8 +15652,7 @@ return opts.min+(opts.max-opts.min)*(pos/size);
 
 
 /***/ }),
-
-/***/ 3:
+/* 3 */
 /***/ (function(module, exports) {
 
 if ($.fn.pagination){
@@ -15725,8 +15724,671 @@ if ($.fn.datetimespinner){
 
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports) {
 
-/***/ 34:
+/* 页面跳转 */
+$(document).on('click', '.cumuli-window-open', function () {
+  window.open($(this).data('href'));
+});
+$(document).on('click', '.cumuli-window-location', function () {
+  window.location.href = $(this).data('href');
+});
+$(document).on('click', '.cumuli-window-location-confirm', function () {
+  var href = $(this).data('href');
+  var msg = $(this).data('msg') || '确定要继续吗？';
+  $.messager.confirm('系统提示', msg, function (res) {
+    if (res) window.location.href = href;
+  });
+});
+
+/* 弹出层dialog */
+$(document).on('click', '.cumuli-dialog-form', function () {
+  $.cumuli.dialog.form(this);
+});
+$(document).on('click', '.cumuli-dialog-page', function () {
+  $.cumuli.dialog.page(this);
+});
+$(document).on('click', '.cumuli-dialog-content', function () {
+  $.cumuli.dialog.content(this);
+});
+$(document).on('click', '.cumuli-dialog-element', function () {
+  $.cumuli.dialog.element(this);
+});
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+(function ($) {
+  $.cumuli = {
+
+    dialog: {
+
+      dialog: '.cumuli-dialog:first',
+
+      items: ['submit', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'restful'],
+
+      config: {
+        closed: false,
+        iconCls: null,
+        buttons: null,
+        maximized: false,
+        collapsible: false,
+        minimizable: false,
+        maximizable: false,
+        closable: true,
+        resizable: false,
+        draggable: true,
+        openAnimation: 'fade',
+        closeAnimation: 'fade',
+        modal: true,
+        content: null,
+        href: null,
+        method: 'get',
+        restful: 'create'
+      },
+
+      /* 解析选项中自定义属性 */
+      option: function option(e) {
+        var option = $.extend({}, this.config); // 读取默认配置文件
+        if (!e) return option;
+
+        for (var i = 0; i < this.items.length; i++) {
+          var key = this.items[i];
+          var value = $(e).data(key);
+
+          switch (key) {
+            case 'title':
+              if (!value) value = $(e).text();
+              break;
+            case 'content':
+              if (!value) value = $(e).html();
+              break;
+            case 'icon':
+              if (!value) value = $(e).attr('iconCls');
+              key = 'iconCls';
+              break;
+          }
+
+          if (typeof value == 'undefined') continue;
+          option[key] = value;
+        }
+
+        option['submit'] = option['submit'] || option['href'];
+        return option;
+      },
+
+      /* 表单 支持提交功能 */
+      form: function form(e, merge, success, error) {
+        var that = this;
+        var option = that.option(e);
+
+        option['buttons'] = [{
+          text: '确定',
+          iconCls: 'fa fa-check',
+          handler: function handler() {
+            $(that.dialog).find('form').eq(0).form('submit', {
+              onSubmit: function onSubmit() {
+                var isValid = $(this).form('validate');
+                if (!isValid) return false;
+
+                $[option.restful](option['submit'], $(this).serialize()).then(function (res) {
+                  $(that.dialog).dialog('close');
+                  if (typeof success == 'function') success(res);
+                }, function (err) {
+                  if (typeof error == 'function') error(err);
+                });
+
+                return false;
+              }
+            });
+          }
+        }, {
+          text: '取消',
+          iconCls: 'fa fa-close',
+          handler: function handler() {
+            $(that.dialog).dialog('close');
+          }
+        }];
+        //回车默认点击第一个按钮
+        option['onLoad'] = function () {
+          $(that.dialog).find('form').eq(0).on('keyup', function (event) {
+            if (event.keyCode == 13) option['buttons'][0].handler();
+          });
+        };
+
+        //合并参数
+        if ((typeof merge === 'undefined' ? 'undefined' : _typeof(merge)) == 'object') $.extend(option, merge);
+
+        $(that.dialog).dialog(option).dialog('center');
+      },
+
+      /* 显示页面 只能关闭 */
+      page: function page(e, merge) {
+        var that = this;
+        var option = that.option(e);
+
+        option['buttons'] = [{
+          text: '关闭',
+          iconCls: 'fa fa-close',
+          handler: function handler() {
+            $(that.dialog).dialog('close');
+          }
+        }];
+
+        //合并参数
+        if ((typeof merge === 'undefined' ? 'undefined' : _typeof(merge)) == 'object') $.extend(option, merge);
+
+        $(that.dialog).dialog(option).dialog('center');
+      },
+
+      /* 显示内容(不支持href)，只能关闭 */
+      content: function content(e, merge) {
+        var that = this;
+        var option = that.option(e);
+
+        option['buttons'] = [{
+          text: '关闭',
+          iconCls: 'fa fa-close',
+          handler: function handler() {
+            $(that.dialog).dialog('close');
+          }
+        }];
+
+        //合并参数
+        if ((typeof merge === 'undefined' ? 'undefined' : _typeof(merge)) == 'object') $.extend(option, merge);
+
+        option['href'] = null;
+        $(that.dialog).dialog(option).dialog('center');
+      },
+
+      /* 显示其他内容区域 */
+      element: function element(e, merge) {
+        var dialog = e;
+        var option = this.option(dialog);
+
+        //合并参数
+        if ((typeof merge === 'undefined' ? 'undefined' : _typeof(merge)) == 'object') $.extend(option, merge);
+
+        option['href'] = null;
+        $(dialog).dialog(option).dialog('center');
+      }
+    },
+
+    //datagrid
+    datagrid: {
+      datagrid: null,
+      items: ['title', 'icon', 'url', 'toolbar', 'tools', 'fit', 'border'],
+
+      config: {
+        border: false,
+        fit: true,
+        fitColumns: true,
+        rownumbers: true,
+        singleSelect: false,
+        striped: true,
+        multiSort: true,
+        pagination: true,
+        pageList: [20, 30, 50, 80, 100],
+        pageSize: 20
+      },
+
+      /* 解析选项中自定义属性 */
+      option: function option() {
+        var option = $.extend({}, this.config); //读取默认配置文件
+        for (var i = 0; i < this.items.length; i++) {
+          var key = this.items[i];
+          var value = $(this.datagrid).data(key);
+
+          switch (key) {
+            case 'title':
+              if (!value) value = $(this.datagrid).find('caption').eq(0).text();
+              break;
+            case 'icon':
+              if (!value) value = $(this.datagrid).attr('iconCls');
+              key = 'iconCls';
+              break;
+          }
+
+          if (typeof value == 'undefined') continue;
+          option[key] = value;
+        }
+        return option;
+      },
+
+      //初始化页面
+      init: function init(e, merge) {
+        this.datagrid = e;
+        var option = this.option();
+
+        //合并参数
+        if ((typeof merge === 'undefined' ? 'undefined' : _typeof(merge)) == 'object') $.extend(option, merge);
+
+        //自动开启右键菜单功能
+        if ($(e).data('menu')) {
+          var _that = this;
+          option['onRowContextMenu'] = function (e, index, row) {
+            if (index < 0) return false;
+            var menu = $(_that.datagrid).data('menu');
+            if (!$(menu)) return false;
+
+            e.preventDefault();
+            $(_that.datagrid).datagrid('unselectAll');
+            $(_that.datagrid).datagrid('selectRow', index);
+            $(menu).menu('show', { left: e.pageX, top: e.pageY });
+          };
+        }
+
+        option['init'] && delete option['init'];
+        option['option'] && delete option['option'];
+        option['action'] && delete option['action'];
+        option['handle'] && delete option['handle'];
+
+        $(this.datagrid).datagrid(option);
+
+        this.event.toolbar(e, merge, this);
+        this.event.menu(e, merge, this);
+      },
+
+      //监听工具栏和菜单
+      event: {
+        toolbar: function toolbar(e, obj, that) {
+          var selecter = $(e).data('toolbar');
+          if (!selecter) return false;
+
+          $(selecter).on('click', '.toolbar-action', function () {
+            var action = $(this).data('action');
+            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
+              var selected = $(e).datagrid('getSelected'); //当前选中的行
+              var allSelected = $(e).datagrid('getSelections'); //全部选中的行
+
+              obj['action'][action](this, selected, allSelected);
+            }
+          });
+
+          $(selecter).on('click', '.toolbar-handle', function () {
+            var handle = $(this).data('handle');
+            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
+              var selected = $(e).datagrid('getSelected'); //当前选中的行
+              var allSelected = $(e).datagrid('getSelections'); //全部选中的行
+
+              obj['handle'][handle](this, selected, allSelected);
+            }
+          });
+
+          $('.toolbar-search', selecter).on('click', function () {
+            var option = {};
+            var data = $(this).data('data') || '[]';
+            var showGroup = $(this).data('group') === true ? 'true' : 'false';
+            var close = $(this).data('close') || false; //搜索完毕后是否关闭弹出层
+            var scrollbar = $(this).data('scrollbar') === true ? 18 : 0;
+            option.title = $(this).text();
+            option.iconCls = $(this).attr('iconCls') || $(this).data('icon');
+            option.content = '<table class="easyui-propertygrid" data-options="data:' + data + ',showGroup:' + showGroup + ',border:false,fit:true,scrollbarSize:' + scrollbar + ',columns:[[{field:\'name\',title:\'字段名称\',width:100},{field:\'value\',title:\'筛选条件\',width:200}]]"></table>';
+
+            option.width = $(this).data('width');
+            option.height = $(this).data('height');
+
+            option['buttons'] = [{
+              text: '确定',
+              iconCls: 'fa fa-check',
+              handler: function handler() {
+                var $propertygrid = $(that.dialog).find('.easyui-propertygrid').eq(0);
+                var rows = $propertygrid.propertygrid('getRows');
+                var queryParams = $(e).datagrid('options').queryParams;
+                queryParams['search'] = {};
+
+                for (var i = 0; i < rows.length; i++) {
+                  queryParams['search'][rows[i]['field']] = rows[i]['value'];
+                }
+                $(e).datagrid({ pageNumber: 1 });
+
+                if (close === true) $(that.dialog).dialog('close');
+              }
+            }, {
+              text: '取消',
+              iconCls: 'fa fa-close',
+              handler: function handler() {
+                $(that.dialog).dialog('close');
+              }
+            }];
+            $.cumuli.dialog.content(null, option);
+          });
+        },
+        //右键菜单
+        menu: function menu(e, obj, that) {
+          var selecter = $(e).data('menu');
+          if (!selecter) return false;
+
+          $(selecter).on('click', '.menu-action', function () {
+            var action = $(this).data('action');
+            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
+              var selected = $(e).datagrid('getSelected'); //当前选中的行
+              var allSelected = $(e).datagrid('getSelections'); //全部选中的行
+
+              obj['action'][action](this, selected, allSelected);
+            }
+          });
+
+          $(selecter).on('click', '.menu-handle', function () {
+            var handle = $(this).data('handle');
+            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
+              var selected = $(e).datagrid('getSelected'); //当前选中的行
+              var allSelected = $(e).datagrid('getSelections'); //全部选中的行
+
+              obj['handle'][handle](this, selected, allSelected);
+            }
+          });
+        }
+      }
+    },
+
+    //treegrid
+    treegrid: {
+      treegrid: null,
+      items: ['title', 'icon', 'url', 'toolbar', 'tools', 'id', 'name', 'lines', 'animate', 'fit', 'border'],
+
+      config: {
+        border: false,
+        fit: true,
+        fitColumns: true,
+        rownumbers: true,
+        singleSelect: false,
+        striped: true,
+        idField: 'id',
+        treeField: 'name',
+        animate: true,
+        lines: true,
+        pagination: true,
+        pageList: [10, 20, 30, 40, 50],
+        pageSize: 10
+      },
+
+      /* 解析选项中自定义属性 */
+      option: function option() {
+        var option = $.extend({}, this.config); //读取默认配置文件
+        for (var i = 0; i < this.items.length; i++) {
+          var key = this.items[i];
+          var value = $(this.treegrid).data(key);
+
+          switch (key) {
+            case 'title':
+              if (!value) value = $(this.treegrid).find('caption').eq(0).text();
+              break;
+            case 'icon':
+              if (!value) value = $(this.treegrid).attr('iconCls');
+              key = 'iconCls';
+              break;
+            case 'id':
+              if (!value) value = $(this.treegrid).attr('idField');
+              key = 'idField';
+              break;
+            case 'name':
+              if (!value) value = $(this.treegrid).attr('treeField');
+              key = 'treeField';
+              break;
+          }
+
+          if (typeof value == 'undefined') continue;
+          option[key] = value;
+        }
+        return option;
+      },
+
+      //初始化页面
+      init: function init(e, merge) {
+        this.treegrid = e;
+        var option = this.option();
+
+        //合并参数
+        if ((typeof merge === 'undefined' ? 'undefined' : _typeof(merge)) == 'object') $.extend(option, merge);
+
+        //自动开启右键菜单功能
+        if ($(e).data('menu')) {
+          var _that2 = this;
+          option['onContextMenu'] = function (e, row) {
+            if (!row) return false;
+            var menu = $(_that2.treegrid).data('menu');
+            if (!$(menu)) return false;
+
+            e.preventDefault();
+            $(_that2.treegrid).treegrid('unselectAll');
+            var id = $(_that2.treegrid).treegrid('options').idField || 'id';
+            $(_that2.treegrid).treegrid('select', row[id]);
+            $(menu).menu('show', { left: e.pageX, top: e.pageY });
+          };
+        }
+
+        option['init'] && delete option['init'];
+        option['option'] && delete option['option'];
+        option['action'] && delete option['action'];
+        option['handle'] && delete option['handle'];
+
+        $(this.treegrid).treegrid(option);
+
+        this.event.toolbar(e, merge, that);
+        this.event.menu(e, merge, that);
+      },
+
+      //监听工具栏
+      event: {
+        toolbar: function toolbar(e, obj) {
+          var selecter = $(e).data('toolbar');
+          if (!selecter) return false;
+
+          $(selecter).on('click', '.toolbar-action', function () {
+            var action = $(this).data('action');
+            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
+              var selected = $(e).treegrid('getSelected'); //当前选中的行
+              var allSelected = $(e).treegrid('getSelections'); //全部选中的行
+
+              obj['action'][action](this, selected, allSelected);
+            }
+          });
+
+          $(selecter).on('click', '.toolbar-handle', function () {
+            var handle = $(this).data('handle');
+            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
+              var selected = $(e).treegrid('getSelected'); //当前选中的行
+              var allSelected = $(e).treegrid('getSelections'); //全部选中的行
+
+              obj['handle'][handle](this, selected, allSelected);
+            }
+          });
+        },
+        menu: function menu(e, obj) {
+          var selecter = $(e).data('menu');
+          if (!selecter) return false;
+
+          $(selecter).on('click', '.menu-action', function () {
+            var action = $(this).data('action');
+            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
+              var selected = $(e).treegrid('getSelected'); //当前选中的行
+              var allSelected = $(e).treegrid('getSelections'); //全部选中的行
+
+              obj['action'][action](this, selected, allSelected);
+            }
+          });
+
+          $(selecter).on('click', '.menu-handle', function () {
+            var handle = $(this).data('handle');
+            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
+              var selected = $(e).treegrid('getSelected'); //当前选中的行
+              var allSelected = $(e).treegrid('getSelections'); //全部选中的行
+
+              obj['handle'][handle](this, selected, allSelected);
+            }
+          });
+        }
+      }
+    },
+
+    //propertygrid
+    propertygrid: {
+      propertygrid: null,
+      items: ['title', 'icon', 'url', 'toolbar', 'tools', 'fit', 'border'],
+
+      config: {
+        border: false,
+        fit: true,
+        fitColumns: true,
+        showHeader: true,
+        rownumbers: false,
+        singleSelect: false,
+        striped: true,
+        showGroup: true,
+        //scrollbarSize : 0,
+        columns: [[{ field: 'name', title: '名称', width: 80, sortable: true }, {
+          field: 'value', title: '参数', width: 200, sortable: false,
+          formatter: function formatter(value, arr) {
+            var editor = '';
+            if (_typeof(arr.editor) == 'object') {
+              editor = arr.editor.type;
+            } else {
+              editor = arr.editor;
+            }
+            switch (editor) {
+              case 'color':
+                var html = [];
+                html.push('<div>');
+                html.push('<div style="float:right;width:18px;height:18px;background:' + value + '">&nbsp;</div>');
+                html.push(value);
+                html.push('<div style="clear:both"></div>');
+                html.push('</div>');
+                return html.join('');
+                break;
+              case 'password':
+                return value.replace(/./g, '●');
+                break;
+
+              default:
+                return value;
+            }
+          }
+        }]],
+        pagination: false,
+        pageList: [20, 30, 50, 80, 100],
+        pageSize: 20
+      },
+
+      /* 解析选项中自定义属性 */
+      option: function option() {
+        var option = $.extend({}, this.config); //读取默认配置文件
+        for (var i = 0; i < this.items.length; i++) {
+          var key = this.items[i];
+          var value = $(this.propertygrid).data(key);
+
+          switch (key) {
+            case 'title':
+              if (!value) value = $(this.propertygrid).find('caption').eq(0).text();
+              break;
+            case 'icon':
+              if (!value) value = $(this.propertygrid).attr('iconCls');
+              key = 'iconCls';
+              break;
+          }
+
+          if (typeof value == 'undefined') continue;
+          option[key] = value;
+        }
+        return option;
+      },
+
+      //初始化页面
+      init: function init(e, merge) {
+        this.propertygrid = e;
+        var option = this.option();
+
+        //合并参数
+        if ((typeof merge === 'undefined' ? 'undefined' : _typeof(merge)) == 'object') $.extend(option, merge);
+
+        //自动开启右键菜单功能
+        if ($(e).data('menu')) {
+          var _that3 = this;
+          option['onRowContextMenu'] = function (e, index, row) {
+            if (index < 0) return false;
+            var menu = $(_that3.propertygrid).data('menu');
+            if (!$(menu)) return false;
+
+            e.preventDefault();
+            $(_that3.propertygrid).propertygrid('unselectAll');
+            $(_that3.propertygrid).propertygrid('selectRow', index);
+            $(menu).menu('show', { left: e.pageX, top: e.pageY });
+          };
+        }
+
+        option['init'] && delete option['init'];
+        option['option'] && delete option['option'];
+        option['action'] && delete option['action'];
+        option['handle'] && delete option['handle'];
+
+        $(this.propertygrid).propertygrid(option);
+
+        this.event.toolbar(e, merge);
+        this.event.menu(e, merge);
+      },
+
+      //监听工具栏
+      event: {
+        toolbar: function toolbar(e, obj) {
+          var selecter = $(e).data('toolbar');
+          if (!selecter) return false;
+
+          $(selecter).on('click', '.toolbar-action', function () {
+            var action = $(this).data('action');
+            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
+              var selected = $(e).propertygrid('getSelected'); //当前选中的行
+              var allSelected = $(e).propertygrid('getSelections'); //全部选中的行
+
+              obj['action'][action](this, selected, allSelected);
+            }
+          });
+
+          $(selecter).on('click', '.toolbar-handle', function () {
+            var handle = $(this).data('handle');
+            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
+              var selected = $(e).propertygrid('getSelected'); //当前选中的行
+              var allSelected = $(e).propertygrid('getSelections'); //全部选中的行
+
+              obj['handle'][handle](this, selected, allSelected);
+            }
+          });
+        },
+
+        menu: function menu(e, obj) {
+          var selecter = $(e).data('menu');
+          if (!selecter) return false;
+
+          $(selecter).on('click', '.menu-action', function () {
+            var action = $(this).data('action');
+            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
+              var selected = $(e).propertygrid('getSelected'); //当前选中的行
+              var allSelected = $(e).propertygrid('getSelections'); //全部选中的行
+
+              obj['action'][action](this, selected, allSelected);
+            }
+          });
+
+          $(selecter).on('click', '.menu-handle', function () {
+            var handle = $(this).data('handle');
+            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
+              var selected = $(e).propertygrid('getSelected'); //当前选中的行
+              var allSelected = $(e).propertygrid('getSelections'); //全部选中的行
+
+              obj['handle'][handle](this, selected, allSelected);
+            }
+          });
+        }
+      }
+    }
+  };
+})(jQuery);
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports) {
 
 /**
@@ -16047,8 +16709,178 @@ if ($.fn.datetimespinner){
 })(jQuery);
 
 /***/ }),
+/* 7 */
+/***/ (function(module, exports) {
 
-/***/ 4:
+/*
+ * Copyright (c) 2011 Lyconic, LLC.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+(function ($) {
+
+  var _ajax = $.ajax;
+
+  // Will only use method override if $.restSetup.useMethodOverride is set to true
+  // Change the values of this global object if your method parameter is different.
+  $.restSetup = {
+    methodParam: '_method',
+    useMethodOverride: false,
+    verbs: {
+      create: 'POST',
+      update: 'PUT',
+      destroy: 'DELETE'
+    }
+  };
+
+  // collect csrf param & token from meta tags if they haven't already been set
+  $(document).ready(function () {
+    $.restSetup.csrfParam = $.restSetup.csrfParam || $('meta[name=csrf-param]').attr('content');
+    $.restSetup.csrfToken = $.restSetup.csrfToken || $('meta[name=csrf-token]').attr('content');
+  });
+
+  function collect_options(url, data, _success, _error) {
+    var options = { dataType: 'json' };
+    if (arguments.length === 1 && typeof arguments[0] !== "string") {
+      options = $.extend(options, url);
+      if ("url" in options) if ("data" in options) {
+        options.url = fill_url(options.url, options.data);
+      }
+    } else {
+      // shift arguments if data argument was omitted
+      if ($.isFunction(data)) {
+        _error = _success;
+        _success = data;
+        data = null;
+      }
+
+      url = fill_url(url, data);
+
+      options = $.extend(options, {
+        url: url,
+        data: data,
+        success: function success(data, text, xhr) {
+          if (_success) _success.call(options.context || options, data, get_headers(xhr), xhr);
+        },
+        error: function error(xhr) {
+          if (_error) _error.call(options.context || options, xhr, get_headers(xhr));
+        }
+      });
+    }
+    return options;
+  }
+
+  function fill_url(url, data) {
+    var key, u, val;
+    for (key in data) {
+      val = data[key];
+      u = url.replace('{' + key + '}', val);
+      if (u != url) {
+        url = u;
+        delete data[key];
+      }
+    }
+    return url;
+  }
+
+  function get_headers(xhr) {
+    // trim the headers because IE likes to include the blank line between the headers
+    // and the content as part of the headers
+    var headers = {},
+        stringHeaders = $.trim(xhr.getAllResponseHeaders());
+    $.each(stringHeaders.split("\n"), function (i, header) {
+      if (header.length) {
+        var matches = header.match(/^([\w\-]+):(.*)/);
+        if (matches.length === 3) headers[matches[1]] = $.trim(matches[2]);
+      }
+    });
+    xhr.responseHeaders = headers;
+    return headers;
+  }
+
+  $.ajax = function (settings) {
+    var csrfParam = new RegExp("(" + $.restSetup.csrfParam + "=)", "i"),
+        userBeforeSend = settings.beforeSend,
+        methodOverride;
+
+    if (typeof settings.data !== "string") if (settings.data != null) {
+      settings.data = $.param(settings.data);
+    }
+
+    settings.data = settings.data || "";
+    if ($.restSetup.csrfParam && $.restSetup.csrfToken) if (!/^(get)$/i.test(settings.type)) if (!csrfParam.test(settings.data)) {
+      settings.data += (settings.data ? "&" : "") + $.restSetup.csrfParam + '=' + $.restSetup.csrfToken;
+    }
+
+    if ($.restSetup.useMethodOverride) if (!/^(get|post)$/i.test(settings.type)) {
+      methodOverride = settings.type.toUpperCase();
+      settings.data += (settings.data ? "&" : "") + $.restSetup.methodParam + '=' + settings.type.toLowerCase();
+      settings.type = "POST";
+    }
+
+    settings.beforeSend = function (xhr, ajaxSettings) {
+      var context = settings.context || settings,
+          contentType = settings.contentType,
+          resourceContentType = /.*\.(json|xml)/i.exec(settings.url);
+
+      if (!contentType) contentType = $.restSetup.contentType;
+      if (!contentType && resourceContentType) {
+        contentType = 'application/' + resourceContentType[1].toLowerCase();
+      }
+      if (settings.contentType != contentType) $.extend(settings, { contentType: contentType });
+
+      if (methodOverride) xhr.setRequestHeader('X-HTTP-Method-Override', methodOverride);
+
+      if ($.isFunction(userBeforeSend)) userBeforeSend.call(context, xhr, ajaxSettings);
+    };
+
+    return _ajax.call(this, settings);
+  };
+
+  $.read = function () {
+    var options = collect_options.apply(this, arguments);
+    options.type = 'GET';
+    return $.ajax(options);
+  };
+
+  $.create = function () {
+    var options = collect_options.apply(this, arguments);
+    options.type = $.restSetup.verbs.create;
+    return $.ajax(options);
+  };
+
+  $.update = function () {
+    var options = collect_options.apply(this, arguments);
+    options.type = $.restSetup.verbs.update;
+    return $.ajax(options);
+  };
+
+  $.destroy = function () {
+    var options = collect_options.apply(this, arguments);
+    options.type = $.restSetup.verbs.destroy;
+    return $.ajax(options);
+  };
+})(jQuery);
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -26308,8 +27140,7 @@ return jQuery;
 
 
 /***/ }),
-
-/***/ 5:
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(0);
@@ -26317,5 +27148,4 @@ module.exports = __webpack_require__(1);
 
 
 /***/ })
-
-/******/ });
+/******/ ]);
