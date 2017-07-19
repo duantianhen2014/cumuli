@@ -140,7 +140,7 @@ class module extends GeneratorCommand
         $this->makeDirectory($view);
 
         $this->files->put($path, $this->buildClass($name));
-        $this->files->put($view, $this->getNameInput());
+        $this->files->put($view, "<div class=\"easyui-panel\" data-options=\"fit:true,title:'{$this->getNameInput()}',border:false\">\n\n</div>");
         $this->files->put($composer, str_replace('\/', '/', $this->unicodeDecode(json_encode([
             'name' => strtolower($this->getNameInput()),
             'description' => 'Cumuli系统功能模块',
