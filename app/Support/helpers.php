@@ -2,14 +2,20 @@
 
 if (!function_exists('module')) {
     /**
-     * Get the path to the module of the install.
+     * 获取模块信息
      *
      * @param  string $name
      * @return array|null
      */
     function module($name = '')
     {
-        $route = collect(explode('/', $name ?: app('request')->path()));
+        try {
+            $route = collect(explode('/', $name ?: app('request')->path()));
+        } catch (\Exception $e) {
+        }
+
+        if (empty($route)) return null;
+
 
         if ($route->count() < 2) {
             return null;
