@@ -1,11 +1,11 @@
 (function ($) {
-  $.cumuli = {
 
+  // dialog方法
+  $.extend($.cumuli, {
     dialog: {
-
       dialog: '.cumuli-dialog:first',
 
-      items: ['submit', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'restful'],
+      items: ['submit', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'restful', 'iframe'],
 
       config: {
         closed: false,
@@ -24,7 +24,8 @@
         content: null,
         href: null,
         method: 'get',
-        restful: 'create'
+        restful: 'post',
+        iframe: false,
       },
 
       /* 解析选项中自定义属性 */
@@ -71,7 +72,7 @@
                 let isValid = $(this).form('validate');
                 if (!isValid) return false;
 
-                $[option.restful](option['submit'], $(this).serialize()).then(
+                $.cumuli.rest[option.restful](option['submit'], $(this).serialize()).then(
                   function (res) {
                     $(that.dialog).dialog('close');
                     if (typeof success == 'function') success(res);
@@ -121,6 +122,18 @@
         //合并参数
         if (typeof merge == 'object') $.extend(option, merge);
 
+        if (option.href && option.iframe) {
+          let html = [];
+          html.push('<div class="panel-loading" style="position: absolute;width:100%;height:100%;">Loading...</div>');
+          html.push('<iframe width="100%" height="100%" allowtransparency="true" src="' + option.href + '"');
+          html.push(' style="background-color:transparent;border:none;margin-bottom:-5px;"');
+          html.push(' onload="this.previousSibling.remove()"');
+          html.push('></iframe>');
+          option.content = html.join('');
+          option.href = null;
+        }
+        console.log(option);
+
         $(that.dialog).dialog(option).dialog('center');
       },
 
@@ -155,9 +168,11 @@
         option['href'] = null;
         $(dialog).dialog(option).dialog('center');
       }
-    },
+    }
+  });
 
-    //datagrid
+  // datagrid方法
+  $.extend($.cumuli, {
     datagrid: {
       datagrid: null,
       items: ['title', 'icon', 'url', 'toolbar', 'tools', 'fit', 'border'],
@@ -323,9 +338,11 @@
           });
         }
       }
-    },
+    }
+  });
 
-    //treegrid
+  // treegrid方法
+  $.extend($.cumuli, {
     treegrid: {
       treegrid: null,
       items: ['title', 'icon', 'url', 'toolbar', 'tools', 'id', 'name', 'lines', 'animate', 'fit', 'border'],
@@ -463,9 +480,11 @@
           });
         }
       }
-    },
+    }
+  });
 
-    //propertygrid
+  // propertygrid方法
+  $.extend($.cumuli, {
     propertygrid: {
       propertygrid: null,
       items: ['title', 'icon', 'url', 'toolbar', 'tools', 'fit', 'border'],
@@ -625,6 +644,7 @@
           });
         }
       }
-    },
-  };
+    }
+  });
+
 })(jQuery);

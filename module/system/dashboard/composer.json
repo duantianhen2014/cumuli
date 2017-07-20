@@ -1,0 +1,15 @@
+{
+  "name": "system/dashboard",
+  "description": "Cumuli系统功能模块",
+  "type": "cumuli-module",
+  "autoload": {
+    "psr-4": {
+      "Module\\System\\Dashboard": "src/"
+    }
+  },
+  "extra": {
+    "menu": {
+      "index": "查看"
+    }
+  }
+}

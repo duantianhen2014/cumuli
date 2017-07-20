@@ -4,8 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cumuli系统</title>
+    <title>{{ config('app.name') }}</title>
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ elixir('css/themes/black.css') }}" type="text/css" theme="black" disabled/>
+    <link rel="stylesheet" href="{{ elixir('css/themes/bootstrap.css') }}" type="text/css" theme="bootstrap" disabled/>
+    <link rel="stylesheet" href="{{ elixir('css/themes/default.css') }}" type="text/css" theme="default"/>
+    <link rel="stylesheet" href="{{ elixir('css/themes/gray.css') }}" type="text/css" theme="gray" disabled/>
+    <link rel="stylesheet" href="{{ elixir('css/themes/material.css') }}" type="text/css" theme="material" disabled/>
+    <link rel="stylesheet" href="{{ elixir('css/themes/metro.css') }}" type="text/css" theme="metro" disabled/>
 </head>
 <body class="easyui-layout" fit="true">
 
@@ -17,19 +23,23 @@
 
 {{--顶部工具栏区域--}}
 <div
-    data-options="region:'north',split:false,border:true,title:'Cumuli系统',collapsible:false,iconCls:'fa fa-puzzle-piece',height:'auto'">
+    data-options="region:'north',split:false,border:true,title:'{{ config('app.name') }}',collapsible:false,iconCls:'fa fa-cloud',height:'auto'">
 
     {{--工具栏按钮--}}
     <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-group:first',hasDownArrow:false">分组</a>
     <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-collection:first',hasDownArrow:false">收藏</a>
-    <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-window:first',hasDownArrow:false">窗口</a>
+    <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-display:first',hasDownArrow:false">显示</a>
     <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-help:first',hasDownArrow:false">帮助</a>
 
     {{--工具栏菜单--}}
     <div style="display: none">
         <div class="cumuli-toolbar-menu-group">
-            <div class="item" data-href="/system/load/menu?group=system" iconCls="fa fa-square-o">系统管理</div>
-            <div class="item" data-href="/system/load/menu?group=other" iconCls="fa fa-square-o">其他管理</div>
+            <div class="cumuli-menu-select cumuli-target-west" data-href="/system/load/menu?group=system"
+                 iconCls="fa fa-square-o">系统管理
+            </div>
+            <div class="cumuli-menu-select cumuli-target-west" data-href="/system/load/menu?group=other"
+                 iconCls="fa fa-square-o">其他管理
+            </div>
         </div>
 
         <div class="cumuli-toolbar-menu-collection">
@@ -43,20 +53,42 @@
             </div>
         </div>
 
-        <div class="cumuli-toolbar-menu-window">
-            <div class="item" data-options="iconCls:'fa fa-language'">语言设置</div>
-            <div class="item" data-options="iconCls:'fa fa-themeisle'">主题切换</div>
+        <div class="cumuli-toolbar-menu-display">
+            <div class="item" iconCls="fa fa-language">
+                <span>语言设置</span>
+                <div>
+                    <div class="cumuli-window-location" data-href="/?locale=zh_CN" iconCls="flag-icon flag-icon-cn">
+                        中文简体
+                    </div>
+                    <div class="cumuli-window-location" data-href="/?locale=en" iconCls="flag-icon flag-icon-gb">
+                        English
+                    </div>
+                </div>
+            </div>
+            <div class="item" iconCls="fa fa-themeisle">
+                <span>主题切换</span>
+                <div>
+                    <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">black</div>
+                    <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">bootstrap</div>
+                    <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-check-square-o">default</div>
+                    <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">gray</div>
+                    <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">material</div>
+                    <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">metro</div>
+                </div>
+            </div>
         </div>
 
         <div class="cumuli-toolbar-menu-help">
-            <div class="cumuli-window-open" data-href="https://wangdong.io" data-options="iconCls:'fa fa-globe'">官方网站
-            </div>
-            <div class="cumuli-dialog-page" data-width="600" data-height="400" data-restful="destroy"
-                 data-icon="fa fa-github" data-href="/system/test" data-href2="https://github.com/repertory"
-                 data-options="iconCls:'fa fa-github'">获取源码
+            <div class="cumuli-window-open" iconCls="fa fa-globe" data-href="https://wangdong.io">官方网站</div>
+            <div class="cumuli-window-open" iconCls="fa fa-github" data-href="https://github.com/repertory">获取源码</div>
+            <div iconCls="fa fa-qrcode">
+                <span>捐赠作者</span>
+                <div class="menu-content" style="padding:10px">
+                    <img src="/images/alipay.png" alt="支付宝捐赠" height="300">
+                </div>
             </div>
             <div class="menu-sep"></div>
-            <div data-options="iconCls:'fa fa-question-circle'">
+            <div iconCls="fa fa-question-circle">
                 <span>关于</span>
                 <div class="menu-content" style="padding:10px">
                     <b style="font-size: 24px">Cumuli系统</b>
@@ -76,52 +108,26 @@
 {{--右侧内容区域--}}
 <div data-options="region:'center'">
     <div class="easyui-tabs" data-options="tabPosition:'bottom',fit:true,border:false,plain:false">
-        <div title="主页" href="/dashboard/welcome" data-options="cache:false,iconCls:'fa fa-home'"></div>
+        <div title="主页" href="/system/dashboard" data-options="cache:false,iconCls:'fa fa-home'"></div>
     </div>
 </div>
 
 {{--底部版权信息区域--}}
 <div data-options="region:'south',split:false">
-    <div align="center">&copy; 2017 Cumuli系统</div>
+    <div align="center">&copy; 2017 {{ config('app.name') }}</div>
 </div>
 
 <div class="easyui-dialog cumuli-dialog" data-options="closed:true,title:'Loading...'"></div>
 
 <script type="text/javascript" src="{{ elixir('js/app.js') }}"></script>
+<script type="text/javascript" src="{{ elixir('js/locale/'. config('app.locale') .'.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-
-        // 点击菜单分组后在左侧区域打开
-        $('.item', '.cumuli-toolbar-menu-group:first').on('click', function () {
-            let option = {
-                href: $(this).data('href'),
-                title: $(this).text(),
-                icon: $(this).data('icon') || 'fa fa-folder-o',
-            };
-
-            $(this).menu('setIcon', {target: this, iconCls: 'fa fa-check-square-o'});
-            $(this).siblings().each(function () {
-                if ($(this).hasClass('menu-item')) {
-                    $(this).menu('setIcon', {target: this, iconCls: 'fa fa-square-o'});
-                }
-            });
-
-            $.read(option.href).then(function (res) {
-                console.info(res);
-            }, function (err) {
-                console.error(err);
-            });
-
-            //加个判断，防止多次点击重复加载
-//            const options = $('body').layout('panel', 'west').panel('options');
-//            if (option.title == options.title) return false;
-        });
-
         // 默认选中第一个菜单分组
-        $('.item:first', '.cumuli-toolbar-menu-group:first').trigger('click');
+        $('.cumuli-menu-select:first', '.cumuli-toolbar-menu-group:first').trigger('click');
 
-        $('.cumuli-fullscreen-loading').fadeIn();  // 关闭加载效果
-
+        // 关闭loading效果
+        $('.cumuli-fullscreen-loading').fadeIn();
     });
 </script>
 </body>

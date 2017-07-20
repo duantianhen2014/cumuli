@@ -1,28 +1,6 @@
-/*
- * Copyright (c) 2011 Lyconic, LLC.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 (function ($) {
 
-  var _ajax = $.ajax;
+  const _ajax = $.ajax;
 
   // Will only use method override if $.restSetup.useMethodOverride is set to true
   // Change the values of this global object if your method parameter is different.
@@ -43,7 +21,7 @@
   });
 
   function collect_options(url, data, success, error) {
-    var options = {dataType: 'json'};
+    let options = {dataType: 'json'};
     if (arguments.length === 1 && typeof arguments[0] !== "string") {
       options = $.extend(options, url);
       if ("url" in options)
@@ -75,7 +53,7 @@
   }
 
   function fill_url(url, data) {
-    var key, u, val;
+    let key, u, val;
     for (key in data) {
       val = data[key];
       u = url.replace('{' + key + '}', val);
@@ -144,29 +122,30 @@
     return _ajax.call(this, settings);
   };
 
-  $.read = function () {
-    var options = collect_options.apply(this, arguments);
-    options.type = 'GET';
-    return $.ajax(options);
-  };
-
-  $.create = function () {
-    var options = collect_options.apply(this, arguments);
-    options.type = $.restSetup.verbs.create;
-    return $.ajax(options);
-  };
-
-  $.update = function () {
-    var options = collect_options.apply(this, arguments);
-    options.type = $.restSetup.verbs.update;
-    return $.ajax(options);
-  };
-
-  $.destroy = function () {
-    var options = collect_options.apply(this, arguments);
-    options.type = $.restSetup.verbs.destroy;
-    return $.ajax(options);
-  }
+  $.extend($.cumuli, {
+    rest: {
+      get: function () {
+        var options = collect_options.apply(this, arguments);
+        options.type = 'GET';
+        return $.ajax(options);
+      },
+      post: function () {
+        var options = collect_options.apply(this, arguments);
+        options.type = 'GET';
+        return $.ajax(options);
+      },
+      put: function () {
+        var options = collect_options.apply(this, arguments);
+        options.type = $.restSetup.verbs.update;
+        return $.ajax(options);
+      },
+      delete: function () {
+        var options = collect_options.apply(this, arguments);
+        options.type = $.restSetup.verbs.destroy;
+        return $.ajax(options);
+      }
+    }
+  });
 
 })(jQuery);
 

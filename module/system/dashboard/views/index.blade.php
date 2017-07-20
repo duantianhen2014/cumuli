@@ -1,4 +1,4 @@
-<div class="easyui-panel" data-options="fit:true,title:'dashboard/welcome',border:false">
+<div class="easyui-panel" data-options="fit:true,title:'仪表盘',border:false,iconCls:'fa fa-dashboard'">
     <div class="easyui-portal">
         <div style="width:50%">
             <div title="面板1" collapsible="true">

@@ -24,9 +24,12 @@ Thumbs.db
 /public/hot
 /public/storage
 /public/css/app.css
+/public/css/themes
 /public/fonts/vendor
+/public/images/alipay.png
 /public/images/vendor
 /public/js/app.js
+/public/js/locale
 /public/mix-manifest.json
 /storage/*.key
 /vendor
