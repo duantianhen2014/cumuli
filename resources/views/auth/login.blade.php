@@ -3,7 +3,8 @@
 @section('content')
 
     {{--右侧内容区域--}}
-    <div data-options="region:'center',border:false,title:'{{ config('app.name') }}',iconCls:'{{ config('app.icon') }}'">
+    <div
+        data-options="region:'center',border:false,title:'{{ config('app.name') }}',iconCls:'{{ config('app.icon') }}'">
 
         <div class="easyui-dialog" data-options="closed:true" style="width: 100%;max-width: 400px;padding: 30px 36px;">
             <form>
@@ -23,6 +24,9 @@
                         <input type="checkbox" name="remember">
                         <span>记住我</span>
                     </label>
+
+                    <a href="{{ route('password.request') }}" style="float: right">找回密码</a>
+                    <div style="clear: both"></div>
                 </div>
             </form>
         </div>
@@ -47,41 +51,33 @@
                 closed: false,
                 closable: false,
                 constrain: true,
-                buttons: [
-                    {
-                        text: '找回密码',
-                        handler: function () {
-                            window.location.href = '{{ route('password.request') }}';
-                        }
-                    },
-                    {
-                        text: '登录',
-                        iconCls: 'fa fa-sign-in',
-                        handler: function () {
-                            $dialog.find('form:first').form('submit', {
-                                onSubmit: function () {
-                                    // 表单验证
-                                    let isValid = $(this).form('validate');
-                                    if (!isValid) return false;
+                buttons: [{
+                    text: '登录',
+                    iconCls: 'fa fa-sign-in',
+                    handler: function () {
+                        $dialog.find('form:first').form('submit', {
+                            onSubmit: function () {
+                                // 表单验证
+                                let isValid = $(this).form('validate');
+                                if (!isValid) return false;
 
-                                    // 表单提交
-                                    $.cumuli.rest.post('{{ route('login') }}', $(this).serialize()).then(
-                                        function (res) {
-                                            window.location.href = '/';
-                                        },
-                                        function (err) {
-                                            console.log(err);
-                                            $.cumuli.message.show('登录失败', 'error');
-                                        }
-                                    );
+                                // 表单提交
+                                $.cumuli.rest.post('{{ route('login') }}', $(this).serialize()).then(
+                                    function (res) {
+                                        window.location.href = '/';
+                                    },
+                                    function (err) {
+                                        console.log(err);
+                                        $.cumuli.message.show('登录失败', 'error');
+                                    }
+                                );
 
-                                    // 防止触发form提交
-                                    return false;
-                                }
-                            });
-                        }
+                                // 防止触发form提交
+                                return false;
+                            }
+                        });
                     }
-                ]
+                }]
             });
         });
     </script>

@@ -3,7 +3,8 @@
 @section('content')
 
     {{--右侧内容区域--}}
-    <div data-options="region:'center',border:false,title:'{{ config('app.name') }}',iconCls:'{{ config('app.icon') }}'">
+    <div
+        data-options="region:'center',border:false,title:'{{ config('app.name') }}',iconCls:'{{ config('app.icon') }}'">
 
         <div class="easyui-dialog" data-options="closed:true" style="width: 100%;max-width: 400px;padding: 30px 36px;">
             <form>
@@ -50,35 +51,33 @@
                 closed: false,
                 closable: false,
                 constrain: true,
-                buttons: [
-                    {
-                        text: '注册',
-                        iconCls: 'fa fa-user-plus',
-                        handler: function () {
-                            $dialog.find('form:first').form('submit', {
-                                onSubmit: function () {
-                                    // 表单验证
-                                    let isValid = $(this).form('validate');
-                                    if (!isValid) return false;
+                buttons: [{
+                    text: '注册',
+                    iconCls: 'fa fa-user-plus',
+                    handler: function () {
+                        $dialog.find('form:first').form('submit', {
+                            onSubmit: function () {
+                                // 表单验证
+                                let isValid = $(this).form('validate');
+                                if (!isValid) return false;
 
-                                    // 表单提交
-                                    $.cumuli.rest.post('{{ route('register') }}', $(this).serialize()).then(
-                                        function (res) {
-                                            window.location.href = '/';
-                                        },
-                                        function (err) {
-                                            console.log(err);
-                                            $.cumuli.message.show('注册失败', 'error');
-                                        }
-                                    );
+                                // 表单提交
+                                $.cumuli.rest.post('{{ route('register') }}', $(this).serialize()).then(
+                                    function (res) {
+                                        window.location.href = '/';
+                                    },
+                                    function (err) {
+                                        console.log(err);
+                                        $.cumuli.message.show('注册失败', 'error');
+                                    }
+                                );
 
-                                    // 防止触发form提交
-                                    return false;
-                                }
-                            });
-                        }
+                                // 防止触发form提交
+                                return false;
+                            }
+                        });
                     }
-                ]
+                }]
             });
         });
     </script>
