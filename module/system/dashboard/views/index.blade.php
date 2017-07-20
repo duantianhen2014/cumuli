@@ -28,14 +28,12 @@
 </div>
 
 <script type="text/javascript">
-    (function () {
-        $('.easyui-panel:first').panel({
-            onResize: function () {
-                $('.easyui-portal:first', this).portal({
-                    fit: true,
-                    border: false
-                })
-            }
-        });
-    })();
+    $('.easyui-panel:first').panel({
+        onResize: function () {
+            $('.easyui-portal:first', this).portal({
+                fit: true,
+                border: false
+            })
+        }
+    });
 </script>
