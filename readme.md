@@ -39,7 +39,9 @@ echo 'sass_binary_site=https://npm.taobao.org/mirrors/node-sass/' >> ~/.npmrc
 ## 初始化脚本
 
 ```
+composer install
 php -r "file_exists('.env') || copy('.env.example', '.env');"
+php artisan key:generate
 npm install
 npm run dev
 ```
