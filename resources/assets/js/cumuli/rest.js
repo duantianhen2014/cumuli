@@ -131,7 +131,7 @@
       },
       post: function () {
         var options = collect_options.apply(this, arguments);
-        options.type = 'GET';
+        options.type = 'POST';
         return $.ajax(options);
       },
       put: function () {

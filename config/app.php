@@ -14,6 +14,8 @@ return [
 
     'name' => env('APP_NAME', 'Cumuli系统'),
 
+    'icon' => env('APP_ICON', 'fa fa-cloud'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

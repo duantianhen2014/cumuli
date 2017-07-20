@@ -11,9 +11,13 @@
 |
 */
 
+# 首页入口
 Route::get('/', function () {
     return view('index');
-});
+})->middleware('auth');
+
+# 身份认证
+Auth::routes();
 
 # 加载模块, 统一采用resource方式
 $module = module();

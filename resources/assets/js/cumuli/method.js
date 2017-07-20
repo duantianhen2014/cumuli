@@ -1,5 +1,30 @@
 (function ($) {
 
+  // 消息提示
+  $.extend($.cumuli, {
+    message: {
+      config: {
+        title: '提示信息',
+        timeout: 3000,
+        showType: 'slide'
+      },
+      show: function (msg, icon, title, timeout, showType) {
+        let option = $.extend({}, this.config);
+        let text = []
+        text.push('<div class="messager-icon messager-');
+        text.push(icon || 'info');
+        text.push('"></div>');
+        text.push('<div>' + msg + '</div>');
+        $.messager.show({
+          title: title || option.title,
+          msg: text.join(''),
+          timeout: timeout || option.timeout,
+          showType: showType || option.showType
+        });
+      }
+    }
+  });
+
   // dialog方法
   $.extend($.cumuli, {
     dialog: {
