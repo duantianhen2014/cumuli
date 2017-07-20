@@ -46,6 +46,7 @@
                 iconCls: 'fa fa-user',
                 closed: false,
                 closable: false,
+                constrain: true,
                 buttons: [
                     {
                         text: '找回密码',

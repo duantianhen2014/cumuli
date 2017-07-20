@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}" type="text/css"/>
     <link rel="stylesheet" href="{{ elixir('css/themes/black.css') }}" type="text/css" theme="black" disabled/>
     <link rel="stylesheet" href="{{ elixir('css/themes/bootstrap.css') }}" type="text/css" theme="bootstrap" disabled/>
-    <link rel="stylesheet" href="{{ elixir('css/themes/default.css') }}" type="text/css" theme="default"/>
+    <link rel="stylesheet" href="{{ elixir('css/themes/default.css') }}" type="text/css" theme="default" disabled/>
     <link rel="stylesheet" href="{{ elixir('css/themes/gray.css') }}" type="text/css" theme="gray" disabled/>
     <link rel="stylesheet" href="{{ elixir('css/themes/material.css') }}" type="text/css" theme="material" disabled/>
-    <link rel="stylesheet" href="{{ elixir('css/themes/metro.css') }}" type="text/css" theme="metro" disabled/>
+    <link rel="stylesheet" href="{{ elixir('css/themes/metro.css') }}" type="text/css" theme="metro"/>
 </head>
 <body class="easyui-layout" fit="true">
 

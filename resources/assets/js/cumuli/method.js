@@ -30,10 +30,11 @@
     dialog: {
       dialog: '.cumuli-dialog:first',
 
-      items: ['submit', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'restful', 'iframe'],
+      items: ['submit', 'constrain', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'restful', 'iframe'],
 
       config: {
         closed: false,
+        constrain: true,
         iconCls: null,
         buttons: null,
         maximized: false,

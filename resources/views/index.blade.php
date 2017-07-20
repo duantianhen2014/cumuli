@@ -64,10 +64,10 @@
                     <div>
                         <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">black</div>
                         <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">bootstrap</div>
-                        <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-check-square-o">default</div>
+                        <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">default</div>
                         <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">gray</div>
                         <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">material</div>
-                        <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">metro</div>
+                        <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-check-square-o">metro</div>
                     </div>
                 </div>
             </div>

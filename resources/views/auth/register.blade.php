@@ -49,6 +49,7 @@
                 iconCls: 'fa fa-user',
                 closed: false,
                 closable: false,
+                constrain: true,
                 buttons: [
                     {
                         text: '注册',
