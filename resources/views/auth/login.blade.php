@@ -62,12 +62,11 @@
                                 if (!isValid) return false;
 
                                 // 表单提交
-                                $.cumuli.rest.post('{{ route('login') }}', $(this).serialize()).then(
+                                $.post('{{ route('login') }}', $(this).serialize()).then(
                                     function (res) {
                                         window.location.href = '/';
                                     },
                                     function (err) {
-                                        console.log(err);
                                         $.cumuli.message.show('登录失败', 'error');
                                     }
                                 );

@@ -23,14 +23,6 @@ Thumbs.db
 /node_modules
 /public/hot
 /public/storage
-/public/css/app.css
-/public/css/themes
-/public/fonts/vendor
-/public/images/alipay.png
-/public/images/vendor
-/public/js/app.js
-/public/js/locale
-/public/mix-manifest.json
 /storage/*.key
 /vendor
 /.vagrant
@@ -40,3 +32,14 @@ npm-debug.log
 .env
 composer.lock
 package-lock.json
+
+# 正式使用时可以选择性移除
+/module/module.json
+/public/css/app.css
+/public/css/themes
+/public/fonts/vendor
+/public/images/alipay.png
+/public/images/vendor
+/public/js/app.js
+/public/js/locale
+/public/mix-manifest.json

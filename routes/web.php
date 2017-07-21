@@ -11,11 +11,10 @@
 |
 */
 
-
 // 首页入口
 Route::get('/', function (App\User $user) {
     return view('index', ['user' => $user]);
-});//->middleware('auth');
+})->middleware('auth');
 
 // 身份认证
 Auth::routes();
@@ -28,5 +27,5 @@ if ($module) {
     $class = array_get($module, 'class');
     $action = array_get($module, 'action');
 
-    Route::$method($url, "{$class}@{$action}");
+    Route::$method($url, "{$class}@{$action}")->middleware(['auth', 'role']);
 }

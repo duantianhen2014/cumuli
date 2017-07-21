@@ -4,16 +4,16 @@ if (!function_exists('module')) {
     /**
      * 获取模块信息
      *
-     * @param  string $name
+     * @param  string $module
      * @param  string $method
      * @return array|null
      */
-    function module($name = '', $method = '')
+    function module($module = '', $method = '')
     {
         static $modules = [];  // 优化多次获取模块信息
 
         try {
-            $route = collect(explode('/', $name ?: app('request')->path()));
+            $route = collect(explode('/', $module ?: app('request')->path()));
         } catch (\Exception $e) {
         }
 

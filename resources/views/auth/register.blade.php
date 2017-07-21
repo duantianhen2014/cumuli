@@ -62,7 +62,7 @@
                                 if (!isValid) return false;
 
                                 // 表单提交
-                                $.cumuli.rest.post('{{ route('register') }}', $(this).serialize()).then(
+                                $.post('{{ route('register') }}', $(this).serialize()).then(
                                     function (res) {
                                         window.location.href = '/';
                                     },
