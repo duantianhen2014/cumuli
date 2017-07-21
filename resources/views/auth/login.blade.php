@@ -1,23 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-
     {{--右侧内容区域--}}
     <div
         data-options="region:'center',border:false,title:'{{ config('app.name') }}',iconCls:'{{ config('app.icon') }}'">
 
         <div class="easyui-dialog" data-options="closed:true" style="width: 100%;max-width: 400px;padding: 30px 36px;">
             <form>
-                {{ csrf_field() }}
 
                 <div style="margin-bottom:20px;">
                     <input class="easyui-textbox" type="email" name="email" style="width:100%;height:36px;padding:12px"
-                           data-options="prompt:'请输入邮箱',iconCls:'fa fa-envelope',iconWidth:22">
+                           data-options="required:true,validType:'email',prompt:'请输入邮箱',iconCls:'fa fa-envelope',iconWidth:22">
                 </div>
                 <div style="margin-bottom:20px">
                     <input class="easyui-textbox" type="password" name="password"
                            style="width:100%;height:36px;padding:12px"
-                           data-options="prompt:'请输入密码',iconCls:'fa fa-lock',iconWidth:22">
+                           data-options="required:true,validType:{length:[6,20]},prompt:'请输入密码',iconCls:'fa fa-lock',iconWidth:22">
                 </div>
                 <div>
                     <label>
@@ -32,18 +30,13 @@
         </div>
 
     </div>
-
-    <style>
-        .textbox-icon {
-            line-height: 34px;
-        }
-    </style>
-
 @endsection
 
 @section('script')
     <script type="text/javascript">
         $(document).ready(function () {
+            $('.textbox-icon').css('lineHeight', '34px');
+
             $dialog = $('.easyui-dialog:first');
             $dialog.dialog({
                 title: '用户登录',
@@ -67,7 +60,9 @@
                                         window.location.href = '/';
                                     },
                                     function (err) {
-                                        $.cumuli.message.show('登录失败', 'error');
+                                        err = err.responseJSON || {};
+                                        let msg = err.email || err.password || '登录失败';
+                                        $.cumuli.message.show(msg, 'error');
                                     }
                                 );
 

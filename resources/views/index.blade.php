@@ -23,10 +23,10 @@
         <div style="display: none">
             <div class="cumuli-toolbar-menu-account">
                 <div iconCls="fa fa-user-circle-o">{{ $user->name }}</div>
-                <div iconCls="fa fa-envelope">{{ $user->email }}</div>
+                <div iconCls="fa fa-envelope-o">{{ $user->email }}</div>
                 <div iconCls="fa fa-clock-o">{{ $user->created_at }}</div>
                 <div class="menu-sep"></div>
-                <div iconCls="fa fa-sign-out">退出</div>
+                <div iconCls="fa fa-sign-out" class="cumuli-window-location-confirm" data-href="/logout" data-msg="确定要退出登录吗？">退出</div>
             </div>
 
             <div class="cumuli-toolbar-menu-group">

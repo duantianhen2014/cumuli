@@ -84,8 +84,11 @@
    */
   $.extend($.fn.validatebox.defaults.rules, {
     equals: {
-      validator: function (value, param) {
-        return value == $(param[0]).val();
+      validator: function (value, elements) {
+        for (let element of elements) {
+          if (value == $(element).val()) return true;
+        }
+        return false;
       },
       message: '两次输入不一致'
     },

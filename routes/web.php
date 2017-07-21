@@ -11,13 +11,19 @@
 |
 */
 
-// 首页入口
+// 身份认证
+Auth::routes();
+
+// 入口页面
 Route::get('/', function () {
     return view('index', ['user' => Auth::user()]);
 })->middleware('auth');
 
-// 身份认证
-Auth::routes();
+// 退出登录
+Route::get('logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->middleware('auth');
 
 // 加载模块, 统一采用以前版本的controller方式
 $module = module();

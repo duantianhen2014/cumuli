@@ -32,9 +32,6 @@
 
 <script type="text/javascript" src="{{ elixir('js/app.js') }}"></script>
 <script type="text/javascript" src="{{ elixir('js/locale/'. app()->getLocale() .'.js') }}"></script>
-<script type="text/javascript">
-    $('body > .panel-loading:first').remove();   // 移除加载效果
-</script>
 @yield('script')
 </body>
 </html>

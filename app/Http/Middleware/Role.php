@@ -18,7 +18,7 @@ class Role
     {
         // 只允许ajax请求
         if (!$request->ajax()) {
-            return redirect('/');
+            return redirect('/#/' . $request->path());
         }
 
         // 获取当前模块信息
