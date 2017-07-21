@@ -86,7 +86,7 @@
 
     {{--左侧菜单区域--}}
     <div
-        data-options="region:'west',split:true,title:'导航菜单',iconCls:'fa fa-map-marker',width:240,href:'/system/page/west'"></div>
+        data-options="region:'west',split:true,title:'导航菜单',collapsedContent:'<div class=\'panel-title layout-expand-title\'>导航菜单</div>',hideCollapsedContent:false,iconCls:'fa fa-map-marker',width:240,href:'/system/page/west'"></div>
 
     {{--右侧内容区域--}}
     <div data-options="region:'center'">
