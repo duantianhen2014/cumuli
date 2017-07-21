@@ -12,8 +12,8 @@
 */
 
 // 首页入口
-Route::get('/', function (App\User $user) {
-    return view('index', ['user' => $user]);
+Route::get('/', function () {
+    return view('index', ['user' => Auth::user()]);
 })->middleware('auth');
 
 // 身份认证

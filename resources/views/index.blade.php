@@ -7,7 +7,9 @@
         data-options="region:'north',split:false,border:true,title:'{{ config('app.name', 'Cumuli系统') }}',collapsible:false,iconCls:'{{ config('app.icon') }}',tools:'.cumuli-toolbar-tools:first',height:'auto'">
 
         <div class="cumuli-toolbar-tools">
-            <a class="easyui-menubutton fa fa-user-circle" data-options="menu:'.cumuli-toolbar-menu-account:first',hasDownArrow:false" style="border:none;padding:0;"></a>
+            <a class="easyui-menubutton fa fa-user-circle"
+               data-options="menu:'.cumuli-toolbar-menu-account:first',hasDownArrow:false"
+               style="border:none;padding:0;"></a>
         </div>
 
         {{--工具栏按钮--}}
@@ -20,9 +22,9 @@
         {{--工具栏菜单--}}
         <div style="display: none">
             <div class="cumuli-toolbar-menu-account">
-                <div iconCls="fa fa-user-circle-o">wangdong</div>
-                <div iconCls="fa fa-group">管理员</div>
-                <div iconCls="fa fa-envelope">mail@wangdong.io</div>
+                <div iconCls="fa fa-user-circle-o">{{ $user->name }}</div>
+                <div iconCls="fa fa-envelope">{{ $user->email }}</div>
+                <div iconCls="fa fa-clock-o">{{ $user->created_at }}</div>
                 <div class="menu-sep"></div>
                 <div iconCls="fa fa-sign-out">退出</div>
             </div>

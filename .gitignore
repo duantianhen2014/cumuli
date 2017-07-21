@@ -30,10 +30,10 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
-composer.lock
-package-lock.json
 
 # 正式使用时可以选择性移除
+composer.lock
+package-lock.json
 /module/module.json
 /public/css/app.css
 /public/css/themes
