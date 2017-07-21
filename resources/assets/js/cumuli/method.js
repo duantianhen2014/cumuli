@@ -92,7 +92,7 @@
           text: '确定',
           iconCls: 'fa fa-check',
           handler: function () {
-            $(that.dialog).find('form').eq(0).form('submit', {
+            $(that.dialog).find('form:first').form('submit', {
               onSubmit: function () {
                 let isValid = $(this).form('validate');
                 if (!isValid) return false;
@@ -120,7 +120,7 @@
         }];
         //回车默认点击第一个按钮
         option['onLoad'] = function () {
-          $(that.dialog).find('form').eq(0).on('keyup', function (event) {
+          $(that.dialog).find('form:first').on('keyup', function (event) {
             if (event.keyCode == 13) option['buttons'][0].handler();
           });
         };
@@ -224,7 +224,7 @@
 
           switch (key) {
             case 'title':
-              if (!value) value = $(this.datagrid).find('caption').eq(0).text();
+              if (!value) value = $(this.datagrid).find('caption:first').text();
               break;
             case 'icon':
               if (!value) value = $(this.datagrid).attr('iconCls');
@@ -315,7 +315,7 @@
               text: '确定',
               iconCls: 'fa fa-check',
               handler: function () {
-                let $propertygrid = $(that.dialog).find('.easyui-propertygrid').eq(0);
+                let $propertygrid = $(that.dialog).find('.easyui-propertygrid:first');
                 let rows = $propertygrid.propertygrid('getRows');
                 let queryParams = $(e).datagrid('options').queryParams;
                 queryParams['search'] = {};
@@ -397,7 +397,7 @@
 
           switch (key) {
             case 'title':
-              if (!value) value = $(this.treegrid).find('caption').eq(0).text();
+              if (!value) value = $(this.treegrid).find('caption:first').text();
               break;
             case 'icon':
               if (!value) value = $(this.treegrid).attr('iconCls');
@@ -569,7 +569,7 @@
 
           switch (key) {
             case 'title':
-              if (!value) value = $(this.propertygrid).find('caption').eq(0).text();
+              if (!value) value = $(this.propertygrid).find('caption:first').text();
               break;
             case 'icon':
               if (!value) value = $(this.propertygrid).attr('iconCls');

@@ -71,7 +71,13 @@
                             }
                         });
                     }
-                }]
+                }],
+                onOpen: function () {
+                    // 回车提交表单
+                    $dialog.find('form:first').on('keyup', function (event) {
+                        if (event.keyCode == 13) $dialog.dialog('options').buttons[0].handler();
+                    });
+                }
             });
         });
     </script>
