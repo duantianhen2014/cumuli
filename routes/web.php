@@ -11,16 +11,22 @@
 |
 */
 
-# 首页入口
-Route::get('/', function () {
-    return view('index');
-})->middleware('auth');
 
-# 身份认证
+// 首页入口
+Route::get('/', function (App\User $user) {
+    return view('index', ['user' => $user]);
+});//->middleware('auth');
+
+// 身份认证
 Auth::routes();
 
-# 加载模块, 统一采用resource方式
+// 加载模块, 统一采用以前版本的controller方式
 $module = module();
 if ($module) {
-    Route::resource(array_get($module, 'name'), array_get($module, 'controller'));
+    $method = array_get($module, 'method');
+    $url = array_get($module, 'url');
+    $class = array_get($module, 'class');
+    $action = array_get($module, 'action');
+
+    Route::$method($url, "{$class}@{$action}");
 }

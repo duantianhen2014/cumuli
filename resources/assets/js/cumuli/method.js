@@ -30,7 +30,7 @@
     dialog: {
       dialog: '.cumuli-dialog:first',
 
-      items: ['submit', 'constrain', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'restful', 'iframe'],
+      items: ['submit', 'constrain', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'iframe'],
 
       config: {
         closed: false,
@@ -50,7 +50,6 @@
         content: null,
         href: null,
         method: 'get',
-        restful: 'post',
         iframe: false,
       },
 
@@ -98,7 +97,7 @@
                 let isValid = $(this).form('validate');
                 if (!isValid) return false;
 
-                $.cumuli.rest[option.restful](option['submit'], $(this).serialize()).then(
+                $.post(option['submit'], $(this).serialize()).then(
                   function (res) {
                     $(that.dialog).dialog('close');
                     if (typeof success == 'function') success(res);

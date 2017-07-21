@@ -122,6 +122,8 @@ class module extends GeneratorCommand
 
         $path = $this->getPath($name);
         $view = dirname(dirname($path)) . '/views/index.blade.php';
+        $viewCreate = dirname(dirname($path)) . '/views/create.blade.php';
+        $viewUpdate = dirname(dirname($path)) . '/views/update.blade.php';
         $composer = dirname(dirname($path)) . '/composer.json';
 
         // First we will check to see if the class already exists. If it does, we don't want
@@ -140,7 +142,9 @@ class module extends GeneratorCommand
         $this->makeDirectory($view);
 
         $this->files->put($path, $this->buildClass($name));
-        $this->files->put($view, "<div class=\"easyui-panel\" data-options=\"fit:true,title:'{$this->getNameInput()}',border:false\">\n\n</div>");
+        $this->files->put($view, $this->getNameInput());
+        $this->files->put($viewCreate, 'create');
+        $this->files->put($viewUpdate, 'update');
         $this->files->put($composer, str_replace('\/', '/', $this->unicodeDecode(json_encode([
             'name' => strtolower($this->getNameInput()),
             'description' => 'Cumuli系统功能模块',
@@ -151,14 +155,27 @@ class module extends GeneratorCommand
                 ]
             ],
             'extra' => [
+                'module' => [
+                    'name' => '模块名称',
+                    'icon' => 'fa fa-puzzle-piece',
+                ],
                 'menu' => [
-                    'index' => '查看',
-                    'create' => '添加',
-                    'store' => '保存',
-                    'show' => '查看',
-                    'edit' => '编辑',
-                    'update' => '修改',
-                    'destroy' => '删除',
+                    '查看' => [
+                        'action' => ['getIndex', 'postIndex'],
+                        'icon' => 'fa fa-list-alt'
+                    ],
+                    '新增' => [
+                        'action' => ['getCreate', 'postCreate'],
+                        'icon' => 'fa fa-plus-circle'
+                    ],
+                    '编辑' => [
+                        'action' => ['getUpdate', 'postUpdate'],
+                        'icon' => 'fa fa-circle'
+                    ],
+                    '删除' => [
+                        'action' => ['postDelete'],
+                        'icon' => 'fa fa-minus-circle'
+                    ],
                 ]
             ]
         ], JSON_PRETTY_PRINT))));

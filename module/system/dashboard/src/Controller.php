@@ -8,9 +8,9 @@ class Controller extends AppController
 {
     /**
      * 仪表盘
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\View\View
      */
-    public function index()
+    public function getIndex()
     {
         return view('index');
     }

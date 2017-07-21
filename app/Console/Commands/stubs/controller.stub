@@ -7,79 +7,79 @@ use App\Http\Controllers\Controller as AppController;
 
 class Controller extends AppController
 {
+
     /**
-     * Display a listing of the resource.
+     * GET请求入口页面
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function index()
+    public function getIndex()
     {
         return view('index');
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * POST请求入口页面
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function store(Request $request)
+    public function postIndex(Request $request)
     {
-        //
+        return [];
     }
 
     /**
-     * Display the specified resource.
+     * GET请求新增页面
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function getCreate()
     {
-        //
+        return view('create');
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * POST请求新增页面
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function update(Request $request, $id)
+    public function postCreate(Request $request)
     {
-        //
+        return [];
     }
 
     /**
-     * Remove the specified resource from storage.
+     * GET请求编辑页面
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function destroy($id)
+    public function getUpdate()
     {
-        //
+        return view('update');
     }
+
+    /**
+     * POST请求编辑页面
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function postUpdate(Request $request)
+    {
+        return [];
+    }
+
+    /**
+     * POST请求删除页面
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function postDelete(Request $request)
+    {
+        return [];
+    }
+
 }

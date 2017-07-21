@@ -1,15 +1,24 @@
 {
-  "name": "system/dashboard",
-  "description": "Cumuli系统功能模块",
-  "type": "cumuli-module",
-  "autoload": {
-    "psr-4": {
-      "Module\\System\\Dashboard": "src/"
+    "name": "system/dashboard",
+    "description": "Cumuli系统功能模块",
+    "type": "cumuli-module",
+    "autoload": {
+        "psr-4": {
+            "Module\\System\\Dashboard": "src/"
+        }
+    },
+    "extra": {
+        "module": {
+            "name": "仪表盘",
+            "icon": "fa fa-dashboard"
+        },
+        "menu": {
+            "查看": {
+                "action": [
+                    "getIndex"
+                ],
+                "icon": "fa fa-list-alt"
+            }
+        }
     }
-  },
-  "extra": {
-    "menu": {
-      "index": "查看"
-    }
-  }
 }
