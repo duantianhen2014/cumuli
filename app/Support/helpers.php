@@ -13,7 +13,7 @@ if (!function_exists('module')) {
         static $modules = [];  // 优化多次获取模块信息
 
         try {
-            $route = collect(explode('/', $module ?: app('request')->path()));
+            $route = collect(explode('/', $module ? trim($module, '/') : app('request')->path()));
         } catch (\Exception $e) {
         }
 

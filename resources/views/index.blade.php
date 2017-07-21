@@ -4,16 +4,10 @@
 
     {{--顶部工具栏区域--}}
     <div
-        data-options="region:'north',split:false,border:true,title:'{{ config('app.name', 'Cumuli系统') }}',collapsible:false,iconCls:'{{ config('app.icon') }}',tools:'.cumuli-toolbar-tools:first',height:'auto'">
-
-        <div class="cumuli-toolbar-tools">
-            <a class="easyui-menubutton fa fa-user-circle"
-               data-options="menu:'.cumuli-toolbar-menu-account:first',hasDownArrow:false"
-               style="border:none;padding:0;"></a>
-        </div>
+        data-options="region:'north',split:false,border:true,title:'{{ config('app.name', 'Cumuli系统') }}',collapsible:false,iconCls:'{{ config('app.icon') }}',height:'auto'">
 
         {{--工具栏按钮--}}
-        <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-group:first',hasDownArrow:false">分组</a>
+        <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-account:first',hasDownArrow:false">账户</a>
         <a class="easyui-menubutton"
            data-options="menu:'.cumuli-toolbar-menu-collection:first',hasDownArrow:false">收藏</a>
         <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-display:first',hasDownArrow:false">显示</a>
@@ -26,15 +20,8 @@
                 <div iconCls="fa fa-envelope-o">{{ $user->email }}</div>
                 <div iconCls="fa fa-clock-o">{{ $user->created_at }}</div>
                 <div class="menu-sep"></div>
-                <div iconCls="fa fa-sign-out" class="cumuli-window-location-confirm" data-href="/logout" data-msg="确定要退出登录吗？">退出</div>
-            </div>
-
-            <div class="cumuli-toolbar-menu-group">
-                <div class="cumuli-menu-select cumuli-target-west" data-href="/system/load/menu?group=system"
-                     iconCls="fa fa-square-o">系统管理
-                </div>
-                <div class="cumuli-menu-select cumuli-target-west" data-href="/system/load/menu?group=other"
-                     iconCls="fa fa-square-o">其他管理
+                <div iconCls="fa fa-sign-out" class="cumuli-window-location-confirm" data-href="/logout"
+                     data-msg="确定要退出登录吗？">退出
                 </div>
             </div>
 
@@ -50,7 +37,7 @@
             </div>
 
             <div class="cumuli-toolbar-menu-display">
-                <div class="item" iconCls="fa fa-language">
+                <div iconCls="fa fa-language">
                     <span>语言设置</span>
                     <div>
                         <div class="cumuli-window-location" data-href="/?locale=zh_CN" iconCls="flag-icon flag-icon-cn">
@@ -61,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="item" iconCls="fa fa-themeisle">
+                <div iconCls="fa fa-themeisle">
                     <span>主题切换</span>
                     <div>
                         <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">black</div>
@@ -98,14 +85,13 @@
     </div>
 
     {{--左侧菜单区域--}}
-    <div data-options="region:'west',split:true,title:'Loading...',width:240">
-        <div class="easyui-accordion" data-options="fit:true,border:false"></div>
-    </div>
+    <div
+        data-options="region:'west',split:true,title:'导航菜单',iconCls:'fa fa-map-marker',width:240,href:'/system/page/west'"></div>
 
     {{--右侧内容区域--}}
     <div data-options="region:'center'">
         <div class="easyui-tabs" data-options="tabPosition:'bottom',fit:true,border:false,plain:false">
-            <div title="主页" href="/system/dashboard" data-options="cache:false,iconCls:'fa fa-home'"></div>
+            <div title="主页" data-options="cache:false,iconCls:'fa fa-home',href:'/system/page/dashboard'"></div>
         </div>
     </div>
 @endsection
@@ -113,8 +99,9 @@
 @section('script')
     <script type="text/javascript">
         $(document).ready(function () {
-            // 默认选中第一个菜单分组
-            $('.cumuli-menu-select:first', '.cumuli-toolbar-menu-group:first').trigger('click');
+            if (window.location.hash) {
+                console.info('hash', window.location.hash.replace('#', ''));
+            }
         });
     </script>
 @endsection

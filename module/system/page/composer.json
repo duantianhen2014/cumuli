@@ -1,0 +1,16 @@
+{
+    "name": "system/page",
+    "description": "Cumuli系统功能模块",
+    "type": "cumuli-module",
+    "autoload": {
+        "psr-4": {
+            "Module\\System\\Page": "src/"
+        }
+    },
+    "extra": {
+        "module": {
+            "name": "系统页面",
+            "icon": "fa fa-puzzle-piece"
+        }
+    }
+}
