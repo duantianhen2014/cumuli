@@ -20,7 +20,7 @@ Route::get('/', function () {
 })->middleware('auth');
 
 // 退出登录
-Route::get('logout', function () {
+Route::any('logout', function () {
     Auth::logout();
     return redirect('/');
 })->middleware('auth');
