@@ -98,12 +98,14 @@
                 let isValid = $(this).form('validate');
                 if (!isValid) return false;
 
-                $.post(option['submit'], $(this).serialize()).then(
-                  function (res) {
+                $.post(
+                  option['submit'],
+                  $(this).serialize(),
+                  res => {
                     $(that.dialog).dialog('close');
                     if (typeof success == 'function') success(res);
                   },
-                  function (err) {
+                  err => {
                     if (typeof error == 'function') error(err);
                   }
                 );
