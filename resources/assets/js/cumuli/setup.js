@@ -16,6 +16,18 @@
       }
     },
 
+    beforeSend: function () {
+      if (this.type.toUpperCase() != 'GET') {
+        $.messager.progress({text: '处理中，请稍候...'});
+      }
+    },
+
+    complete: function () {
+      if (this.type.toUpperCase() != 'GET') {
+        $.messager.progress('close');
+      }
+    },
+
     statusCode: {
       401: () => {
         window.location.href = '/';

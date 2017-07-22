@@ -11,7 +11,8 @@
         "module": {
             "name": "系统页面",
             "icon": "fa fa-puzzle-piece",
-            "display": false
+            "menu": false,
+            "access": false
         }
     }
 }
