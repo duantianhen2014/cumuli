@@ -54,7 +54,7 @@
                                 let isValid = $(this).form('validate');
                                 if (!isValid) return false;
 
-                                // 表单提交
+                                // 表单提交 TODO 使用then方法时无法拦截ajax错误，模块中不允许使用
                                 $.post('{{ route('register') }}', $(this).serialize()).then(
                                     function (res) {
                                         window.location.href = '/';
