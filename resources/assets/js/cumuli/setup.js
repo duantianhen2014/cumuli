@@ -18,7 +18,7 @@
 
     beforeSend: function () {
       if (this.type.toUpperCase() != 'GET') {
-        $.messager.progress({text: '处理中，请稍候...'});
+        $.messager.progress({text: 'Loading...'});
       }
     },
 
