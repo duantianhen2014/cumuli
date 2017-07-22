@@ -54,17 +54,13 @@
                                 let isValid = $(this).form('validate');
                                 if (!isValid) return false;
 
-                                // 表单提交 TODO 使用then方法时无法拦截ajax错误，模块中不允许使用
-                                $.post('{{ route('register') }}', $(this).serialize()).then(
-                                    function (res) {
-                                        window.location.href = '/';
-                                    },
-                                    function (err) {
-                                        err = err.responseJSON || {};
-                                        let msg = err.name || err.email || err.password || err.password_confirmation || '注册失败';
-                                        $.cumuli.message.show(msg, 'error');
+                                // 表单提交
+                                $.post('{{ route('register') }}', $(this).serialize(), function (data) {
+                                    if (data.status == 'error') {
+                                        return $.cumuli.message.show(data.message, 'error');
                                     }
-                                );
+                                    window.location.href = '/';
+                                });
 
                                 // 防止触发form提交
                                 return false;

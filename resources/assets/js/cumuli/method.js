@@ -8,10 +8,9 @@
         timeout: 3000,
         showType: 'slide'
       },
-
       show: function (msg, icon, title, timeout, showType) {
         let option = $.extend({}, this.config);
-        let text = [];
+        let text = []
         text.push('<div class="messager-icon messager-');
         text.push(icon || 'info');
         text.push('"></div>');
@@ -98,17 +97,14 @@
                 let isValid = $(this).form('validate');
                 if (!isValid) return false;
 
-                $.post(
-                  option['submit'],
-                  $(this).serialize(),
-                  res => {
+                $.post(option['submit'], $(this).serialize(), function (data) {
+                  if (data.status == 'error') {
+                    typeof error == 'function' && error(data);
+                  } else {
                     $(that.dialog).dialog('close');
-                    if (typeof success == 'function') success(res);
-                  },
-                  err => {
-                    if (typeof error == 'function') error(err);
+                    typeof success == 'function' && success(data);
                   }
-                );
+                });
 
                 return false;
               }
