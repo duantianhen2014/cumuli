@@ -8,9 +8,10 @@
         timeout: 3000,
         showType: 'slide'
       },
+
       show: function (msg, icon, title, timeout, showType) {
         let option = $.extend({}, this.config);
-        let text = []
+        let text = [];
         text.push('<div class="messager-icon messager-');
         text.push(icon || 'info');
         text.push('"></div>');
