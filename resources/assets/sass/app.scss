@@ -2,6 +2,10 @@
 @import "~flag-icon-css/sass/flag-icon";
 @import "~EasyUI/themes/color.css";
 
+a {
+  text-decoration: none;
+}
+
 .fa {
   background: none !important; // 解决图标重合问题
   font-size: 14px;

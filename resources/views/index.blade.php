@@ -18,8 +18,12 @@
             <div class="cumuli-toolbar-menu-account">
                 <div iconCls="fa fa-user-circle-o">{{ $user->name ?: '-' }}</div>
                 <div class="menu-sep"></div>
-                <div class="cumuli-dialog-page" data-href="/system/page/profile" data-width="400" data-height="300" iconCls="fa fa-address-card-o">个人信息</div>
-                <div class="cumuli-dialog-form" data-href="/system/page/password" data-width="400" data-height="300" iconCls="fa fa-edit">密码修改</div>
+                <div class="cumuli-dialog-page" data-href="/system/page/profile" data-width="400" data-height="300"
+                     iconCls="fa fa-address-card-o">个人信息
+                </div>
+                <div class="cumuli-dialog-form" data-href="/system/page/password" data-width="400" data-height="300"
+                     iconCls="fa fa-edit">密码修改
+                </div>
                 <div class="menu-sep"></div>
                 <div iconCls="fa fa-sign-out" class="cumuli-window-location-confirm" data-href="/logout"
                      data-msg="确定要退出登录吗？">退出登录
@@ -81,8 +85,20 @@
     </div>
 
     {{--左侧菜单区域--}}
-    <div
-        data-options="region:'west',split:true,title:'导航菜单',collapsedContent:'<div class=\'panel-title layout-expand-title\'>导航菜单</div>',hideCollapsedContent:false,iconCls:'fa fa-map-marker',width:240,href:'/system/page/west'"></div>
+    <div data-options="region:'west',
+        split:true,
+        title:'导航菜单',
+        collapsedContent:'<div class=\'panel-title layout-expand-title\'>导航菜单</div>',
+        hideCollapsedContent:false,
+        iconCls:'fa fa-map-marker',
+        width:240,
+        href:'/system/page/west',
+        tools:[{
+            iconCls:'fa fa-refresh',
+            handler:function(){
+                $('body').layout('panel', 'west').eq(0).panel('refresh');
+            }
+        }]"></div>
 
     {{--右侧内容区域--}}
     <div data-options="region:'center'">
