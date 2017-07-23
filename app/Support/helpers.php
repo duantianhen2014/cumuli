@@ -42,13 +42,13 @@ if (!function_exists('module')) {
         }
 
         // 控制器类名
-        $class = implode('\\', ['\\Module', $group, $module, 'Controller']);
-        if (!class_exists($class)) {
+        $controller = implode('\\', ['\\Module', $group, $module, 'Controller']);
+        if (!class_exists($controller)) {
             return null;
         }
 
         // 通过类名获取模块文件信息
-        $object = new ReflectionClass($class);      // 反解析类文件信息
+        $object = new ReflectionClass($controller);      // 反解析类文件信息
         $path = dirname(dirname($object->getFileName())); // 模块根目录
 
         if (!file_exists(realpath($path . '/composer.json'))) {
@@ -66,7 +66,7 @@ if (!function_exists('module')) {
             'name' => $name,
             'url' => $url,
             'method' => $method,
-            'class' => $class,
+            'controller' => $controller,
             'group' => $group,
             'module' => $module,
             'action' => $action,

@@ -30,12 +30,12 @@ $module = module();
 if ($module) {
     $method = array_get($module, 'method');
     $url = array_get($module, 'url');
-    $class = array_get($module, 'class');
+    $controller = array_get($module, 'controller');
     $action = array_get($module, 'action');
 
     // 验证控制器中对应方法是否存在，否则模块路由无效
-    if (method_exists($class, $action)) {
-        Route::$method($url, "{$class}@{$action}")->middleware(['auth', 'role']);
+    if (method_exists($controller, $action)) {
+        Route::$method($url, "{$controller}@{$action}")->middleware(['auth', 'role']);
     }
 
 }
