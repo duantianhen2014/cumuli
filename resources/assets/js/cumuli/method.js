@@ -16,7 +16,10 @@
         multiSort: true,
         pagination: true,
         pageList: [20, 30, 50, 80, 100],
-        pageSize: 20
+        pageSize: $.cookie('datagrid-pageSize') || 20,
+        onChangePageSize: function (pageSize) {
+          $.cookie('datagrid-pageSize', pageSize, {expires: 30});
+        }
       },
 
       /* 解析选项中自定义属性 */
@@ -414,7 +417,10 @@
         ]],
         pagination: false,
         pageList: [20, 30, 50, 80, 100],
-        pageSize: 20
+        pageSize: $.cookie('propertygrid-pageSize') || 20,
+        onChangePageSize: function (pageSize) {
+          $.cookie('propertygrid-pageSize', pageSize, {expires: 30});
+        }
       },
 
       /* 解析选项中自定义属性 */
@@ -548,7 +554,10 @@
         lines: true,
         pagination: true,
         pageList: [10, 20, 30, 40, 50],
-        pageSize: 10
+        pageSize: $.cookie('treegrid-pageSize') || 10,
+        onChangePageSize: function (pageSize) {
+          $.cookie('treegrid-pageSize', pageSize, {expires: 30});
+        }
       },
 
       /* 解析选项中自定义属性 */

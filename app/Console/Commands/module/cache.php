@@ -50,7 +50,7 @@ class cache extends Command
             ->filter(function ($module) {
                 return !is_null($module);
             })
-            ->keyBy('module');
+            ->keyBy('name');
 
         $bar->finish();
         $this->line('');

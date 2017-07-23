@@ -2,7 +2,5 @@
 window.$ = window.jQuery = require('jquery');
 $.cumuli = {};
 
-require('EasyUI');
-require('moment');
-require('./extension');
+require('./vendor');
 require('./cumuli');

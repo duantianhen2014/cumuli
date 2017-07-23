@@ -25,7 +25,24 @@ class Controller extends AppController
      */
     public function getWest()
     {
-        return view('west');
+        $modules = collect(modules())
+            ->filter(function ($module) {
+                return array_get($module, 'composer.extra.module.status.menu', true) !== false;
+            })
+            ->sortBy('composer.name')
+            ->map(function ($module) {
+                array_forget($module, 'composer.extra.module.status');
+
+                return array_merge(array_get($module, 'composer.extra.module'), [
+                    'group' => array_get($module, 'group'),
+                    'module' => array_get($module, 'module'),
+                    'url' => array_get($module, 'url'),
+                ]);
+            })
+            ->groupBy('group')
+            ->toArray();
+
+        return view('west', ['modules' => $modules]);
     }
 
 }

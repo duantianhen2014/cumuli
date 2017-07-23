@@ -82,3 +82,21 @@ if (!function_exists('module')) {
         return array_get($modules, "{$group}.{$module}.{$action}", null);
     }
 }
+
+if (!function_exists('modules')) {
+    /**
+     * 获取所有模块信息
+     *
+     * @return array
+     */
+    function modules()
+    {
+        if (!file_exists(base_path('module/module.json'))) {
+            return [];
+        }
+        if (!is_writeable(base_path('module/module.json'))) {
+            return [];
+        }
+        return json_decode(file_get_contents(base_path('module/module.json')), true);
+    }
+}
