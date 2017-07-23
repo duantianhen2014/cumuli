@@ -116,7 +116,7 @@ class module extends GeneratorCommand
         $name = $this->qualifyClass($this->getNameInput());
 
         if (!preg_match("#^[a-z]+(_?[a-z]+[0-9]{0,}){0,}\/[a-z]+(_?[a-z]+[0-9]{0,}){0,}$#", $this->getNameInput())) {
-            $this->error($this->type . ' name error! FORMAT: [group/name | group_name/module_name]');
+            $this->error($this->type . ' name error! FORMAT: [group/module | group_name/module_name]');
             return false;
         }
 

@@ -4,16 +4,16 @@ if (!function_exists('module')) {
     /**
      * 获取模块信息
      *
-     * @param  string $module
+     * @param  string $name
      * @param  string $method
      * @return array|null
      */
-    function module($module = '', $method = '')
+    function module($name = '', $method = '')
     {
         static $modules = [];  // 优化多次获取模块信息
 
         try {
-            $route = collect(explode('/', $module ? trim($module, '/') : app('request')->path()));
+            $route = collect(explode('/', $name ? trim($name, '/') : app('request')->path()));
         } catch (\Exception $e) {
         }
 
@@ -24,8 +24,8 @@ if (!function_exists('module')) {
         }
 
         // 模块名与当前url
-        $module = "{$route->get(0)}/{$route->get(1)}";
-        $url = $route->get(2) ? "{$module}/{$route->get(2)}" : $module;
+        $name = "{$route->get(0)}/{$route->get(1)}";
+        $url = $route->get(2) ? "{$name}/{$route->get(2)}" : $name;
 
         // 请求方式，默认为get
         $method = $method ?: app('request')->method();
@@ -33,16 +33,16 @@ if (!function_exists('module')) {
 
         // 控制器参数
         $group = studly_case(strtolower($route->get(0)));
-        $name = studly_case(strtolower($route->get(1)));
+        $module = studly_case(strtolower($route->get(1)));
         $action = $method . studly_case(strtolower($route->get(2, 'index')));
 
         // 静态变量中获取
-        if (array_has($modules, "{$group}.{$name}.{$action}")) {
-            return array_get($modules, "{$group}.{$name}.{$action}", null);
+        if (array_has($modules, "{$group}.{$module}.{$action}")) {
+            return array_get($modules, "{$group}.{$module}.{$action}", null);
         }
 
         // 控制器类名
-        $class = implode('\\', ['\\Module', $group, $name, 'Controller']);
+        $class = implode('\\', ['\\Module', $group, $module, 'Controller']);
         if (!class_exists($class)) {
             return null;
         }
@@ -62,13 +62,13 @@ if (!function_exists('module')) {
         }
 
         // 保存模块信息到静态变量
-        array_set($modules, "{$group}.{$name}.{$action}", [
-            'module' => $module,
+        array_set($modules, "{$group}.{$module}.{$action}", [
+            'name' => $name,
             'url' => $url,
             'method' => $method,
             'class' => $class,
             'group' => $group,
-            'name' => $name,
+            'module' => $module,
             'action' => $action,
             'reflection' => $object,
             'path' => $path,
@@ -79,6 +79,6 @@ if (!function_exists('module')) {
                 ]
             ]
         ]);
-        return array_get($modules, "{$group}.{$name}.{$action}", null);
+        return array_get($modules, "{$group}.{$module}.{$action}", null);
     }
 }
