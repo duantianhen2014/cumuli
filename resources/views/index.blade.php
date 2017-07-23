@@ -16,24 +16,20 @@
         {{--工具栏菜单--}}
         <div style="display: none">
             <div class="cumuli-toolbar-menu-account">
-                <div iconCls="fa fa-user-circle-o">{{ $user->name }}</div>
-                <div iconCls="fa fa-envelope-o">{{ $user->email }}</div>
-                <div iconCls="fa fa-clock-o">{{ $user->created_at }}</div>
+                <div iconCls="fa fa-user-circle-o">{{ $user->name ?: '-' }}</div>
+                <div class="menu-sep"></div>
+                <div class="cumuli-dialog-page" data-href="/system/page/profile" data-width="400" data-height="300" iconCls="fa fa-address-card-o">个人信息</div>
+                <div class="cumuli-dialog-form" data-href="/system/page/password" data-width="400" data-height="300" iconCls="fa fa-edit">密码修改</div>
                 <div class="menu-sep"></div>
                 <div iconCls="fa fa-sign-out" class="cumuli-window-location-confirm" data-href="/logout"
-                     data-msg="确定要退出登录吗？">退出
+                     data-msg="确定要退出登录吗？">退出登录
                 </div>
             </div>
 
             <div class="cumuli-toolbar-menu-collection">
-                <div data-options="iconCls:'fa fa-tag'">
-                    <span>菜单</span>
-                    <div>
-                        <div class="item" data-href="/system/menu">菜单管理</div>
-                        <div class="item" data-href="/system/role">角色管理</div>
-                        <div class="item" data-href="/system/user">用户管理</div>
-                    </div>
-                </div>
+                <div iconCls="fa fa-link" data-href="/system/menu">菜单管理</div>
+                <div iconCls="fa fa-link" data-href="/system/role">角色管理</div>
+                <div iconCls="fa fa-link" data-href="/system/user">用户管理</div>
             </div>
 
             <div class="cumuli-toolbar-menu-display">
