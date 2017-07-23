@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Console\Commands\deploy;
+namespace App\Console\Commands\module;
 
 use Illuminate\Console\Command;
 
-class module extends Command
+class cache extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'deploy:module';
+    protected $signature = 'module:cache';
 
     /**
      * The console command description.

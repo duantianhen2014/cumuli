@@ -115,8 +115,8 @@ class module extends GeneratorCommand
     {
         $name = $this->qualifyClass($this->getNameInput());
 
-        if (count(explode('\\', trim($name, '\/'))) != 3) {
-            $this->error($this->type . ' name error!');
+        if (!preg_match("#^[a-z]+(_?[a-z]+[0-9]{0,}){0,}\/[a-z]+(_?[a-z]+[0-9]{0,}){0,}$#", $this->getNameInput())) {
+            $this->error($this->type . ' name error! FORMAT: [group/name | group_name/module_name]');
             return false;
         }
 
@@ -158,30 +158,55 @@ class module extends GeneratorCommand
                 'module' => [
                     'name' => '模块名称',
                     'icon' => 'fa fa-puzzle-piece',
+                    'status' => [
+                        'access' => true,
+                        'menu' => true,
+                    ],
                 ],
                 'menu' => [
                     '查看' => [
                         'action' => ['getIndex', 'postIndex'],
-                        'icon' => 'fa fa-list-alt'
+                        'icon' => 'fa fa-list-alt',
+                        'status' => [
+                            'access' => true,
+                            'contextMenu' => false,
+                            'toolbar' => false,
+                        ],
                     ],
                     '新增' => [
                         'action' => ['getCreate', 'postCreate'],
-                        'icon' => 'fa fa-plus-circle'
+                        'icon' => 'fa fa-plus-circle',
+                        'status' => [
+                            'access' => true,
+                            'contextMenu' => false,
+                            'toolbar' => true,
+                        ],
                     ],
                     '编辑' => [
                         'action' => ['getUpdate', 'postUpdate'],
-                        'icon' => 'fa fa-circle'
+                        'icon' => 'fa fa-circle',
+                        'status' => [
+                            'access' => true,
+                            'contextMenu' => true,
+                            'toolbar' => true,
+                        ],
                     ],
                     '删除' => [
                         'action' => ['postDelete'],
-                        'icon' => 'fa fa-minus-circle'
+                        'icon' => 'fa fa-minus-circle',
+                        'status' => [
+                            'access' => true,
+                            'contextMenu' => true,
+                            'toolbar' => true,
+                        ],
                     ],
                 ]
             ]
         ], JSON_PRETTY_PRINT))));
 
-        @shell_exec('composer dumpautoload');
         $this->info($this->type . ' created successfully.');
+
+        $this->callSilent('module:cache');  // 更新模块缓存
         return true;
     }
 

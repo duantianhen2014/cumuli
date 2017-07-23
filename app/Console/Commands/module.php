@@ -180,7 +180,7 @@ class module extends GeneratorCommand
             ]
         ], JSON_PRETTY_PRINT))));
 
-        @shell_exec('composer dumpautoload');
+        $this->callSilent('module:cache');
         $this->info($this->type . ' created successfully.');
         return true;
     }
