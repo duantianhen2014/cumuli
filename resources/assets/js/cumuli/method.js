@@ -343,6 +343,30 @@
     }
   });
 
+  // target方法
+  $.extend($.cumuli, {
+    target: {
+      center: function (module) {
+        $tabs = $('body').layout('panel', 'center').eq(0).find('.easyui-tabs:first');
+        if (!$tabs) return;
+
+        $tabs.tabs('add', {
+          title: module.text,
+          href: module.url,
+          iconCls: module.iconCls,
+          closable: true,
+          cache: true,
+          onContextMenu: (...args) => {
+            console.log('onContextMenu', args);
+            return false;
+          }
+        });
+
+        console.log($tabs);
+      }
+    }
+  });
+
   // message方法
   $.extend($.cumuli, {
     message: {

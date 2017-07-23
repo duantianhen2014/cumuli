@@ -31,13 +31,13 @@ class Controller extends AppController
             })
             ->sortBy('composer.name')
             ->map(function ($module) {
-                array_forget($module, 'composer.extra.module.status');
-
-                return array_merge(array_get($module, 'composer.extra.module'), [
+                return [
                     'group' => array_get($module, 'group'),
                     'module' => array_get($module, 'module'),
                     'url' => array_get($module, 'url'),
-                ]);
+                    'text' => array_get($module, 'composer.extra.module.name', array_get($module, 'module')),
+                    'iconCls' => array_get($module, 'composer.extra.module.icon'),
+                ];
             })
             ->groupBy('group')
             ->toArray();

@@ -24,9 +24,6 @@
   });
 
   /* 指定区域打开链接 */
-  $(document).on('click', '.cumuli-target-west', function () {
-    console.log(this);
-  });
   $(document).on('click', '.cumuli-target-center', function () {
     console.log(this);
   });

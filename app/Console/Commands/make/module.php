@@ -142,7 +142,15 @@ class module extends GeneratorCommand
         $this->makeDirectory($view);
 
         $this->files->put($path, $this->buildClass($name));
-        $this->files->put($view, $this->getNameInput());
+        $html = <<<HTML
+<div class="easyui-panel" data-options="fit:true,title:'{{ array_get(\$module, 'group') }}/{{ array_get(\$module, 'module') }}',border:false">
+    <div>
+        <pre>{{ var_export(\$module, true) }}</pre>
+    </div>
+</div>
+HTML;
+
+        $this->files->put($view, $html);
         $this->files->put($viewCreate, 'create');
         $this->files->put($viewUpdate, 'update');
         $this->files->put($composer, str_replace('\/', '/', $this->unicodeDecode(json_encode([
@@ -204,9 +212,8 @@ class module extends GeneratorCommand
             ]
         ], JSON_PRETTY_PRINT))));
 
+        $this->callSilent('module:cache');
         $this->info($this->type . ' created successfully.');
-
-        $this->callSilent('module:cache');  // 更新模块缓存
         return true;
     }
 

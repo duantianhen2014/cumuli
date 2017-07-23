@@ -2,6 +2,11 @@
 @import "~flag-icon-css/sass/flag-icon";
 @import "~EasyUI/themes/color.css";
 
+.fa {
+  background: none !important; // 解决图标重合问题
+  font-size: 14px;
+}
+
 .word-wrap, .messager-body {
   word-wrap: break-word;
   word-break: break-all;
