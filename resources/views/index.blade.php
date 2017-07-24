@@ -18,10 +18,12 @@
             <div id="{{ attr_id('menu.account') }}">
                 <div iconCls="fa fa-user-circle-o">{{ $user->name ?: '-' }}</div>
                 <div class="menu-sep"></div>
-                <div class="cumuli-dialog-page" data-href="/system/page/profile" data-width="400" data-height="300"
+                <div class="cumuli-dialog-page" data-href="{{ config('module.page.profile') }}" data-width="400"
+                     data-height="300"
                      iconCls="fa fa-address-card-o">个人信息
                 </div>
-                <div class="cumuli-dialog-form" data-href="/system/page/password" data-width="400" data-height="300"
+                <div class="cumuli-dialog-form" data-href="{{ config('module.page.password') }}" data-width="400"
+                     data-height="300"
                      iconCls="fa fa-edit">密码修改
                 </div>
                 <div class="menu-sep"></div>
@@ -103,7 +105,8 @@
     {{--右侧内容区域--}}
     <div data-options="region:'center'">
         <div class="easyui-tabs" data-options="tabPosition:'bottom',fit:true,border:false,plain:false">
-            <div title="主页" data-options="cache:true,iconCls:'fa fa-home',href:'/system/page/dashboard'"></div>
+            <div title="主页"
+                 data-options="cache:true,iconCls:'fa fa-home',href:'{{ config('module.page.dashboard') }}'"></div>
         </div>
     </div>
 @endsection
