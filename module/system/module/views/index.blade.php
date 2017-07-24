@@ -8,17 +8,16 @@
 
     <thead>
     <tr>
-        <th data-options="field:'username',width:100,sortable:true">用户名</th>
-        <th data-options="field:'time',width:100,sortable:true">登录时间</th>
-        <th data-options="field:'httpuseragent',width:250,sortable:true">浏览器标识</th>
-        <th data-options="field:'ip',width:100,sortable:true">IP</th>
+        <th data-options="field:'name',width:100,sortable:false">模块</th>
+        <th data-options="field:'path',width:100,sortable:false">目录</th>
+        <th data-options="field:'composer',width:500,sortable:false,formatter:function(value,row,index){return  JSON.stringify(value)}">Composer配置</th>
     </tr>
     </thead>
 </table>
 
-<div id="{{ attr_id('datagrid.toolbar') }}">
-    {{ attr_id('datagrid.toolbar') }}
-</div>
+{{--<div id="{{ attr_id('datagrid.toolbar') }}">--}}
+    {{--{{ attr_id('datagrid.toolbar') }}--}}
+{{--</div>--}}
 
 <div id="{{ attr_id('datagrid.menu') }}">
     {{ attr_id('datagrid.menu') }}

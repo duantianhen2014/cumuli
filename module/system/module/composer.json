@@ -4,8 +4,8 @@
     "type": "cumuli-module",
     "authors": [
         {
-            "name": "author name",
-            "email": "author email"
+            "name": "wangdong",
+            "email": "mail@wangdong.io"
         }
     ],
     "autoload": {
@@ -15,7 +15,7 @@
     },
     "extra": {
         "module": {
-            "name": "模块名称",
+            "name": "模块管理",
             "icon": "fa fa-puzzle-piece",
             "status": {
                 "access": true,
@@ -33,41 +33,6 @@
                     "access": true,
                     "contextMenu": false,
                     "toolbar": false
-                }
-            },
-            "新增": {
-                "action": [
-                    "getCreate",
-                    "postCreate"
-                ],
-                "icon": "fa fa-plus-circle",
-                "status": {
-                    "access": true,
-                    "contextMenu": false,
-                    "toolbar": true
-                }
-            },
-            "编辑": {
-                "action": [
-                    "getUpdate",
-                    "postUpdate"
-                ],
-                "icon": "fa fa-circle",
-                "status": {
-                    "access": true,
-                    "contextMenu": true,
-                    "toolbar": true
-                }
-            },
-            "删除": {
-                "action": [
-                    "postDelete"
-                ],
-                "icon": "fa fa-minus-circle",
-                "status": {
-                    "access": true,
-                    "contextMenu": true,
-                    "toolbar": true
                 }
             }
         }

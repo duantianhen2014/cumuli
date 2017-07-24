@@ -26,7 +26,9 @@ class Controller extends AppController
      */
     public function postIndex(Request $request)
     {
-        return ['status' => 'error', 'message' => '功能完善中', 'total' => 0, 'rows' => []];
+        $modules = collect(modules())
+            ->values();
+        return ['status' => 'error', 'message' => '功能完善中', 'total' => $modules->count(), 'rows' => $modules->toArray()];
     }
 
 }
