@@ -1,6 +1,6 @@
 <div class="easyui-accordion" data-options="fit:true,border:false">
     @forelse ($modules as $group => $data)
-        <div title="@lang("group.{$group}")" iconCls="fa fa-folder-o">
+        <div title="@lang("module.{$group}")" iconCls="fa fa-folder-o">
             <ul class="easyui-tree" data-options='animate:true,lines:true,data:{{ json_encode($data) }}'></ul>
         </div>
     @empty

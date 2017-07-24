@@ -83,6 +83,30 @@ if (!function_exists('module')) {
     }
 }
 
+if (!function_exists('module_lang')) {
+    /**
+     * 获取模块多语言信息，用于自定义语言合并
+     *
+     * @return array
+     */
+    function module_lang()
+    {
+        static $lang = [];
+        if (!empty($lang)) {
+            return $lang;
+        }
+
+        if (!file_exists(base_path('module/lang.json'))) {
+            return [];
+        }
+        if (!is_writeable(base_path('module/lang.json'))) {
+            return [];
+        }
+        $lang = json_decode(file_get_contents(base_path('module/lang.json')), true);
+        return $lang;
+    }
+}
+
 if (!function_exists('modules')) {
     /**
      * 获取所有模块信息
