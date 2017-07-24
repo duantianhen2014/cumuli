@@ -26,7 +26,7 @@ class Controller extends AppController
      */
     public function postIndex(Request $request)
     {
-        return [];
+        return ['status' => 'error', 'message' => '功能完善中'];
     }
 
     /**
@@ -47,7 +47,7 @@ class Controller extends AppController
      */
     public function postCreate(Request $request)
     {
-        return [];
+        return ['status' => 'error', 'message' => '功能完善中'];
     }
 
     /**
@@ -68,7 +68,7 @@ class Controller extends AppController
      */
     public function postUpdate(Request $request)
     {
-        return [];
+        return ['status' => 'error', 'message' => '功能完善中'];
     }
 
     /**
@@ -79,7 +79,7 @@ class Controller extends AppController
      */
     public function postDelete(Request $request)
     {
-        return [];
+        return ['status' => 'error', 'message' => '功能完善中'];
     }
 
 }

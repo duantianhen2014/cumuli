@@ -103,7 +103,7 @@
     {{--右侧内容区域--}}
     <div data-options="region:'center'">
         <div class="easyui-tabs" data-options="tabPosition:'bottom',fit:true,border:false,plain:false">
-            <div title="主页" data-options="cache:false,iconCls:'fa fa-home',href:'/system/page/dashboard'"></div>
+            <div title="主页" data-options="cache:true,iconCls:'fa fa-home',href:'/system/page/dashboard'"></div>
         </div>
     </div>
 @endsection
