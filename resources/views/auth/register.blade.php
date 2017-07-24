@@ -10,7 +10,7 @@
 
                 <div style="margin-bottom:20px;">
                     <input class="easyui-textbox" type="text" name="name" style="width:100%;height:36px;padding:12px"
-                           data-options="required:true,validType:{length:[2,20]},prompt:'请输入姓名',iconCls:'fa fa-user',iconWidth:22">
+                           data-options="required:true,validType:{length:[2,20]},prompt:'请输入姓名',iconCls:'fa fa-user',iconWidth:20">
                 </div>
                 <div style="margin-bottom:20px;">
                     <input class="easyui-textbox" type="email" name="email" style="width:100%;height:36px;padding:12px"
@@ -19,12 +19,12 @@
                 <div style="margin-bottom:20px">
                     <input class="easyui-textbox" type="password" name="password"
                            style="width:100%;height:36px;padding:12px"
-                           data-options="required:true,validType:{length:[6,20]},prompt:'请输入密码',iconCls:'fa fa-lock',iconWidth:22">
+                           data-options="required:true,validType:{length:[6,20]},prompt:'请输入密码',iconCls:'fa fa-lock',iconWidth:20">
                 </div>
                 <div>
                     <input class="easyui-textbox" type="password" name="password_confirmation"
                            style="width:100%;height:36px;padding:12px"
-                           data-options="required:true,validType:{equals: ['input[name=password]:first']},prompt:'确认密码',iconCls:'fa fa-lock',iconWidth:22">
+                           data-options="required:true,validType:{equals: ['input[name=password]:first']},prompt:'确认密码',iconCls:'fa fa-lock',iconWidth:20">
                 </div>
             </form>
         </div>
@@ -36,6 +36,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('.textbox-icon').css('lineHeight', '34px');
+            $('.fa').css('color', 'black');
 
             $dialog = $('.easyui-dialog:first');
             $dialog.dialog({
