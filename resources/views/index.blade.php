@@ -94,7 +94,7 @@
         width:240,
         href:'/system/page/west',
         tools:[{
-            iconCls:'fa fa-refresh',
+            iconCls:'icon-reload',
             handler:function(){
                 $('body').layout('panel', 'west').eq(0).panel('refresh');
             }
