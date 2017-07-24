@@ -157,6 +157,12 @@ HTML;
             'name' => strtolower($this->getNameInput()),
             'description' => 'Cumuli系统功能模块',
             'type' => 'cumuli-module',
+            'authors' => [
+                [
+                    'name' => 'author name',
+                    'email' => 'author email'
+                ],
+            ],
             'autoload' => [
                 'psr-4' => [
                     $this->getNamespace($name) => 'src/'

@@ -5,6 +5,12 @@
         "wangdong",
         "cumuli"
     ],
+    "authors": [
+        {
+            "name": "wangdong",
+            "email": "mail@wangdong.io"
+        }
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
