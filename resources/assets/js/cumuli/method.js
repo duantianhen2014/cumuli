@@ -350,19 +350,22 @@
         $tabs = $('body').layout('panel', 'center').eq(0).find('.easyui-tabs:first');
         if (!$tabs) return;
 
-        $tabs.tabs('add', {
-          title: module.text,
-          href: module.url,
-          iconCls: module.iconCls,
-          closable: true,
-          cache: true,
-          onContextMenu: (...args) => {
-            console.log('onContextMenu', args);
-            return false;
-          }
-        });
+        if ($tabs.tabs('exists', module.text)) {
+          $tabs.tabs('select', module.text);
+        } else {
+          $tabs.tabs('add', {
+            title: module.text,
+            href: module.url,
+            iconCls: module.iconCls,
+            closable: true,
+            cache: true,
+            onContextMenu: (...args) => {
+              console.log('onContextMenu', args);
+              return false;
+            }
+          });
+        }
 
-        console.log($tabs);
       }
     }
   });
