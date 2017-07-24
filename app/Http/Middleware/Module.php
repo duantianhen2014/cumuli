@@ -2,16 +2,15 @@
 
 namespace App\Http\Middleware;
 
-use App\Console\Commands\deploy\module;
 use Closure;
 
-class Role
+class Module
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)

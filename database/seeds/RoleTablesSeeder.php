@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UsersTableSeeder extends Seeder
+class RoleTablesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,10 +12,10 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'wangdong',
-            'email' => 'mail@wangdong.io',
-            'password' => bcrypt('wangdong'),
+        DB::table('roles')->insert([
+            'id' => 1,
+            'name' => '管理员',
+            'description' => '系统管理员',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);

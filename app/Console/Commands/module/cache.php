@@ -56,18 +56,13 @@ class cache extends Command
         $this->line('');
 
         $this->line('');
-        $this->line('生成语言文件 lang/[en|zh_CN]/group.php:');
+        $this->line('生成语言文件: ' . base_path('module/lang.json'));
         $lang = $modules
             ->pluck('group')
             ->keyBy(function ($key) {
                 return $key;
-            })
-            ->toArray();
-        $en = array_merge($lang, require resource_path('lang/en/group.php'));
-        $zh = array_merge($lang, require resource_path('lang/zh_CN/group.php'));
-
-        @file_put_contents(resource_path('lang/en/group.php'), "<?php\n\nreturn " . var_export($en, true) . ";\n");
-        @file_put_contents(resource_path('lang/zh_CN/group.php'), "<?php\n\nreturn " . var_export($zh, true) . ";\n");
+            });
+        file_put_contents(base_path('module/lang.json'), $lang->toJson(JSON_PRETTY_PRINT));
 
         $this->line('');
         $this->line('保存模块信息: ' . base_path('module/module.json'));

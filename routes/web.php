@@ -35,7 +35,7 @@ if ($module) {
 
     // 验证控制器中对应方法是否存在，否则模块路由无效
     if (method_exists($controller, $action)) {
-        Route::$method($url, "{$controller}@{$action}")->middleware(['auth', 'role']);
+        Route::$method($url, "{$controller}@{$action}")->middleware(['auth', 'module']);
     }
 
 }
