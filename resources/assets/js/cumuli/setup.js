@@ -44,6 +44,7 @@
             <h2>:(</h2>
             <p>错误码：　${xhr[1].status}</p>
             <p>错误信息：${xhr[1].statusText}</p>
+            <p>请求地址：${xhr[2].url}</p>
           </div>`
         );
     } else {

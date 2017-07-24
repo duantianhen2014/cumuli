@@ -34,7 +34,7 @@ class Controller extends AppController
                 return [
                     'group' => array_get($module, 'group'),
                     'module' => array_get($module, 'module'),
-                    'url' => array_get($module, 'url'),
+                    'url' => '/' . trim(array_get($module, 'url'), '/'),
                     'text' => array_get($module, 'composer.extra.module.name', array_get($module, 'module')),
                     'iconCls' => array_get($module, 'composer.extra.module.icon'),
                 ];
