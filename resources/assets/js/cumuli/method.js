@@ -350,21 +350,29 @@
         $tabs = $('body').layout('panel', 'center').eq(0).find('.easyui-tabs:first');
         if (!$tabs) return;
 
-        if ($tabs.tabs('exists', module.text)) {
-          $tabs.tabs('select', module.text);
-        } else {
-          $tabs.tabs('add', {
-            title: module.text,
-            href: module.url,
-            iconCls: module.iconCls,
-            closable: true,
-            cache: true,
-            onContextMenu: (...args) => {
-              console.log('onContextMenu', args);
-              return false;
-            }
-          });
+        // 判断如果存在则不添加新标签
+        let exists = null;
+        $tabs.tabs('tabs').forEach(function ($tab, index) {
+          let panel = $tab.panel('options');
+
+          // 必须同时满足3个条件才能认为存在
+          if (panel.href == module.url && panel.title == module.text && panel.iconCls == module.iconCls) {
+            exists = index;
+            return false;
+          }
+        });
+        if (typeof exists == 'number') {
+          return $tabs.tabs('select', exists);
         }
+
+        // 添加新标签
+        $tabs.tabs('add', {
+          title: module.text,
+          href: module.url,
+          iconCls: module.iconCls,
+          closable: true,
+          cache: true,
+        });
 
       }
     }
