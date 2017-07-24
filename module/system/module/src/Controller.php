@@ -28,7 +28,7 @@ class Controller extends AppController
     {
         $modules = collect(modules())
             ->values();
-        return ['status' => 'error', 'message' => '功能完善中', 'total' => $modules->count(), 'rows' => $modules->toArray()];
+        return ['status' => 'success', 'message' => '操作成功', 'total' => $modules->count(), 'rows' => $modules->toArray()];
     }
 
 }
