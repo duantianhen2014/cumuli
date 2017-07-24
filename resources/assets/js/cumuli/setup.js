@@ -16,14 +16,14 @@
       }
     },
 
-    beforeSend: function () {
-      if (this.type.toUpperCase() != 'GET') {
+    beforeSend: function (...xhr) {
+      if (this.type.toUpperCase() != 'GET' && !this.data.includes('page=') && !this.data.includes('rows=')) {
         $.messager.progress({text: 'Loading...'});
       }
     },
 
     complete: function () {
-      if (this.type.toUpperCase() != 'GET') {
+      if (this.type.toUpperCase() != 'GET' && !this.data.includes('page=') && !this.data.includes('rows=')) {
         $.messager.progress('close');
       }
     },
@@ -67,8 +67,11 @@
     }
   });
 
+  $.cumuli.theme.change(); // 切换上次选中主题，必须ready之前调用
+
   $(document).ready(() => {
-    $('body > .panel-loading:first').remove();   // 移除加载效果
+    $.cumuli.theme.changeStatus();               // 选中当前主题
+    $('body > .panel-loading:first').remove(); // 移除加载效果
   });
 
 })(jQuery);

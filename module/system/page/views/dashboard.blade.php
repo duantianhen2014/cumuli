@@ -1,10 +1,9 @@
-<div class="easyui-panel" data-options="fit:true,title:'仪表盘',border:false,iconCls:'fa fa-dashboard'">
+<div id="{{ attr_id('panel') }}" class="easyui-panel"
+     data-options="fit:true,title:'仪表盘',border:false,iconCls:'fa fa-dashboard'">
     <div class="easyui-portal">
         <div style="width:50%">
             <div title="面板1" collapsible="true">
-                <foreach name="loginList" item="log">
-                    1111111111
-                </foreach>
+                111111111
             </div>
 
             <div title="面板2" collapsible="true">
@@ -28,7 +27,7 @@
 </div>
 
 <script type="text/javascript">
-    $('.easyui-panel:first').panel({
+    $('#{{ attr_id('panel') }}').panel({
         onResize: function () {
             $('.easyui-portal:first', this).portal({
                 fit: true,

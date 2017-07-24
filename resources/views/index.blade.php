@@ -7,15 +7,15 @@
         data-options="region:'north',split:false,border:true,title:'{{ config('app.name', 'Cumuli系统') }}',collapsible:false,iconCls:'{{ config('app.icon') }}',height:'auto'">
 
         {{--工具栏按钮--}}
-        <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-account:first',hasDownArrow:false">账户</a>
+        <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.account') }}',hasDownArrow:false">账户</a>
         <a class="easyui-menubutton"
-           data-options="menu:'.cumuli-toolbar-menu-collection:first',hasDownArrow:false">收藏</a>
-        <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-display:first',hasDownArrow:false">显示</a>
-        <a class="easyui-menubutton" data-options="menu:'.cumuli-toolbar-menu-help:first',hasDownArrow:false">帮助</a>
+           data-options="menu:'#{{ attr_id('menu.collection') }}',hasDownArrow:false">收藏</a>
+        <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.display') }}',hasDownArrow:false">显示</a>
+        <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.help') }}',hasDownArrow:false">帮助</a>
 
         {{--工具栏菜单--}}
         <div style="display: none">
-            <div class="cumuli-toolbar-menu-account">
+            <div id="{{ attr_id('menu.account') }}">
                 <div iconCls="fa fa-user-circle-o">{{ $user->name ?: '-' }}</div>
                 <div class="menu-sep"></div>
                 <div class="cumuli-dialog-page" data-href="/system/page/profile" data-width="400" data-height="300"
@@ -30,13 +30,13 @@
                 </div>
             </div>
 
-            <div class="cumuli-toolbar-menu-collection">
+            <div id="{{ attr_id('menu.collection') }}">
                 <div iconCls="fa fa-link" data-href="/system/menu">菜单管理</div>
                 <div iconCls="fa fa-link" data-href="/system/role">角色管理</div>
                 <div iconCls="fa fa-link" data-href="/system/user">用户管理</div>
             </div>
 
-            <div class="cumuli-toolbar-menu-display">
+            <div id="{{ attr_id('menu.display') }}">
                 <div iconCls="fa fa-language">
                     <span>语言设置</span>
                     <div>
@@ -56,12 +56,12 @@
                         <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">default</div>
                         <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">gray</div>
                         <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">material</div>
-                        <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-check-square-o">metro</div>
+                        <div class="cumuli-theme-change cumuli-menu-select" iconCls="fa fa-square-o">metro</div>
                     </div>
                 </div>
             </div>
 
-            <div class="cumuli-toolbar-menu-help">
+            <div id="{{ attr_id('menu.help') }}">
                 <div class="cumuli-window-open" iconCls="fa fa-globe" data-href="https://wangdong.io">官方网站</div>
                 <div class="cumuli-window-open" iconCls="fa fa-github" data-href="https://github.com/repertory">获取源码
                 </div>

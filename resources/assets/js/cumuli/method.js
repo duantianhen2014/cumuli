@@ -559,6 +559,50 @@
     }
   });
 
+  // theme方法
+  $.extend($.cumuli, {
+    theme: {
+      // 更换主题
+      change: function (theme) {
+        if (!theme) theme = this.current();
+        if (!$("link[theme='" + theme + "']")) return;
+
+        $("link[theme='" + theme + "']")
+          .prop('disabled', false)
+          .siblings()
+          .each(function () {
+            if ($(this).attr('theme')) {
+              $(this).prop('disabled', true);
+            }
+          });
+
+        // 记录主题到cookie
+        $.cookie('theme', theme, {expires: 30});
+        this.changeStatus();
+      },
+
+      // 获取当前主题
+      current: function () {
+        return $.cookie('theme') || 'metro';
+      },
+
+      // 选中效果
+      changeStatus: function () {
+        const theme = this.current();
+        $('.cumuli-theme-change.cumuli-menu-select').each(function () {
+          let item = $(this).data('theme') || $(this).text();
+          if ($(this).hasClass('menu-item')) {
+            if (item == theme) {
+              $(this).menu('setIcon', {target: this, iconCls: 'fa fa-check-square-o'});
+            } else {
+              $(this).menu('setIcon', {target: this, iconCls: 'fa fa-square-o'});
+            }
+          }
+        });
+      }
+    }
+  });
+
   // treegrid方法
   $.extend($.cumuli, {
     treegrid: {

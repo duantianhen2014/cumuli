@@ -124,3 +124,16 @@ if (!function_exists('modules')) {
         return json_decode(file_get_contents(base_path('module/module.json')), true);
     }
 }
+
+if (!function_exists('attr_id')) {
+    /**
+     * 生成html属性ID
+     *
+     * @param mixed $group
+     * @return string
+     */
+    function attr_id($group = null)
+    {
+        return 'id' . md5(json_encode([$_SERVER, $group]));
+    }
+}

@@ -2,15 +2,7 @@
   /* 主题切换 */
   $(document).on('click', '.cumuli-theme-change', function () {
     const theme = $(this).data('theme') || $(this).text();
-
-    $("link[theme='" + theme + "']")
-      .prop('disabled', false)
-      .siblings()
-      .each(function () {
-        if ($(this).attr('theme')) {
-          $(this).prop('disabled', true);
-        }
-      });
+    $.cumuli.theme.change(theme);
   });
 
   /* 菜单点击选中 */
@@ -21,11 +13,6 @@
         $(this).menu('setIcon', {target: this, iconCls: 'fa fa-square-o'});
       }
     });
-  });
-
-  /* 指定区域打开链接 */
-  $(document).on('click', '.cumuli-target-center', function () {
-    console.log(this);
   });
 
   /* 页面跳转 */
