@@ -1,5 +1,39 @@
 <?php
 
+if (!function_exists('attr_id')) {
+    /**
+     * 生成html属性ID
+     *
+     * @param mixed $group
+     * @return string
+     */
+    function attr_id($group = null)
+    {
+        return 'id' . md5(var_export([$_SERVER, $group], true));
+    }
+}
+
+if (!function_exists('breadcrumbs')) {
+    /**
+     * 面包屑
+     *
+     * @param string $path
+     * @return string
+     */
+    function breadcrumbs($path = '')
+    {
+        $module = module($path);
+        if (empty($module)) {
+            return '';
+        }
+
+        return implode('/', [
+            trans('module.' . array_get($module, 'group')),
+            array_get($module, 'composer.extra.module.name', array_get($module, 'module')),
+        ]);
+    }
+}
+
 if (!function_exists('module')) {
     /**
      * 获取模块信息
@@ -122,35 +156,5 @@ if (!function_exists('modules')) {
             return [];
         }
         return json_decode(file_get_contents(base_path('module/module.json')), true);
-    }
-}
-
-if (!function_exists('attr_id')) {
-    /**
-     * 生成html属性ID
-     *
-     * @param mixed $group
-     * @return string
-     */
-    function attr_id($group = null)
-    {
-        return 'id' . md5(json_encode([$_SERVER, $group]));
-    }
-}
-
-if (!function_exists('breadcrumbs')) {
-    /**
-     * 面包屑
-     *
-     * @param string $path
-     * @return string
-     */
-    function breadcrumbs($path = '')
-    {
-        $module = module($path);
-        return implode('/', [
-            trans('module.' . array_get($module, 'group')),
-            array_get($module, 'composer.extra.module.name', array_get($module, 'module')),
-        ]);
     }
 }

@@ -36,7 +36,6 @@ class cache extends Command
                 return starts_with($namespace, 'Module\\') && ends_with($filename, 'Controller.php');
             });
 
-        $this->line('');
         $this->line('读取模块信息:');
         $bar = $this->output->createProgressBar($modules->count());
 
@@ -55,7 +54,6 @@ class cache extends Command
         $bar->finish();
         $this->line('');
 
-        $this->line('');
         $this->line('生成语言文件: ' . base_path('module/lang.json'));
         $lang = $modules
             ->pluck('group')
@@ -64,7 +62,6 @@ class cache extends Command
             });
         file_put_contents(base_path('module/lang.json'), $lang->toJson(JSON_PRETTY_PRINT));
 
-        $this->line('');
         $this->line('保存模块信息: ' . base_path('module/module.json'));
         file_put_contents(base_path('module/module.json'), $modules->toJson(JSON_UNESCAPED_UNICODE));
 

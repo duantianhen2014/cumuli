@@ -70,7 +70,7 @@
       showHeader: true,
       rownumbers: false,
       singleSelect: true,
-      striped: true,
+      striped: false,
       showGroup: true,
       //scrollbarSize : 0,
       columns: [[

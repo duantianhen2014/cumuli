@@ -43,7 +43,7 @@
                     <span>语言设置</span>
                     <div>
                         <div class="cumuli-window-location" data-href="/?locale=zh_CN" iconCls="flag-icon flag-icon-cn">
-                            中文简体
+                            简体中文
                         </div>
                         <div class="cumuli-window-location" data-href="/?locale=en" iconCls="flag-icon flag-icon-gb">
                             English
@@ -94,7 +94,7 @@
         hideCollapsedContent:false,
         iconCls:'fa fa-map-marker',
         width:240,
-        href:'/system/page/west',
+        href:'{{ config('module.page.west') }}',
         tools:[{
             iconCls:'icon-reload',
             handler:function(){
