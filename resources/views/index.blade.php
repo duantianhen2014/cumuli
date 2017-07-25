@@ -115,7 +115,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
             if (window.location.hash) {
-                console.info('hash', window.location.hash.replace('#', ''));
+                $.post('/system/page/hash', {path: window.location.hash.replace('#', '')}, function (data) {
+                    if (data.status != 'error') {
+                        $.cumuli.page.open(null, data);
+                    }
+                });
             }
         });
     </script>

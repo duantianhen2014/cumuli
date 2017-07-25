@@ -12,8 +12,7 @@
     $('.easyui-tree', '#{{ attr_id('accordion') }}').each(function () {
         $(this).tree({
             onClick: function (module) {
-                console.log(module);
-                $.cumuli.target.center(module);
+                $.cumuli.page.open(null, module);
             }
         });
     });

@@ -343,41 +343,6 @@
     }
   });
 
-  // target方法
-  $.extend($.cumuli, {
-    target: {
-      center: function (module) {
-        $tabs = $('body').layout('panel', 'center').eq(0).find('.easyui-tabs:first');
-        if (!$tabs) return;
-
-        // 判断如果存在则不添加新标签
-        let exists = null;
-        $tabs.tabs('tabs').forEach(function ($tab, index) {
-          let panel = $tab.panel('options');
-
-          // 必须同时满足3个条件才能认为存在
-          if (panel.href == module.url && panel.title == module.text && panel.iconCls == module.iconCls) {
-            exists = index;
-            return false;
-          }
-        });
-        if (typeof exists == 'number') {
-          return $tabs.tabs('select', exists);
-        }
-
-        // 添加新标签
-        $tabs.tabs('add', {
-          title: module.text,
-          href: module.url,
-          iconCls: module.iconCls,
-          closable: true,
-          cache: true,
-        });
-
-      }
-    }
-  });
-
   // message方法
   $.extend($.cumuli, {
     message: {
@@ -399,6 +364,76 @@
           timeout: timeout || option.timeout,
           showType: showType || option.showType
         });
+      }
+    }
+  });
+
+  // page方法
+  $.extend($.cumuli, {
+    page: {
+      items: ['href', 'title', 'icon', 'closable', 'cache'],
+
+      config: {
+        iconCls: null,
+        cache: true,
+        closable: true,
+      },
+
+      /* 解析选项中自定义属性 */
+      option: function (e) {
+        let option = $.extend({}, this.config); // 读取默认配置文件
+        if (!e) return option;
+
+        for (let i = 0; i < this.items.length; i++) {
+          let key = this.items[i];
+          let value = $(e).data(key);
+
+          switch (key) {
+            case 'title':
+              if (!value) value = $(e).text();
+              break;
+            case 'icon':
+              if (!value) value = $(e).attr('iconCls');
+              key = 'iconCls';
+              break;
+          }
+
+          if (typeof value == 'undefined') continue;
+          option[key] = value;
+        }
+        return option;
+      },
+
+      open: function (e, merge) {
+        $tabs = $('body').layout('panel', 'center').eq(0).find('.easyui-tabs:first');
+        if (!$tabs) return;
+
+        let option = this.option(e);
+
+        //合并参数
+        if (typeof merge == 'object') $.extend(option, merge);
+
+        console.log(merge, option);
+
+        // 判断如果存在则不添加新标签
+        let exists = null;
+        $tabs.tabs('tabs').forEach(function ($tab, index) {
+          let panel = $tab.panel('options');
+
+          // 必须同时满足3个条件才能认为存在
+          if (panel.href == option.href && panel.title == option.title && panel.iconCls == option.iconCls) {
+            exists = index;
+            return false;
+          }
+        });
+
+        // 选中已存在标签
+        if (typeof exists == 'number') {
+          return $tabs.tabs('select', exists);
+        }
+
+        // 添加新标签
+        $tabs.tabs('add', option);
       }
     }
   });

@@ -218,7 +218,7 @@ HTML;
             ]
         ], JSON_PRETTY_PRINT))));
 
-        $this->callSilent('module:cache');
+        @shell_exec('composer dumpautoload');
         $this->info($this->type . ' created successfully.');
         return true;
     }
