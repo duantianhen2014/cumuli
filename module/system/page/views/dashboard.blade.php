@@ -1,5 +1,6 @@
 <div id="{{ attr_id('panel') }}" class="easyui-panel"
      data-options="fit:true,title:'仪表盘',border:false,iconCls:'fa fa-dashboard'">
+
     <div class="easyui-portal">
         <div style="width:50%">
             <div title="面板1" collapsible="true">
@@ -32,7 +33,8 @@
             $('.easyui-portal:first', this).portal({
                 fit: true,
                 border: false
-            })
+            });
         }
     });
+
 </script>
