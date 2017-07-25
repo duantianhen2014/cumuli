@@ -413,8 +413,6 @@
         //合并参数
         if (typeof merge == 'object') $.extend(option, merge);
 
-        console.log(merge, option);
-
         // 判断如果存在则不添加新标签
         let exists = null;
         $tabs.tabs('tabs').forEach(function ($tab, index) {
