@@ -8,10 +8,20 @@
 
     <thead>
     <tr>
-        <th data-options="field:'name',width:20,sortable:false">模块</th>
-        <th data-options="field:'path',width:50,sortable:false">目录</th>
-        <th data-options="field:'composer',width:100,sortable:false,formatter:function(value,row,index){return  JSON.stringify(value)}">
-            Composer配置
+        <th data-options="field:'name',width:120,sortable:false">模块</th>
+        <th data-options="field:'path',width:260,sortable:false">目录</th>
+        <th data-options="field:'group',width:80,sortable:false">分组</th>
+        <th data-options="field:'composer.extra.module.name',width:100,sortable:false,formatter:function(value,row,index){return  row.composer.extra.module.name}">
+            名称
+        </th>
+        <th data-options="field:'composer.extra.module.icon',width:120,sortable:false,formatter:function(value,row,index){return  row.composer.extra.module.icon}">
+            图标
+        </th>
+        <th data-options="field:'composer.extra.module.status.menu',width:60,sortable:false,formatter:function(value,row,index){return  row.composer.extra.module.status.menu}">
+            菜单显示
+        </th>
+        <th data-options="field:'composer.extra.module.status.access',width:60,sortable:false,formatter:function(value,row,index){return  row.composer.extra.module.status.access}">
+            权限控制
         </th>
     </tr>
     </thead>
