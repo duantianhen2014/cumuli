@@ -1,10 +1,9 @@
-<table
-    id="{{ attr_id('datagrid') }}"
-    data-menu="#{{ attr_id('datagrid.menu') }}"
-    data-toolbar="#{{ attr_id('datagrid.toolbar') }}"
-    data-title="{{ trans('module.'. array_get($module, 'group')) }}/{{ array_get($module, 'composer.extra.module.name') }}"
-    data-url="{{ array_get($module, 'url') }}"
-    iconCls="{{ array_get($module, 'composer.extra.module.icon') }}">
+<table id="{{ attr_id('datagrid') }}"
+       data-menu="#{{ attr_id('datagrid.menu') }}"
+       data-toolbar="#{{ attr_id('datagrid.toolbar') }}"
+       data-title="{{ breadcrumbs() }}"
+       data-url="{{ array_get($module, 'url') }}"
+       iconCls="{{ array_get($module, 'composer.extra.module.icon') }}">
 
     <thead>
     <tr>
@@ -29,7 +28,8 @@
 
 {{--顶部工具栏--}}
 <div id="{{ attr_id('datagrid.toolbar') }}">
-    <a class="easyui-linkbutton cumuli-page-open" data-href="/system/module/create" data-cache="false" iconCls="fa fa-plus" plain="true">添加</a>
+    <a class="easyui-linkbutton cumuli-page-open" data-href="/system/module/create" data-cache="false"
+       iconCls="fa fa-plus" plain="true">添加</a>
     <a class="easyui-linkbutton" iconCls="fa fa-edit" plain="true">编辑</a>
     <a class="easyui-linkbutton" iconCls="fa fa-minus" plain="true">删除</a>
 </div>

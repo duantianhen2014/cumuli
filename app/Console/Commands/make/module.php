@@ -143,7 +143,7 @@ class module extends GeneratorCommand
 
         $this->files->put($path, $this->buildClass($name));
         $html = <<<HTML
-<div id="{{ attr_id('panel') }}" class="easyui-panel" data-options="fit:true,title:'{{ trans('module.'. array_get(\$module, 'group')) }}/{{ array_get(\$module, 'composer.extra.module.name') }}',iconCls:'{{ array_get(\$module, 'composer.extra.module.icon') }}',border:false">
+<div id="{{ attr_id('panel') }}" class="easyui-panel" data-options="fit:true,title:'{{ breadcrumbs() }}',iconCls:'{{ array_get(\$module, 'composer.extra.module.icon') }}',border:false">
     <div>
         <pre>{{ var_export(\$module, true) }}</pre>
     </div>

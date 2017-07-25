@@ -10,6 +10,7 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
 
 // 自定义扩展
 (function ($) {
+
   // 变量赋值
   $.extend($.cumuli.variable, {
     datagrid: {
@@ -183,5 +184,6 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
       message: '必须为身份证号码'
     }
   });
+
 })(jQuery);
 

@@ -137,3 +137,20 @@ if (!function_exists('attr_id')) {
         return 'id' . md5(json_encode([$_SERVER, $group]));
     }
 }
+
+if (!function_exists('breadcrumbs')) {
+    /**
+     * 面包屑
+     *
+     * @param string $path
+     * @return string
+     */
+    function breadcrumbs($path = '')
+    {
+        $module = module($path);
+        return implode('/', [
+            trans('module.' . array_get($module, 'group')),
+            array_get($module, 'composer.extra.module.name', array_get($module, 'module')),
+        ]);
+    }
+}

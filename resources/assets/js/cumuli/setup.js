@@ -37,7 +37,6 @@
 
   // 拦截ajax错误返回
   $(document).ajaxError((...xhr) => {
-    console.log('ajaxError', xhr);
     if (xhr[2].type.toUpperCase() == 'GET') {
       return typeof xhr[2].success == 'function' && xhr[2].success(
           `<div class="easyui-panel error" data-options="fit:true,title:'访问出错了',iconCls:'fa fa-warning',border:false" style="padding: 0 20px">
