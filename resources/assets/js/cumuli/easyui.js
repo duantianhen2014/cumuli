@@ -1,10 +1,27 @@
-/**
- * easyui扩展方法
- */
+// 核心模块
+require('EasyUI');
+require('../../extension/datagrid-filter/datagrid-filter');
+require('../../extension/jquery-easyui-color/jquery.color');
+require('../../extension/jquery-easyui-etree/jquery.etree');
+require('../../extension/jquery-easyui-etree/jquery.etree.lang');
+require('../../extension/jquery-easyui-pivotgrid/jquery.pivotgrid');
+require('../../extension/jquery-easyui-portal/jquery.portal');
+require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
+
+// 自定义扩展
 (function ($) {
-  /**
-   * datagrid扩展
-   */
+  // 变量赋值
+  $.extend($.cumuli.variable, {
+    datagrid: {
+      bufferview: require('../../extension/jquery-easyui-datagridview/datagrid-bufferview'),
+      defaultview: require('../../extension/jquery-easyui-datagridview/datagrid-defaultview'),
+      detailview: require('../../extension/jquery-easyui-datagridview/datagrid-detailview'),
+      groupview: require('../../extension/jquery-easyui-datagridview/datagrid-groupview'),
+      scrollview: require('../../extension/jquery-easyui-datagridview/datagrid-scrollview'),
+    }
+  });
+
+  //datagrid扩展
   $.extend($.fn.datagrid.defaults.editors, {
     image: {
       init: function (container, options) {
@@ -79,9 +96,7 @@
     }
   });
 
-  /**
-   * validatebox扩展
-   */
+  // validatebox扩展
   $.extend($.fn.validatebox.defaults.rules, {
     equals: {
       validator: function (value, elements) {
@@ -169,3 +184,4 @@
     }
   });
 })(jQuery);
+

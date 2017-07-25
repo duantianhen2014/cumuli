@@ -29,7 +29,7 @@
 
 {{--顶部工具栏--}}
 <div id="{{ attr_id('datagrid.toolbar') }}">
-    <a class="easyui-linkbutton" iconCls="fa fa-plus" plain="true">添加</a>
+    <a class="easyui-linkbutton cumuli-page-open" data-href="/system/module/create" data-cache="false" iconCls="fa fa-plus" plain="true">添加</a>
     <a class="easyui-linkbutton" iconCls="fa fa-edit" plain="true">编辑</a>
     <a class="easyui-linkbutton" iconCls="fa fa-minus" plain="true">删除</a>
 </div>

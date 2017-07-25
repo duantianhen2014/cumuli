@@ -6,25 +6,9 @@
       datagrid: null,
       items: ['title', 'icon', 'url', 'toolbar', 'tools', 'fit', 'border'],
 
-      config: {
-        border: false,
-        fit: true,
-        fitColumns: true,
-        rownumbers: true,
-        singleSelect: false,
-        striped: true,
-        multiSort: true,
-        pagination: true,
-        pageList: [20, 30, 50, 80, 100],
-        pageSize: $.cookie('datagrid-pageSize') || 20,
-        onChangePageSize: function (pageSize) {
-          $.cookie('datagrid-pageSize', pageSize, {expires: 30});
-        }
-      },
-
       /* 解析选项中自定义属性 */
       option: function () {
-        let option = $.extend({}, this.config); //读取默认配置文件
+        let option = $.extend({}, $.cumuli.config.datagrid); //读取默认配置文件
         for (let i = 0; i < this.items.length; i++) {
           let key = this.items[i];
           let value = $(this.datagrid).data(key);
@@ -180,30 +164,9 @@
 
       items: ['submit', 'constrain', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'iframe'],
 
-      config: {
-        closed: false,
-        constrain: true,
-        iconCls: null,
-        buttons: null,
-        maximized: false,
-        collapsible: false,
-        minimizable: false,
-        maximizable: false,
-        closable: true,
-        resizable: false,
-        draggable: true,
-        openAnimation: 'fade',
-        closeAnimation: 'fade',
-        modal: true,
-        content: null,
-        href: null,
-        method: 'get',
-        iframe: false,
-      },
-
       /* 解析选项中自定义属性 */
       option: function (e) {
-        let option = $.extend({}, this.config); // 读取默认配置文件
+        let option = $.extend({}, $.cumuli.config.dialog); // 读取默认配置文件
         if (!e) return option;
 
         for (let i = 0; i < this.items.length; i++) {
@@ -346,13 +309,8 @@
   // message方法
   $.extend($.cumuli, {
     message: {
-      config: {
-        title: '提示信息',
-        timeout: 3000,
-        showType: 'slide'
-      },
       show: function (msg, icon, title, timeout, showType) {
-        let option = $.extend({}, this.config);
+        let option = $.extend({}, $.cumuli.config.message);
         let text = []
         text.push('<div class="messager-icon messager-');
         text.push(icon || 'info');
@@ -373,15 +331,9 @@
     page: {
       items: ['href', 'title', 'icon', 'closable', 'cache'],
 
-      config: {
-        iconCls: null,
-        cache: true,
-        closable: true,
-      },
-
       /* 解析选项中自定义属性 */
       option: function (e) {
-        let option = $.extend({}, this.config); // 读取默认配置文件
+        let option = $.extend({}, $.cumuli.config.page); // 读取默认配置文件
         if (!e) return option;
 
         for (let i = 0; i < this.items.length; i++) {
@@ -442,58 +394,9 @@
       propertygrid: null,
       items: ['title', 'icon', 'url', 'toolbar', 'tools', 'fit', 'border'],
 
-      config: {
-        border: false,
-        fit: true,
-        fitColumns: true,
-        showHeader: true,
-        rownumbers: false,
-        singleSelect: false,
-        striped: true,
-        showGroup: true,
-        //scrollbarSize : 0,
-        columns: [[
-          {field: 'name', title: '名称', width: 80, sortable: true},
-          {
-            field: 'value', title: '参数', width: 200, sortable: false,
-            formatter: function (value, arr) {
-              let editor = '';
-              if (typeof arr.editor == 'object') {
-                editor = arr.editor.type;
-              } else {
-                editor = arr.editor;
-              }
-              switch (editor) {
-                case 'color':
-                  var html = [];
-                  html.push('<div>');
-                  html.push('<div style="float:right;width:18px;height:18px;background:' + value + '">&nbsp;</div>');
-                  html.push(value);
-                  html.push('<div style="clear:both"></div>');
-                  html.push('</div>');
-                  return html.join('');
-                  break;
-                case 'password':
-                  return value.replace(/./g, '●');
-                  break;
-
-                default:
-                  return value;
-              }
-            }
-          }
-        ]],
-        pagination: false,
-        pageList: [20, 30, 50, 80, 100],
-        pageSize: $.cookie('propertygrid-pageSize') || 20,
-        onChangePageSize: function (pageSize) {
-          $.cookie('propertygrid-pageSize', pageSize, {expires: 30});
-        }
-      },
-
       /* 解析选项中自定义属性 */
       option: function () {
-        let option = $.extend({}, this.config); //读取默认配置文件
+        let option = $.extend({}, $.cumuli.config.propertygrid); //读取默认配置文件
         for (let i = 0; i < this.items.length; i++) {
           let key = this.items[i];
           let value = $(this.propertygrid).data(key);
@@ -653,28 +556,9 @@
       treegrid: null,
       items: ['title', 'icon', 'url', 'toolbar', 'tools', 'id', 'name', 'lines', 'animate', 'fit', 'border'],
 
-      config: {
-        border: false,
-        fit: true,
-        fitColumns: true,
-        rownumbers: true,
-        singleSelect: false,
-        striped: true,
-        idField: 'id',
-        treeField: 'name',
-        animate: true,
-        lines: true,
-        pagination: true,
-        pageList: [10, 20, 30, 40, 50],
-        pageSize: $.cookie('treegrid-pageSize') || 10,
-        onChangePageSize: function (pageSize) {
-          $.cookie('treegrid-pageSize', pageSize, {expires: 30});
-        }
-      },
-
       /* 解析选项中自定义属性 */
       option: function () {
-        let option = $.extend({}, this.config); //读取默认配置文件
+        let option = $.extend({}, $.cumuli.config.treegrid); //读取默认配置文件
         for (let i = 0; i < this.items.length; i++) {
           let key = this.items[i];
           let value = $(this.treegrid).data(key);
