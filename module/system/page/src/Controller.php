@@ -58,7 +58,7 @@ class Controller extends AppController
             'status' => 'success',
             'message' => '操作成功',
             'title' => array_get($module, 'composer.extra.module.name', '直接访问'),
-            'href' => array_get($module, 'url'),
+            'href' => '/' . array_get($module, 'url'),
             'iconCls' => array_get($module, 'composer.extra.module.icon', 'fa fa-hashtag'),
         ];
     }
