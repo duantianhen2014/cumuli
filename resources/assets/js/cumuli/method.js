@@ -52,11 +52,12 @@
           };
         }
 
-        option['init'] && delete(option['init']);
-        option['option'] && delete(option['option']);
         option['action'] && delete(option['action']);
         option['handle'] && delete(option['handle']);
 
+        if (option.url) {
+          option.url += option.url.indexOf('?') != -1 ? '&_=datagrid' : '?_=datagrid';
+        }
         $(this.datagrid).datagrid(option);
 
         this.event.toolbar(e, merge, this);
@@ -440,11 +441,12 @@
           };
         }
 
-        option['init'] && delete(option['init']);
-        option['option'] && delete(option['option']);
         option['action'] && delete(option['action']);
         option['handle'] && delete(option['handle']);
 
+        if (option.url) {
+          option.url += option.url.indexOf('?') != -1 ? '&_=propertygrid' : '?_=propertygrid';
+        }
         $(this.propertygrid).propertygrid(option);
 
         this.event.toolbar(e, merge);
@@ -611,11 +613,12 @@
           };
         }
 
-        option['init'] && delete(option['init']);
-        option['option'] && delete(option['option']);
         option['action'] && delete(option['action']);
         option['handle'] && delete(option['handle']);
 
+        if (option.url) {
+          option.url += option.url.indexOf('?') != -1 ? '&_=treegrid' : '?_=treegrid';
+        }
         $(this.treegrid).treegrid(option);
 
         this.event.toolbar(e, merge, that);

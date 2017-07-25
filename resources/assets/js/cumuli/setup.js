@@ -17,13 +17,13 @@
     },
 
     beforeSend: function (...xhr) {
-      if (this.type.toUpperCase() != 'GET' && !this.data.includes('page=') && !this.data.includes('rows=')) {
+      if (this.type.toUpperCase() != 'GET' && !this.url.includes('_=')) {
         $.messager.progress({text: 'Loading...'});
       }
     },
 
     complete: function () {
-      if (this.type.toUpperCase() != 'GET' && !this.data.includes('page=') && !this.data.includes('rows=')) {
+      if (this.type.toUpperCase() != 'GET' && !this.url.includes('_=')) {
         $.messager.progress('close');
       }
     },
@@ -61,6 +61,7 @@
         code: xhr[1].status,
         statusText: xhr[1].statusText,
         message: message,
+        url: xhr[2].url,
         total: 0,
         rows: []
       });
