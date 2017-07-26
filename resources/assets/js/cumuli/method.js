@@ -52,32 +52,21 @@
           };
         }
 
-        option['action'] && delete(option['action']);
         option['handle'] && delete(option['handle']);
 
         $(this.datagrid).datagrid(option);
 
-        this.event.toolbar(e, merge, this);
+        this.event.toolbar(e, merge);
         this.event.menu(e, merge, this);
       },
 
       //监听工具栏和菜单
       event: {
-        toolbar: function (e, obj, that) {
+        toolbar: function (e, obj) {
           const selecter = $(e).data('toolbar');
           if (!selecter) return false;
 
-          $(selecter).on('click', '.toolbar-action', function () {
-            let action = $(this).data('action');
-            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
-              let selected = $(e).datagrid('getSelected');   //当前选中的行
-              let allSelected = $(e).datagrid('getSelections'); //全部选中的行
-
-              obj['action'][action](this, selected, allSelected);
-            }
-          });
-
-          $(selecter).on('click', '.toolbar-handle', function () {
+          $(selecter).on('click', '.handle', function () {
             let handle = $(this).data('handle');
             if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
               let selected = $(e).datagrid('getSelected');   //当前选中的行
@@ -86,62 +75,13 @@
               obj['handle'][handle](this, selected, allSelected);
             }
           });
-
-          $('.toolbar-search', selecter).on('click', function () {
-            let option = {};
-            let data = $(this).data('data') || '[]';
-            let showGroup = $(this).data('group') === true ? 'true' : 'false';
-            let close = $(this).data('close') || false; //搜索完毕后是否关闭弹出层
-            let scrollbar = $(this).data('scrollbar') === true ? 18 : 0;
-            option.title = $(this).text();
-            option.iconCls = $(this).attr('iconCls') || $(this).data('icon');
-            option.content = '<table class="easyui-propertygrid" data-options="data:' + data + ',showGroup:' + showGroup + ',border:false,fit:true,scrollbarSize:' + scrollbar + ',columns:[[{field:\'name\',title:\'字段名称\',width:100},{field:\'value\',title:\'筛选条件\',width:200}]]"></table>';
-
-            option.width = $(this).data('width');
-            option.height = $(this).data('height');
-
-            option['buttons'] = [{
-              text: '确定',
-              iconCls: 'fa fa-check',
-              handler: function () {
-                let $propertygrid = $(that.dialog).find('.easyui-propertygrid:first');
-                let rows = $propertygrid.propertygrid('getRows');
-                let queryParams = $(e).datagrid('options').queryParams;
-                queryParams['search'] = {};
-
-                for (let i = 0; i < rows.length; i++) {
-                  queryParams['search'][rows[i]['field']] = rows[i]['value'];
-                }
-                $(e).datagrid({pageNumber: 1});
-
-                if (close === true) $(that.dialog).dialog('close');
-              }
-            }, {
-              text: '取消',
-              iconCls: 'fa fa-close',
-              handler: function () {
-                $(that.dialog).dialog('close');
-              }
-            }];
-            $.cumuli.dialog.content(null, option);
-          });
         },
         //右键菜单
-        menu: function (e, obj, that) {
+        menu: function (e, obj) {
           const selecter = $(e).data('menu');
           if (!selecter) return false;
 
-          $(selecter).on('click', '.menu-action', function () {
-            let action = $(this).data('action');
-            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
-              let selected = $(e).datagrid('getSelected');   //当前选中的行
-              let allSelected = $(e).datagrid('getSelections'); //全部选中的行
-
-              obj['action'][action](this, selected, allSelected);
-            }
-          });
-
-          $(selecter).on('click', '.menu-handle', function () {
+          $(selecter).on('click', '.handle', function () {
             let handle = $(this).data('handle');
             if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
               let selected = $(e).datagrid('getSelected');   //当前选中的行
@@ -438,7 +378,6 @@
           };
         }
 
-        option['action'] && delete(option['action']);
         option['handle'] && delete(option['handle']);
 
         $(this.propertygrid).propertygrid(option);
@@ -453,17 +392,7 @@
           const selecter = $(e).data('toolbar');
           if (!selecter) return false;
 
-          $(selecter).on('click', '.toolbar-action', function () {
-            let action = $(this).data('action');
-            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
-              let selected = $(e).propertygrid('getSelected');   //当前选中的行
-              let allSelected = $(e).propertygrid('getSelections'); //全部选中的行
-
-              obj['action'][action](this, selected, allSelected);
-            }
-          });
-
-          $(selecter).on('click', '.toolbar-handle', function () {
+          $(selecter).on('click', '.handle', function () {
             let handle = $(this).data('handle');
             if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
               let selected = $(e).propertygrid('getSelected');   //当前选中的行
@@ -477,18 +406,9 @@
         menu: function (e, obj) {
           const selecter = $(e).data('menu');
           if (!selecter) return false;
+          s
 
-          $(selecter).on('click', '.menu-action', function () {
-            let action = $(this).data('action');
-            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
-              let selected = $(e).propertygrid('getSelected');   //当前选中的行
-              let allSelected = $(e).propertygrid('getSelections'); //全部选中的行
-
-              obj['action'][action](this, selected, allSelected);
-            }
-          });
-
-          $(selecter).on('click', '.menu-handle', function () {
+          $(selecter).on('click', '.handle', function () {
             let handle = $(this).data('handle');
             if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
               let selected = $(e).propertygrid('getSelected');   //当前选中的行
@@ -644,13 +564,12 @@
           };
         }
 
-        option['action'] && delete(option['action']);
         option['handle'] && delete(option['handle']);
 
         $(this.treegrid).treegrid(option);
 
-        this.event.toolbar(e, merge, that);
-        this.event.menu(e, merge, that);
+        this.event.toolbar(e, merge);
+        this.event.menu(e, merge);
       },
 
       //监听工具栏
@@ -659,17 +578,7 @@
           const selecter = $(e).data('toolbar');
           if (!selecter) return false;
 
-          $(selecter).on('click', '.toolbar-action', function () {
-            let action = $(this).data('action');
-            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
-              let selected = $(e).treegrid('getSelected');   //当前选中的行
-              let allSelected = $(e).treegrid('getSelections'); //全部选中的行
-
-              obj['action'][action](this, selected, allSelected);
-            }
-          });
-
-          $(selecter).on('click', '.toolbar-handle', function () {
+          $(selecter).on('click', '.handle', function () {
             let handle = $(this).data('handle');
             if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
               let selected = $(e).treegrid('getSelected');   //当前选中的行
@@ -683,17 +592,7 @@
           let selecter = $(e).data('menu');
           if (!selecter) return false;
 
-          $(selecter).on('click', '.menu-action', function () {
-            let action = $(this).data('action');
-            if (obj && obj['action'] && typeof obj['action'][action] == 'function') {
-              let selected = $(e).treegrid('getSelected');   //当前选中的行
-              let allSelected = $(e).treegrid('getSelections'); //全部选中的行
-
-              obj['action'][action](this, selected, allSelected);
-            }
-          });
-
-          $(selecter).on('click', '.menu-handle', function () {
+          $(selecter).on('click', '.handle', function () {
             let handle = $(this).data('handle');
             if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
               let selected = $(e).treegrid('getSelected');   //当前选中的行
