@@ -1,0 +1,75 @@
+{
+    "name": "system/role",
+    "description": "Cumuli系统功能模块",
+    "type": "cumuli-module",
+    "authors": [
+        {
+            "name": "author name",
+            "email": "author email"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Module\\System\\Role": "src/"
+        }
+    },
+    "extra": {
+        "module": {
+            "name": "角色管理",
+            "icon": "fa fa-group",
+            "status": {
+                "access": true,
+                "menu": true
+            }
+        },
+        "menu": {
+            "查看": {
+                "action": [
+                    "getIndex",
+                    "postIndex"
+                ],
+                "icon": "fa fa-list-alt",
+                "status": {
+                    "access": true,
+                    "contextMenu": false,
+                    "toolbar": false
+                }
+            },
+            "新增": {
+                "action": [
+                    "getCreate",
+                    "postCreate"
+                ],
+                "icon": "fa fa-plus-circle",
+                "status": {
+                    "access": true,
+                    "contextMenu": false,
+                    "toolbar": true
+                }
+            },
+            "编辑": {
+                "action": [
+                    "getUpdate",
+                    "postUpdate"
+                ],
+                "icon": "fa fa-circle",
+                "status": {
+                    "access": true,
+                    "contextMenu": true,
+                    "toolbar": true
+                }
+            },
+            "删除": {
+                "action": [
+                    "postDelete"
+                ],
+                "icon": "fa fa-minus-circle",
+                "status": {
+                    "access": true,
+                    "contextMenu": true,
+                    "toolbar": true
+                }
+            }
+        }
+    }
+}

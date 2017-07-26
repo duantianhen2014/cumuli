@@ -23,7 +23,7 @@ class Module
         // 获取当前模块信息
         $module = module();
 
-        // 模块不使用权限控制
+        // 整个模块不使用权限控制
         if (array_get($module, 'composer.extra.module.status.access', true) === false) {
             return $next($request);
         }
