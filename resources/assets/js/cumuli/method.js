@@ -55,9 +55,6 @@
         option['action'] && delete(option['action']);
         option['handle'] && delete(option['handle']);
 
-        if (option.url) {
-          option.url += option.url.indexOf('?') != -1 ? '&_=datagrid' : '?_=datagrid';
-        }
         $(this.datagrid).datagrid(option);
 
         this.event.toolbar(e, merge, this);
@@ -209,7 +206,7 @@
                 let isValid = $(this).form('validate');
                 if (!isValid) return false;
 
-                $.post(option['submit'], $(this).serialize(), function (data) {
+                $.cumuli.request.post(option['submit'], this, function (data) {
                   if (data.status == 'error') {
                     typeof error == 'function' && error(data);
                   } else {
@@ -444,9 +441,6 @@
         option['action'] && delete(option['action']);
         option['handle'] && delete(option['handle']);
 
-        if (option.url) {
-          option.url += option.url.indexOf('?') != -1 ? '&_=propertygrid' : '?_=propertygrid';
-        }
         $(this.propertygrid).propertygrid(option);
 
         this.event.toolbar(e, merge);
@@ -504,6 +498,43 @@
             }
           });
         }
+      }
+    }
+  });
+
+  // request方法
+  $.extend($.cumuli, {
+    request: {
+      post: function (url, data, callback, type) {
+        let option = {
+          url: url,
+          type: 'POST',
+          data: data,
+          dataType: type,
+          success: callback,
+          beforeSend: function () {
+            $.messager.progress({text: 'Loading...'});
+          },
+          complete: function () {
+            $.messager.progress('close');
+          },
+        };
+
+        // 在原有$.post方法上增加了两种数据格式(FormData 和 FORM元素)
+        if (typeof data == 'object' && data.constructor.name == 'FormData') {
+          option.processData = false;
+          option.contentType = false;
+        } else if (typeof data == 'object' && data.tagName == 'FORM') {
+          option.data = new FormData(option.data);
+          option.processData = false;
+          option.contentType = false;
+        }
+
+        return $.ajax(option);
+      },
+
+      get: function (url, data, callback, type) {
+        return $.get(url, data, callback, type);
       }
     }
   });
@@ -616,9 +647,6 @@
         option['action'] && delete(option['action']);
         option['handle'] && delete(option['handle']);
 
-        if (option.url) {
-          option.url += option.url.indexOf('?') != -1 ? '&_=treegrid' : '?_=treegrid';
-        }
         $(this.treegrid).treegrid(option);
 
         this.event.toolbar(e, merge, that);

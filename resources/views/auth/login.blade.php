@@ -56,7 +56,7 @@
                                 if (!isValid) return false;
 
                                 // 表单提交
-                                $.post('{{ route('login') }}', $(this).serialize(), function (data) {
+                                $.cumuli.request.post('{{ route('login') }}', this, function (data) {
                                     if (data.status == 'error') {
                                         return $.cumuli.message.show(data.message, 'error');
                                     }
