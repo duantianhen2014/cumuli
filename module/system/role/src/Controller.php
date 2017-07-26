@@ -3,6 +3,7 @@
 namespace Module\System\Role;
 
 use Illuminate\Http\Request;
+use App\Role;
 use App\Http\Controllers\Controller as AppController;
 
 class Controller extends AppController
@@ -21,12 +22,13 @@ class Controller extends AppController
     /**
      * POST请求入口页面
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
-    public function postIndex(Request $request)
+    public function postIndex(Request $request, Role $role)
     {
-        return ['status' => 'error', 'message' => '功能完善中', 'total' => 0, 'rows' => []];
+        $rows = $role->get();
+        return ['status' => 'success', 'message' => '操作成功', 'total' => $rows->count(), 'rows' => $rows->toArray()];
     }
 
     /**
@@ -42,7 +44,7 @@ class Controller extends AppController
     /**
      * POST请求新增页面
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function postCreate(Request $request)
@@ -55,15 +57,18 @@ class Controller extends AppController
      *
      * @return \Illuminate\View\View
      */
-    public function getUpdate()
+    public function getUpdate(Request $request, Role $role)
     {
-        return view('update');
+        $id = $request->input('id');
+        $row = $role->find($id);
+        dd($row);
+        return view('update', ['row' => $row]);
     }
 
     /**
      * POST请求编辑页面
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function postUpdate(Request $request)
@@ -74,7 +79,7 @@ class Controller extends AppController
     /**
      * POST请求删除页面
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function postDelete(Request $request)
