@@ -33,6 +33,10 @@
   $(document).on('click', '.cumuli-page-open', function () {
     $.cumuli.page.open(this);
   });
+  // 收藏打开页面
+  $(document).on('click', '.cumuli-page-collect', function () {
+    $.cumuli.page.collect();
+  });
 
   /* 页面跳转 */
   $(document).on('click', '.cumuli-window-open', function () {

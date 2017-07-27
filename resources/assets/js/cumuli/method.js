@@ -322,7 +322,15 @@
 
         // 添加新标签
         $tabs.tabs('add', option);
-      }
+      },
+
+      // 收藏当前页面
+      collect: function () {
+        $tabs = $('body').layout('panel', 'center').eq(0).find('.easyui-tabs:first');
+        if (!$tabs) return;
+
+        console.log($tabs.tabs('getSelected').panel('options'));
+      },
     }
   });
 

@@ -9,7 +9,7 @@
         {{--工具栏按钮--}}
         <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.account') }}',hasDownArrow:false">账户</a>
         <a class="easyui-menubutton"
-           data-options="menu:'#{{ attr_id('menu.collection') }}',hasDownArrow:false">收藏</a>
+           data-options="menu:'#{{ attr_id('menu.collect') }}',hasDownArrow:false">收藏</a>
         <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.display') }}',hasDownArrow:false">显示</a>
         <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.help') }}',hasDownArrow:false">帮助</a>
 
@@ -32,10 +32,12 @@
                 </div>
             </div>
 
-            <div id="{{ attr_id('menu.collection') }}">
-                <div iconCls="fa fa-link" data-href="/system/menu">菜单管理</div>
-                <div iconCls="fa fa-link" data-href="/system/role">角色管理</div>
-                <div iconCls="fa fa-link" data-href="/system/user">用户管理</div>
+            <div id="{{ attr_id('menu.collect') }}">
+                <div class="cumuli-page-collect" iconCls="fa fa-plus">添加收藏</div>
+                <div iconCls="fa fa-link">
+                    <span>收藏列表</span>
+                    <div></div>
+                </div>
             </div>
 
             <div id="{{ attr_id('menu.display') }}">
