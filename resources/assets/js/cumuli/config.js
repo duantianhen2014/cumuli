@@ -13,6 +13,7 @@
       pagination: true,
       pageList: [20, 30, 50, 80, 100],
       pageSize: $.cookie('datagrid-pageSize') || 20,
+      remoteFilter: true,
       onBeforeLoad: function (param) {
         $.cookie('datagrid-pageSize', param.rows, {expires: 30});
       }
@@ -107,6 +108,7 @@
       pagination: false,
       pageList: [20, 30, 50, 80, 100],
       pageSize: $.cookie('propertygrid-pageSize') || 20,
+      remoteFilter: false,
       onBeforeLoad: function (param) {
         $.cookie('propertygrid-pageSize', param.rows, {expires: 30});
       }
@@ -129,6 +131,7 @@
       pagination: true,
       pageList: [10, 20, 30, 40, 50],
       pageSize: $.cookie('treegrid-pageSize') || 10,
+      remoteFilter: false,
       onBeforeLoad: function (param) {
         $.cookie('treegrid-pageSize', param.rows, {expires: 30});
       }

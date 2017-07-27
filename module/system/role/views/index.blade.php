@@ -36,8 +36,6 @@
             url: '{{ array_get($module, 'url') }}',
             toolbar: '#{{ attr_id('datagrid.toolbar') }}',
             menu: '#{{ attr_id('datagrid.menu') }}',
-
-            remoteFilter: true,
         })
         .filter([
             {

@@ -55,6 +55,13 @@
         return this;
       },
 
+      // 筛选
+      filter: function (filters) {
+        $(this.datagrid).datagrid('enableFilter', filters || []);
+
+        return this;
+      },
+
       // 自定义操作
       handle: function (handles) {
         let $datagrid = $(this.datagrid);
@@ -86,13 +93,6 @@
             }
           });
         }
-
-        return this;
-      },
-
-      // 筛选
-      filter: function (filters) {
-        $(this.datagrid).datagrid('enableFilter', filters || []);
 
         return this;
       },
@@ -393,6 +393,13 @@
         return this;
       },
 
+      // 筛选
+      filter: function (filters) {
+        $(this.propertygrid).propertygrid('enableFilter', filters || []);
+
+        return this;
+      },
+
       // 自定义操作
       handle: function (handles) {
         let $propertygrid = $(this.propertygrid);
@@ -571,6 +578,13 @@
         }
 
         $(this.treegrid).treegrid(option);
+
+        return this;
+      },
+
+      // 筛选
+      filter: function (filters) {
+        $(this.treegrid).treegrid('enableFilter', filters || []);
 
         return this;
       },
