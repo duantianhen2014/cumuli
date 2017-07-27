@@ -22,16 +22,25 @@ class Controller extends AppController
     /**
      * POST请求入口页面
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
+     * @param Role $role
      * @return \Illuminate\Http\JsonResponse
      */
     public function postIndex(Request $request, Role $role)
     {
-        $rows = $role->get();
+        // 支持多个字段排序
+        $sorts = collect(explode(',', $request->input('sort', 'id')));
+        $orders = collect(explode(',', $request->input('order', 'desc')));
+        $orders->each(function ($order, $key) use (&$role, $sorts) {
+            $role = $role->orderBy($sorts->get($key), $order);
+        });
+
+        // 分页
+        $rows = $role->paginate($request->input('rows', 20));
 
         return $this->success([
-            'total' => $rows->count(),
-            'rows' => $rows->toArray(),
+            'total' => $rows->total(),
+            'rows' => $rows->items(),
         ]);
     }
 

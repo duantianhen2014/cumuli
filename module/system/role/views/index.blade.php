@@ -1,17 +1,11 @@
-<table id="{{ attr_id('datagrid') }}" data-menu="#{{ attr_id('datagrid.menu') }}"
-       data-toolbar="#{{ attr_id('datagrid.toolbar') }}" data-title="{{ breadcrumbs() }}"
-       data-url="{{ array_get($module, 'url') }}" iconCls="{{ array_get($module, 'composer.extra.module.icon') }}">
+<table id="{{ attr_id('datagrid') }}">
     <thead>
     <tr>
-        <th data-options="field:'id',width:20,sortable:true">ID</th>
+        <th data-options="field:'id',width:30,sortable:true">ID</th>
         <th data-options="field:'name',width:100,sortable:true">名称</th>
         <th data-options="field:'description',width:300,sortable:false">描述</th>
-        <th data-options="field:'created_at',width:300,sortable:true,formatter:function(value,row,index){return moment(value)}">
-            创建时间
-        </th>
-        <th data-options="field:'updated_at',width:300,sortable:true">
-            更新时间
-        </th>
+        <th data-options="field:'created_at',width:100,sortable:true">创建时间</th>
+        <th data-options="field:'updated_at',width:100,sortable:true">更新时间</th>
     </tr>
     </thead>
 </table>
@@ -36,8 +30,11 @@
 
 <script type="text/javascript">
     $.cumuli.datagrid.init('#{{ attr_id('datagrid') }}', {
-        singleSelect: true,
-        multiSort: true,
+        title: '{{ breadcrumbs() }}',
+        iconCls: '{{ array_get($module, 'composer.extra.module.icon') }}',
+        url: '{{ array_get($module, 'url') }}',
+        toolbar: '#{{ attr_id('datagrid.toolbar') }}',
+        menu: '#{{ attr_id('datagrid.menu') }}',
 
         handle: {
 

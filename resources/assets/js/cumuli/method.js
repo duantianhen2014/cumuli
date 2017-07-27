@@ -56,42 +56,32 @@
 
         $(this.datagrid).datagrid(option);
 
-        this.event.toolbar(e, merge);
-        this.event.menu(e, merge, this);
-      },
-
-      //监听工具栏和菜单
-      event: {
-        toolbar: function (e, obj) {
-          const selecter = $(e).data('toolbar');
-          if (!selecter) return false;
-
-          $(selecter).on('click', '.handle', function () {
-            let handle = $(this).data('handle');
-            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
+        // 监听工具栏
+        if (option.toolbar) {
+          $(option.toolbar).on('click', '.handle', function () {
+            let handle = $(this).data('handle') || $(this).attr('handle');
+            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
               let selected = $(e).datagrid('getSelected');   //当前选中的行
               let allSelected = $(e).datagrid('getSelections'); //全部选中的行
 
-              obj['handle'][handle](this, selected, allSelected);
-            }
-          });
-        },
-        //右键菜单
-        menu: function (e, obj) {
-          const selecter = $(e).data('menu');
-          if (!selecter) return false;
-
-          $(selecter).on('click', '.handle', function () {
-            let handle = $(this).data('handle');
-            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
-              let selected = $(e).datagrid('getSelected');   //当前选中的行
-              let allSelected = $(e).datagrid('getSelections'); //全部选中的行
-
-              obj['handle'][handle](this, selected, allSelected);
+              merge.handle[handle](this, selected, allSelected);
             }
           });
         }
-      }
+
+        // 监听右键菜单
+        if (option.menu) {
+          $(option.menu).on('click', '.handle', function () {
+            let handle = $(this).data('handle') || $(this).attr('handle');
+            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
+              let selected = $(e).datagrid('getSelected');   //当前选中的行
+              let allSelected = $(e).datagrid('getSelections'); //全部选中的行
+
+              merge.handle['handle'][handle](this, selected, allSelected);
+            }
+          });
+        }
+      },
     }
   });
 
@@ -390,43 +380,32 @@
 
         $(this.propertygrid).propertygrid(option);
 
-        this.event.toolbar(e, merge);
-        this.event.menu(e, merge);
-      },
-
-      //监听工具栏
-      event: {
-        toolbar: function (e, obj) {
-          const selecter = $(e).data('toolbar');
-          if (!selecter) return false;
-
-          $(selecter).on('click', '.handle', function () {
-            let handle = $(this).data('handle');
-            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
+        // 监听工具栏
+        if (option.toolbar) {
+          $(option.toolbar).on('click', '.handle', function () {
+            let handle = $(this).data('handle') || $(this).attr('handle');
+            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
               let selected = $(e).propertygrid('getSelected');   //当前选中的行
               let allSelected = $(e).propertygrid('getSelections'); //全部选中的行
 
-              obj['handle'][handle](this, selected, allSelected);
-            }
-          });
-        },
-
-        menu: function (e, obj) {
-          const selecter = $(e).data('menu');
-          if (!selecter) return false;
-          s
-
-          $(selecter).on('click', '.handle', function () {
-            let handle = $(this).data('handle');
-            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
-              let selected = $(e).propertygrid('getSelected');   //当前选中的行
-              let allSelected = $(e).propertygrid('getSelections'); //全部选中的行
-
-              obj['handle'][handle](this, selected, allSelected);
+              merge.handle[handle](this, selected, allSelected);
             }
           });
         }
-      }
+
+        // 监听右键菜单
+        if (option.menu) {
+          $(option.menu).on('click', '.handle', function () {
+            let handle = $(this).data('handle') || $(this).attr('handle');
+            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
+              let selected = $(e).propertygrid('getSelected');   //当前选中的行
+              let allSelected = $(e).propertygrid('getSelections'); //全部选中的行
+
+              merge.handle['handle'][handle](this, selected, allSelected);
+            }
+          });
+        }
+      },
     }
   });
 
@@ -576,41 +555,32 @@
 
         $(this.treegrid).treegrid(option);
 
-        this.event.toolbar(e, merge);
-        this.event.menu(e, merge);
-      },
-
-      //监听工具栏
-      event: {
-        toolbar: function (e, obj) {
-          const selecter = $(e).data('toolbar');
-          if (!selecter) return false;
-
-          $(selecter).on('click', '.handle', function () {
-            let handle = $(this).data('handle');
-            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
+        // 监听工具栏
+        if (option.toolbar) {
+          $(option.toolbar).on('click', '.handle', function () {
+            let handle = $(this).data('handle') || $(this).attr('handle');
+            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
               let selected = $(e).treegrid('getSelected');   //当前选中的行
               let allSelected = $(e).treegrid('getSelections'); //全部选中的行
 
-              obj['handle'][handle](this, selected, allSelected);
-            }
-          });
-        },
-        menu: function (e, obj) {
-          let selecter = $(e).data('menu');
-          if (!selecter) return false;
-
-          $(selecter).on('click', '.handle', function () {
-            let handle = $(this).data('handle');
-            if (obj && obj['handle'] && typeof obj['handle'][handle] == 'function') {
-              let selected = $(e).treegrid('getSelected');   //当前选中的行
-              let allSelected = $(e).treegrid('getSelections'); //全部选中的行
-
-              obj['handle'][handle](this, selected, allSelected);
+              merge.handle[handle](this, selected, allSelected);
             }
           });
         }
-      }
+
+        // 监听右键菜单
+        if (option.menu) {
+          $(option.menu).on('click', '.handle', function () {
+            let handle = $(this).data('handle') || $(this).attr('handle');
+            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
+              let selected = $(e).treegrid('getSelected');   //当前选中的行
+              let allSelected = $(e).treegrid('getSelections'); //全部选中的行
+
+              merge.handle['handle'][handle](this, selected, allSelected);
+            }
+          });
+        }
+      },
     }
   });
 
