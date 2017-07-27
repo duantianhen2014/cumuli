@@ -2,9 +2,10 @@
        iconCls="{{ array_get($module, 'composer.extra.module.icon') }}">
     <thead>
     <tr>
-        <th data-options="field:'name',width:120,sortable:true">模块</th>
-        <th data-options="field:'path',width:260,sortable:true">目录</th>
+        <th data-options="field:'name',width:120,sortable:true">模块名</th>
+        <th data-options="field:'path',width:250,sortable:true">目录</th>
         <th data-options="field:'group',width:80,sortable:true">分组</th>
+        <th data-options="field:'module',width:80,sortable:true">模块</th>
         <th data-options="field:'composer.extra.module.name',width:100,sortable:true,formatter:function(value,row,index){return  row.composer.extra.module.name}">
             名称
         </th>
@@ -25,13 +26,14 @@
     $.cumuli.datagrid.init('#{{ attr_id('datagrid') }}', {
         view: $.cumuli.variable.datagrid.detailview,
 
-        detailFormatter: function (rowIndex, rowData) {
-            return '<pre>' + JSON.stringify(rowData, null, '  ') + '</pre>';
+        detailFormatter: function (index, row) {
+            return '<pre>' + JSON.stringify(row.composer, null, '  ') + '</pre>';
         },
 
         groupField: 'group',
-        groupFormatter: function (value, rows) {
-            return value + ' - ' + rows.length + ' Item(s)';
+        groupFormatter: function (group, rows) {
+            return group + '分组 - ' + rows.length + ' 条数据';
         }
+
     });
 </script>
