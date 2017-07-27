@@ -98,7 +98,7 @@ if (!function_exists('module')) {
         // 保存模块信息到静态变量
         array_set($modules, "{$group}.{$module}.{$action}", [
             'name' => $name,
-            'url' => $url,
+            'url' => '/' . $url,
             'method' => $method,
             'controller' => $controller,
             'group' => $group,

@@ -34,7 +34,7 @@ class Controller extends AppController
                 return [
                     'group' => array_get($module, 'group'),
                     'module' => array_get($module, 'module'),
-                    'href' => '/' . trim(array_get($module, 'url'), '/'),
+                    'href' => array_get($module, 'url'),
                     'text' => array_get($module, 'composer.extra.module.name', array_get($module, 'module')),
                     'title' => array_get($module, 'composer.extra.module.name', array_get($module, 'module')),
                     'iconCls' => array_get($module, 'composer.extra.module.icon'),
@@ -58,7 +58,7 @@ class Controller extends AppController
             'status' => 'success',
             'message' => '操作成功',
             'title' => array_get($module, 'composer.extra.module.name', '直接访问'),
-            'href' => '/' . array_get($module, 'url'),
+            'href' => array_get($module, 'url'),
             'iconCls' => array_get($module, 'composer.extra.module.icon', 'fa fa-hashtag'),
         ];
     }
