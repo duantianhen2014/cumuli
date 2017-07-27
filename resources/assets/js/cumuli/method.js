@@ -38,33 +38,38 @@
         if (typeof merge == 'object') $.extend(option, merge);
 
         //自动开启右键菜单功能
-        if ($(e).data('menu')) {
+        if (option.menu) {
           const that = this;
           option['onRowContextMenu'] = function (e, index, row) {
             if (index < 0) return false;
-            let menu = $(that.datagrid).data('menu');
-            if (!$(menu)) return false;
 
             e.preventDefault();
             $(that.datagrid).datagrid('unselectAll');
             $(that.datagrid).datagrid('selectRow', index);
-            $(menu).menu('show', {left: e.pageX, top: e.pageY});
+            $(option.menu).menu('show', {left: e.pageX, top: e.pageY});
           };
         }
 
-        option['handle'] && delete(option['handle']);
-
         $(this.datagrid).datagrid(option);
+
+        return this;
+      },
+
+      // 自定义操作
+      handle: function (handles) {
+        let $datagrid = $(this.datagrid);
+        let option = $datagrid.datagrid('options');
+        if (typeof handles != 'object') handles = {};
 
         // 监听工具栏
         if (option.toolbar) {
           $(option.toolbar).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
-              let selected = $(e).datagrid('getSelected');   //当前选中的行
-              let allSelected = $(e).datagrid('getSelections'); //全部选中的行
+            if (typeof handles[handle] == 'function') {
+              let selected = $datagrid.datagrid('getSelected');   //当前选中的行
+              let allSelected = $datagrid.datagrid('getSelections'); //全部选中的行
 
-              merge.handle[handle](this, selected, allSelected);
+              handles[handle](this, selected, allSelected, option);
             }
           });
         }
@@ -73,14 +78,23 @@
         if (option.menu) {
           $(option.menu).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
-              let selected = $(e).datagrid('getSelected');   //当前选中的行
-              let allSelected = $(e).datagrid('getSelections'); //全部选中的行
+            if (typeof handles[handle] == 'function') {
+              let selected = $datagrid.datagrid('getSelected');   //当前选中的行
+              let allSelected = $datagrid.datagrid('getSelections'); //全部选中的行
 
-              merge.handle['handle'][handle](this, selected, allSelected);
+              handles[handle](this, selected, allSelected, option);
             }
           });
         }
+
+        return this;
+      },
+
+      // 筛选
+      filter: function (filters) {
+        $(this.datagrid).datagrid('enableFilter', filters || []);
+
+        return this;
       },
     }
   });
@@ -362,33 +376,38 @@
         if (typeof merge == 'object') $.extend(option, merge);
 
         //自动开启右键菜单功能
-        if ($(e).data('menu')) {
+        if (option.menu) {
           const that = this;
           option['onRowContextMenu'] = function (e, index, row) {
             if (index < 0) return false;
-            let menu = $(that.propertygrid).data('menu');
-            if (!$(menu)) return false;
 
             e.preventDefault();
             $(that.propertygrid).propertygrid('unselectAll');
             $(that.propertygrid).propertygrid('selectRow', index);
-            $(menu).menu('show', {left: e.pageX, top: e.pageY});
+            $(option.menu).menu('show', {left: e.pageX, top: e.pageY});
           };
         }
 
-        option['handle'] && delete(option['handle']);
-
         $(this.propertygrid).propertygrid(option);
+
+        return this;
+      },
+
+      // 自定义操作
+      handle: function (handles) {
+        let $propertygrid = $(this.propertygrid);
+        let option = $propertygrid.propertygrid('options');
+        if (typeof handles != 'object') handles = {};
 
         // 监听工具栏
         if (option.toolbar) {
           $(option.toolbar).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
-              let selected = $(e).propertygrid('getSelected');   //当前选中的行
-              let allSelected = $(e).propertygrid('getSelections'); //全部选中的行
+            if (typeof handles[handle] == 'function') {
+              let selected = $propertygrid.propertygrid('getSelected');   //当前选中的行
+              let allSelected = $propertygrid.propertygrid('getSelections'); //全部选中的行
 
-              merge.handle[handle](this, selected, allSelected);
+              handles[handle](this, selected, allSelected, option);
             }
           });
         }
@@ -397,14 +416,16 @@
         if (option.menu) {
           $(option.menu).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
-              let selected = $(e).propertygrid('getSelected');   //当前选中的行
-              let allSelected = $(e).propertygrid('getSelections'); //全部选中的行
+            if (typeof handles[handle] == 'function') {
+              let selected = $propertygrid.propertygrid('getSelected');   //当前选中的行
+              let allSelected = $propertygrid.propertygrid('getSelections'); //全部选中的行
 
-              merge.handle['handle'][handle](this, selected, allSelected);
+              handles[handle](this, selected, allSelected, option);
             }
           });
         }
+
+        return this;
       },
     }
   });
@@ -536,34 +557,39 @@
         if (typeof merge == 'object') $.extend(option, merge);
 
         //自动开启右键菜单功能
-        if ($(e).data('menu')) {
+        if (option.menu) {
           const that = this;
           option['onContextMenu'] = function (e, row) {
             if (!row) return false;
-            let menu = $(that.treegrid).data('menu');
-            if (!$(menu)) return false;
 
             e.preventDefault();
             $(that.treegrid).treegrid('unselectAll');
             let id = $(that.treegrid).treegrid('options').idField || 'id';
             $(that.treegrid).treegrid('select', row[id]);
-            $(menu).menu('show', {left: e.pageX, top: e.pageY});
+            $(option.menu).menu('show', {left: e.pageX, top: e.pageY});
           };
         }
 
-        option['handle'] && delete(option['handle']);
-
         $(this.treegrid).treegrid(option);
+
+        return this;
+      },
+
+      // 自定义操作
+      handle: function (handles) {
+        let $treegrid = $(this.treegrid);
+        let option = $treegrid.treegrid('options');
+        if (typeof handles != 'object') handles = {};
 
         // 监听工具栏
         if (option.toolbar) {
           $(option.toolbar).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
-              let selected = $(e).treegrid('getSelected');   //当前选中的行
-              let allSelected = $(e).treegrid('getSelections'); //全部选中的行
+            if (typeof handles[handle] == 'function') {
+              let selected = $treegrid.treegrid('getSelected');   //当前选中的行
+              let allSelected = $treegrid.treegrid('getSelections'); //全部选中的行
 
-              merge.handle[handle](this, selected, allSelected);
+              handles[handle](this, selected, allSelected, option);
             }
           });
         }
@@ -572,14 +598,16 @@
         if (option.menu) {
           $(option.menu).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (merge && merge.handle && typeof merge.handle[handle] == 'function') {
-              let selected = $(e).treegrid('getSelected');   //当前选中的行
-              let allSelected = $(e).treegrid('getSelections'); //全部选中的行
+            if (typeof handles[handle] == 'function') {
+              let selected = $treegrid.treegrid('getSelected');   //当前选中的行
+              let allSelected = $treegrid.treegrid('getSelections'); //全部选中的行
 
-              merge.handle['handle'][handle](this, selected, allSelected);
+              handles[handle](this, selected, allSelected, option);
             }
           });
         }
+
+        return this;
       },
     }
   });

@@ -67,7 +67,7 @@
 					}
 				}
 			});
-			return deleteMethod1.call($.fn.datagrid.methods, jq, index);		
+			return deleteMethod1.call($.fn.datagrid.methods, jq, index);
 		}
 	});
 
@@ -193,7 +193,7 @@
 				};
 			}
 			return data;
-			
+
 			function isMatch(row, index){
 				if (opts.val == $.fn.combogrid.defaults.val){
 					opts.val = extendedOptions.val;
@@ -208,7 +208,7 @@
 					// if (col && col.formatter){
 					// 	source = col.formatter(row[rule.field], row, index);
 					// }
-					
+
 					var col = dg.datagrid('getColumnOption', rule.field);
 					var formattedValue = (col && col.formatter) ? col.formatter(row[rule.field], row, index) : undefined;
 					var source = opts.val.call(dg[0], row, rule.field, formattedValue);
@@ -292,7 +292,7 @@
 	};
 	$.extend($.fn.datagrid.defaults, extendedOptions);
 	$.extend($.fn.treegrid.defaults, extendedOptions);
-	
+
 	// filter types
 	$.fn.datagrid.defaults.filters = $.extend({}, $.fn.datagrid.defaults.editors, {
 		label: {
@@ -311,14 +311,14 @@
 		}
 	});
 	$.fn.treegrid.defaults.filters = $.fn.datagrid.defaults.filters;
-	
+
 	// filter operators
 	$.fn.datagrid.defaults.operators = {
 		nofilter: {
-			text: 'No Filter'
+			text: '不筛选'
 		},
 		contains: {
-			text: 'Contains',
+			text: '包含',
 			isMatch: function(source, value){
 				source = String(source);
 				value = String(value);
@@ -326,19 +326,19 @@
 			}
 		},
 		equal: {
-			text: 'Equal',
+			text: '等于',
 			isMatch: function(source, value){
 				return source == value;
 			}
 		},
 		notequal: {
-			text: 'Not Equal',
+			text: '不等于',
 			isMatch: function(source, value){
 				return source != value;
 			}
 		},
 		beginwith: {
-			text: 'Begin With',
+			text: '开始于',
 			isMatch: function(source, value){
 				source = String(source);
 				value = String(value);
@@ -346,7 +346,7 @@
 			}
 		},
 		endwith: {
-			text: 'End With',
+			text: '结束于',
 			isMatch: function(source, value){
 				source = String(source);
 				value = String(value);
@@ -354,32 +354,32 @@
 			}
 		},
 		less: {
-			text: 'Less',
+			text: '小于',
 			isMatch: function(source, value){
 				return source < value;
 			}
 		},
 		lessorequal: {
-			text: 'Less Or Equal',
+			text: '小于或等于',
 			isMatch: function(source, value){
 				return source <= value;
 			}
 		},
 		greater: {
-			text: 'Greater',
+			text: '大于',
 			isMatch: function(source, value){
 				return source > value;
 			}
 		},
 		greaterorequal: {
-			text: 'Greater Or Equal',
+			text: '大于或等于',
 			isMatch: function(source, value){
 				return source >= value;
 			}
 		}
 	};
 	$.fn.treegrid.defaults.operators = $.fn.datagrid.defaults.operators;
-	
+
 	function resizeFilter(target, field){
 		var toFixColumnSize = false;
 		var dg = $(target);
@@ -403,7 +403,7 @@
 			}
 		});
 		if (toFixColumnSize){
-			$(target).datagrid('fixColumnSize');			
+			$(target).datagrid('fixColumnSize');
 		}
 
 		function _getContentWidth(cc){
@@ -414,12 +414,12 @@
 			return w;
 		}
 	}
-	
+
 	function getFilterComponent(target, field){
 		var header = $(target).datagrid('getPanel').find('div.datagrid-header');
 		return header.find('tr.datagrid-filter-row td[field="'+field+'"] .datagrid-filter');
 	}
-	
+
 	/**
 	 * get filter rule index, return -1 if not found.
 	 */
@@ -444,7 +444,7 @@
 			return null;
 		}
 	}
-	
+
 	function addFilterRule(target, param){
 		var name = getPluginName(target);
 		var opts = $(target)[name]('options');
@@ -469,7 +469,7 @@
 					value = input.textbox('getText');
 				}
 				if (value != param.value){
-					input[0].filter.setValue(input, param.value);					
+					input[0].filter.setValue(input, param.value);
 				}
 			}
 			var menu = input[0].menu;
@@ -483,7 +483,7 @@
 			}
 		}
 	}
-	
+
 	function removeFilterRule(target, field){
 		var name = getPluginName(target);
 		var dg = $(target);
@@ -499,7 +499,7 @@
 			var fields = dg.datagrid('getColumnFields',true).concat(dg.datagrid('getColumnFields'));
 			_clear(fields);
 		}
-		
+
 		function _clear(fields){
 			for(var i=0; i<fields.length; i++){
 				var input = getFilterComponent(target, fields[i]);
@@ -513,7 +513,7 @@
 			}
 		}
 	}
-	
+
 	function doFilter(target){
 		var name = getPluginName(target);
 		var state = $.data(target, name);
@@ -529,7 +529,7 @@
 			$(target)[name]('loadData', state.filterSource || state.data);
 		}
 	}
-	
+
 	function translateTreeData(target, children, pid){
 		var opts = $(target).treegrid('options');
 		if (!children || !children.length){return []}
@@ -666,7 +666,7 @@
 			};
 		}
 	}
-	
+
 	function init(target, filters){
 		filters = filters || [];
 		var name = getPluginName(target);
@@ -677,7 +677,7 @@
 		}
 		opts.filterCache = opts.filterCache || {};
 		var dgOpts = $.data(target, 'datagrid').options;
-		
+
 		var onResize = dgOpts.onResize;
 		dgOpts.onResize = function(width,height){
 			resizeFilter(target);
@@ -687,7 +687,7 @@
 		dgOpts.onBeforeSortColumn = function(sort, order){
 			var result = onBeforeSortColumn.call(this, sort, order);
 			if (result != false){
-				opts.isSorting = true;				
+				opts.isSorting = true;
 			}
 			return result;
 		};
@@ -741,7 +741,7 @@
 			var d = opts.oldLoadFilter.call(this, data, parentId);
 			return myLoadFilter.call(this, d, parentId);
 		};
-		
+
 		initCss();
 		createFilter(true);
 		createFilter();
@@ -754,7 +754,7 @@
 		$.map(opts.filterRules, function(rule){
 			addFilterRule(target, rule);
 		});
-		
+
 		function initCss(){
 			if (!$('#datagrid-filter-style').length){
 				$('head').append(
@@ -769,7 +769,7 @@
 				);
 			}
 		}
-		
+
 		/**
 		 * create filter component
 		 */
@@ -780,7 +780,7 @@
 				fields.unshift('_');
 			}
 			var table = (frozen?dc.header1:dc.header2).find('table.datagrid-htable');
-			
+
 			// clear the old filter component
 			table.find('.datagrid-filter').each(function(){
 				if (this.filter.destroy){
@@ -791,7 +791,7 @@
 				}
 			});
 			table.find('tr.datagrid-filter-row').remove();
-			
+
 			var tr = $('<tr class="datagrid-header-row datagrid-filter-row"></tr>');
 			if (opts.filterPosition == 'bottom'){
 				tr.appendTo(table.find('tbody'));
@@ -801,7 +801,7 @@
 			if (!opts.showFilterBar){
 				tr.hide();
 			}
-			
+
 			for(var i=0; i<fields.length; i++){
 				var field = fields[i];
 				var col = $(target).datagrid('getColumnOption', field);
@@ -849,10 +849,10 @@
 				}
 			}
 		}
-		
+
 		function createFilterButton(container, operators){
 			if (!operators){return null;}
-			
+
 			var btn = $('<a class="datagrid-filter-btn">&nbsp;</a>').addClass(opts.filterBtnIconCls);
 			if (opts.filterBtnPosition == 'right'){
 				btn.appendTo(container);
@@ -875,17 +875,17 @@
 					var field = td.attr('field');
 					var input = td.find('.datagrid-filter');
 					var value = input[0].filter.getValue(input);
-					
+
 					if (opts.onClickMenu.call(target, item, btn, field) == false){
 						return;
 					}
-					
+
 					addFilterRule(target, {
 						field: field,
 						op: item.name,
 						value: value
 					});
-					
+
 					doFilter(target);
 				}
 			});
@@ -897,7 +897,7 @@
 			});
 			return menu;
 		}
-		
+
 		function getFilter(field){
 			for(var i=0; i<filters.length; i++){
 				var filter = filters[i];
@@ -908,7 +908,7 @@
 			return null;
 		}
 	}
-	
+
 	$.extend($.fn.datagrid.methods, {
 		enableFilter: function(jq, filters){
 			return jq.each(function(){
