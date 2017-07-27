@@ -15,7 +15,7 @@
       pageSize: $.cookie('datagrid-pageSize') || 20,
       remoteFilter: true,
       onBeforeLoad: function (param) {
-        $.cookie('datagrid-pageSize', param.rows, {expires: 30});
+        if (param.rows) $.cookie('datagrid-pageSize', param.rows, {expires: 30});
       }
     }
   });
@@ -110,7 +110,7 @@
       pageSize: $.cookie('propertygrid-pageSize') || 20,
       remoteFilter: false,
       onBeforeLoad: function (param) {
-        $.cookie('propertygrid-pageSize', param.rows, {expires: 30});
+        if (param.rows) $.cookie('propertygrid-pageSize', param.rows, {expires: 30});
       }
     }
   });
@@ -133,7 +133,7 @@
       pageSize: $.cookie('treegrid-pageSize') || 10,
       remoteFilter: false,
       onBeforeLoad: function (param) {
-        $.cookie('treegrid-pageSize', param.rows, {expires: 30});
+        if (param.rows) $.cookie('treegrid-pageSize', param.rows, {expires: 30});
       }
     }
   });
