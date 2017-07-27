@@ -8,6 +8,12 @@
 php artisan make:module group/name
 ```
 
+**更新模块缓存**
+
+```
+php artisan module:cache
+```
+
 ## 使用方法
 
 1. 只需要按照composer包规范写好插件

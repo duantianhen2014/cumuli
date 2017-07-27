@@ -42,6 +42,8 @@ echo 'sass_binary_site=https://npm.taobao.org/mirrors/node-sass/' >> ~/.npmrc
 composer install
 php -r "file_exists('.env') || copy('.env.example', '.env');"
 php artisan key:generate
+php artisan migrate --seed
+php artisan module:cache
 npm install
 npm run dev
 ```
