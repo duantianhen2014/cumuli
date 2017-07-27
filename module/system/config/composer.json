@@ -35,35 +35,11 @@
                     "toolbar": false
                 }
             },
-            "新增": {
+            "保存": {
                 "action": [
-                    "getCreate",
-                    "postCreate"
-                ],
-                "icon": "fa fa-plus-circle",
-                "status": {
-                    "access": true,
-                    "contextMenu": false,
-                    "toolbar": true
-                }
-            },
-            "编辑": {
-                "action": [
-                    "getUpdate",
                     "postUpdate"
                 ],
                 "icon": "fa fa-circle",
-                "status": {
-                    "access": true,
-                    "contextMenu": true,
-                    "toolbar": true
-                }
-            },
-            "删除": {
-                "action": [
-                    "postDelete"
-                ],
-                "icon": "fa fa-minus-circle",
                 "status": {
                     "access": true,
                     "contextMenu": true,

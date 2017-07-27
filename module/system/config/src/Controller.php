@@ -22,14 +22,13 @@ class Controller extends AppController
      * POST请求入口页面
      *
      * @param  \Illuminate\Http\Request $request
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
     public function postIndex(Request $request)
     {
         $config = config('module');
-        return [
-            'status' => 'error',
-            'message' => '功能完善中',
+
+        return $this->success([
             'total' => 1,
             'rows' => [
                 [
@@ -125,61 +124,20 @@ class Controller extends AppController
                     'value' => implode(',', config('module.upload.exts')),
                 ],
             ],
-            'debug' => $config
-        ];
-    }
-
-    /**
-     * GET请求新增页面
-     *
-     * @return \Illuminate\View\View
-     */
-    public function getCreate()
-    {
-        return view('create');
-    }
-
-    /**
-     * POST请求新增页面
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return array
-     */
-    public function postCreate(Request $request)
-    {
-        return ['status' => 'error', 'message' => '功能完善中'];
-    }
-
-    /**
-     * GET请求编辑页面
-     *
-     * @return \Illuminate\View\View
-     */
-    public function getUpdate()
-    {
-        return view('update');
+        ]);
     }
 
     /**
      * POST请求编辑页面
      *
      * @param  \Illuminate\Http\Request $request
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
     public function postUpdate(Request $request)
     {
-        return ['status' => 'error', 'message' => '功能完善中'];
-    }
-
-    /**
-     * POST请求删除页面
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return array
-     */
-    public function postDelete(Request $request)
-    {
-        return ['status' => 'error', 'message' => '功能完善中'];
+        return $this->error([
+            'message' => '功能完善中'
+        ]);
     }
 
 }

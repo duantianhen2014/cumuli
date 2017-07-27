@@ -22,7 +22,7 @@ class Controller extends AppController
      * POST请求入口页面
      *
      * @param  \Illuminate\Http\Request $request
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
     public function postIndex(Request $request)
     {
@@ -39,12 +39,10 @@ class Controller extends AppController
             $modules = $order == 'asc' ? $modules->sortBy($sorts->get($key)) : $modules->sortByDesc($sorts->get($key));
         });
 
-        return [
-            'status' => 'success',
-            'message' => '操作成功',
+        return $this->success([
             'total' => $modules->count(),
             'rows' => $modules->forPage($page, $rows)->values()->toArray()
-        ];
+        ]);
     }
 
 }
