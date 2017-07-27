@@ -11,7 +11,7 @@
         let option = $.extend({}, $.cumuli.config.datagrid); //读取默认配置文件
         for (let i = 0; i < this.items.length; i++) {
           let key = this.items[i];
-          let value = $(this.datagrid).data(key);
+          let value = $(this.datagrid).data(key) || $(this.datagrid).attr(key);
 
           switch (key) {
             case 'title':
@@ -109,7 +109,7 @@
 
         for (let i = 0; i < this.items.length; i++) {
           let key = this.items[i];
-          let value = $(e).data(key);
+          let value = $(e).data(key) || $(e).attr(key);
 
           switch (key) {
             case 'title':
@@ -276,7 +276,7 @@
 
         for (let i = 0; i < this.items.length; i++) {
           let key = this.items[i];
-          let value = $(e).data(key);
+          let value = $(e).data(key) || $(e).attr(key);
 
           switch (key) {
             case 'title':
@@ -345,7 +345,7 @@
         let option = $.extend({}, $.cumuli.config.propertygrid); //读取默认配置文件
         for (let i = 0; i < this.items.length; i++) {
           let key = this.items[i];
-          let value = $(this.propertygrid).data(key);
+          let value = $(this.propertygrid).data(key) || $(this.propertygrid).attr(key);
 
           switch (key) {
             case 'title':
@@ -522,7 +522,7 @@
         let option = $.extend({}, $.cumuli.config.treegrid); //读取默认配置文件
         for (let i = 0; i < this.items.length; i++) {
           let key = this.items[i];
-          let value = $(this.treegrid).data(key);
+          let value = $(this.treegrid).data(key) || $(this.treegrid).attr(key);
 
           switch (key) {
             case 'title':
