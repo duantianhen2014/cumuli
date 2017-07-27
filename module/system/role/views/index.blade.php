@@ -42,7 +42,7 @@
                 field: 'id',
                 type: 'numberbox',
                 options: {min: 0},
-                op: ['equal', 'notequal', 'less', 'greater']
+                op: ['equal', 'notequal', 'less', 'lessorequal', 'greater', 'greaterorequal']
             },
             {
                 field: 'name',

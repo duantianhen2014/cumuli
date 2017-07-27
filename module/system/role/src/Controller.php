@@ -28,6 +28,51 @@ class Controller extends AppController
      */
     public function postIndex(Request $request, Role $role)
     {
+        // 字段筛选
+        $filterRules = collect(json_decode($request->input('filterRules', '[]'), true));
+        $filterRules->each(function ($rule) use (&$role) {
+            $field = array_get($rule, 'field');
+            $value = array_get($rule, 'value');
+            $op = array_get($rule, 'op');
+
+            switch ($op) {
+                case 'contains':
+                    $value = str_replace('%', '\%', $value);
+                    $role = $role->where($field, 'like', "%{$value}%");
+                    break;
+                case 'beginwith':
+                    $value = str_replace('%', '\%', $value);
+                    $role = $role->where($field, 'like', "{$value}%");
+                    break;
+                case 'endwith':
+                    $value = str_replace('%', '\%', $value);
+                    $role = $role->where($field, 'like', "%{$value}");
+                    break;
+                case 'equal':
+                    $role = $role->where($field, $value);
+                    break;
+                case 'notequal':
+                    $role = $role->where($field, '<>', $value);
+                    break;
+                case 'less':
+                    $value = intval($value);
+                    $role = $role->where($field, '<', $value);
+                    break;
+                case 'lessorequal':
+                    $value = intval($value);
+                    $role = $role->where($field, '<=', $value);
+                    break;
+                case 'greater':
+                    $value = intval($value);
+                    $role = $role->where($field, '>', $value);
+                    break;
+                case 'greaterorequal':
+                    $value = intval($value);
+                    $role = $role->where($field, '>=', $value);
+                    break;
+            }
+        });
+
         // 支持多个字段排序
         $sorts = collect(explode(',', $request->input('sort', 'id')));
         $orders = collect(explode(',', $request->input('order', 'desc')));
@@ -41,6 +86,7 @@ class Controller extends AppController
         return $this->success([
             'total' => $rows->total(),
             'rows' => $rows->items(),
+            'filterRules' => $filterRules,
         ]);
     }
 
@@ -75,7 +121,7 @@ class Controller extends AppController
     public function getUpdate(Request $request, Role $role)
     {
         $id = $request->input('id');
-        $row = $role->find($id);
+        $row = $role->findOrFail($id);
         dd($row);
         return view('update', ['row' => $row]);
     }
