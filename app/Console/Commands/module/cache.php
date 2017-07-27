@@ -55,11 +55,9 @@ class cache extends Command
         $this->line('');
 
         $this->line('生成语言文件: ' . base_path('module/lang.json'));
-        $lang = $modules
-            ->pluck('group')
-            ->keyBy(function ($key) {
-                return $key;
-            });
+        $lang = $modules->mapWithKeys(function ($module) {
+            return [$module['group'] => $module['group']];
+        });
         file_put_contents(base_path('module/lang.json'), $lang->toJson(JSON_PRETTY_PRINT));
 
         $this->line('保存模块信息: ' . base_path('module/module.json'));

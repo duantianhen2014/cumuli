@@ -66,8 +66,8 @@ class Controller extends AppController
                     'editor' => ['type' => 'combobox', 'options' => ['editable' => false, 'multiple' => false, 'data' => [
                         ['text' => '本地上传', 'value' => 'local'],
                     ]]],
-                    'key' => 'module.upload.drive',
-                    'value' => config('module.upload.drive'),
+                    'key' => 'module.upload.driver',
+                    'value' => config('module.upload.driver'),
                 ],
                 [
                     'group' => '文件上传',

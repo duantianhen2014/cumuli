@@ -12,7 +12,7 @@ return [
 
     // 上传配置
     'upload' => [
-        'drive' => 'local',       // 使用本地文件上传
+        'driver' => 'local',       // 使用本地文件上传
         'size' => 5 * 1024 * 1024, // 上传大小限制
         'exts' => [                 // 扩展名支持
             'png', 'jpg', 'jpeg', 'gif', 'bmp',
@@ -25,7 +25,7 @@ return [
 
     // 图片水印设置
     'water' => [
-        'drive' => 'gd',          // 或者使用Imagemagick(需安装php-imagick扩展)
+        'driver' => 'gd',          // 或者使用Imagemagick(需安装php-imagick扩展)
         'status' => false,        // 启动水印功能
         'mode' => 'text',         // 水印模式,text: 文字水印 image: 图片水印
         'text' => 'Cumuli系统',  // 水印文字
