@@ -152,6 +152,7 @@
 
                 $.cumuli.request.post(option['submit'], this, function (data) {
                   if (data.status == 'error') {
+                    $.cumuli.message.show(data.message, 'error');
                     typeof error == 'function' && error(data);
                   } else {
                     $(that.dialog).dialog('close');

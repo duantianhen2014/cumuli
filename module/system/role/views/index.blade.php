@@ -19,9 +19,11 @@
 </div>
 
 {{--右键菜单--}}
-<div id="{{ attr_id('datagrid.menu') }}" class="easyui-menu">
-    {!! module_menu() !!}
-</div>
+@if(module_menu())
+    <div id="{{ attr_id('datagrid.menu') }}" class="easyui-menu">
+        {!! module_menu() !!}
+    </div>
+@endif
 
 <script type="text/javascript">
     $.cumuli.datagrid
