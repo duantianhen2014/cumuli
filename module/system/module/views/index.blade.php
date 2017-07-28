@@ -21,11 +21,27 @@
     </thead>
 </table>
 
+{{--顶部工具栏--}}
+@if(module_toolbar())
+    <div id="{{ attr_id('datagrid.toolbar') }}">
+        {!! module_toolbar() !!}
+    </div>
+@endif
+
+{{--右键菜单--}}
+@if(module_menu())
+    <div id="{{ attr_id('datagrid.menu') }}" class="easyui-menu">
+        {!! module_menu() !!}
+    </div>
+@endif
+
 <script type="text/javascript">
     $.cumuli.datagrid.init('#{{ attr_id('datagrid') }}', {
         title: '{{ breadcrumbs() }}',
         iconCls: '{{ $action['icon'] }}',
         url: '{{ $action['url'] }}',
+        toolbar: '#{{ attr_id('datagrid.toolbar') }}',
+        menu: '#{{ attr_id('datagrid.menu') }}',
 
         view: $.cumuli.variable.datagrid.detailview,
 
