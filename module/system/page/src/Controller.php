@@ -31,7 +31,7 @@ class Controller extends AppController
             })
             ->sortBy('composer.name')
             ->map(function ($module) {
-                $action = module_action(array_get($module, 'composer.extra.module.module.action'), $module['name']);
+                $action = module_action(array_get($module, 'composer.extra.module.module.action'), $module);
                 return [
                     'group' => array_get($module, 'group'),
                     'module' => array_get($module, 'module'),

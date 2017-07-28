@@ -29,7 +29,7 @@ class Module
         }
 
         // 单个功能不使用权限控制
-        $action = module_action($module['action'], $module['name']);
+        $action = module_action($module['action'], $module);
         if (array_get($action, 'access', true) === false) {
             return $next($request);
         }

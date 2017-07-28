@@ -27,7 +27,7 @@ if (!function_exists('breadcrumbs')) {
             return '';
         }
 
-        $action = module_action($module['action'], $module['name']);
+        $action = module_action($module['action'], $module);
 
         return implode('/', [
             trans('module.' . array_get($module, 'group')),
@@ -147,7 +147,9 @@ if (!function_exists('module_lang')) {
 if (!function_exists('module_action')) {
     function module_action($action, $module = '')
     {
-        $module = module($module);
+        if (!is_array($module)) {
+            $module = module($module);
+        }
         $url = explode('_', snake_case($action));
         array_shift($url);
         $url = '/' . implode('_', $url);
