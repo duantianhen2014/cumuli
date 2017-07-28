@@ -120,30 +120,6 @@ if (!function_exists('module')) {
     }
 }
 
-if (!function_exists('module_lang')) {
-    /**
-     * 获取模块多语言信息，用于自定义语言合并
-     *
-     * @return array
-     */
-    function module_lang()
-    {
-        static $lang = [];
-        if (!empty($lang)) {
-            return $lang;
-        }
-
-        if (!file_exists(base_path('module/lang.json'))) {
-            return [];
-        }
-        if (!is_writeable(base_path('module/lang.json'))) {
-            return [];
-        }
-        $lang = json_decode(file_get_contents(base_path('module/lang.json')), true);
-        return $lang;
-    }
-}
-
 if (!function_exists('module_action')) {
     /**
      * 获取模块中action参数
@@ -171,6 +147,85 @@ if (!function_exists('module_action')) {
             'title' => $title,
             'access' => $action !== false,
         ];
+    }
+}
+
+if (!function_exists('module_lang')) {
+    /**
+     * 获取模块多语言信息，用于自定义语言合并
+     *
+     * @return array
+     */
+    function module_lang()
+    {
+        static $lang = [];
+        if (!empty($lang)) {
+            return $lang;
+        }
+
+        if (!file_exists(base_path('module/lang.json'))) {
+            return [];
+        }
+        if (!is_writeable(base_path('module/lang.json'))) {
+            return [];
+        }
+        $lang = json_decode(file_get_contents(base_path('module/lang.json')), true);
+        return $lang;
+    }
+}
+
+if (!function_exists('module_menu')) {
+    function module_menu($module = '')
+    {
+        if (!is_array($module)) {
+            $module = module($module);
+        }
+        return collect(array_get($module, 'composer.extra.module.menu', []))
+            ->map(function ($attributes, $title) use ($module) {
+                $icon = array_get($module, "composer.extra.module.icon.{$title}", '');
+                $class = 'handle ' . array_get($attributes, 'class', '');
+                array_forget($attributes, 'class');
+
+                $attrs = [];
+                foreach ($attributes as $attribute => $value) {
+                    array_push($attrs, "{$attribute}=\"{$value}\"");
+                }
+                $attrs = implode(' ', $attrs);
+
+                return <<<HTML
+<div class="$class" iconCls="$icon" $attrs>$title</div>
+HTML;
+            })
+            ->implode('');
+    }
+}
+
+if (!function_exists('module_toolbar')) {
+    function module_toolbar($module = '')
+    {
+        if (!is_array($module)) {
+            $module = module($module);
+        }
+        return collect(array_get($module, 'composer.extra.module.toolbar', []))
+            ->map(function ($attributes, $title) use ($module) {
+                $icon = array_get($module, "composer.extra.module.icon.{$title}", '');
+                $class = 'easyui-linkbutton handle ' . array_get($attributes, 'class', '');
+                array_forget($attributes, 'class');
+                if (!array_has($attributes, 'plain')) {
+                    array_set($attributes, 'plain', 'true');
+                }
+
+                $attrs = [];
+                foreach ($attributes as $attribute => $value) {
+                    array_push($attrs, "{$attribute}=\"{$value}\"");
+                }
+                $attrs = implode(' ', $attrs);
+
+                return <<<HTML
+<a class="$class" iconCls="$icon" $attrs>$title</a>
+HTML;
+            })
+            ->implode('');
     }
 }
 

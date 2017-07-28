@@ -190,9 +190,9 @@ HTML;
                     // 分类图标
                     'icon' => [
                         '查看' => 'fa fa-list-alt',
-                        '新增' => 'fa fa-plus-circle',
-                        '编辑' => 'fa fa-circle',
-                        '删除' => 'fa fa-minus-circle',
+                        '新增' => 'fa fa-plus',
+                        '编辑' => 'fa fa-edit',
+                        '删除' => 'fa fa-minus',
                     ],
                     // 分类权限启用状态
                     'access' => [
@@ -204,11 +204,9 @@ HTML;
                     // 分类工具栏
                     'toolbar' => [
                         '新增' => [
-                            'class' => 'cumuli-dialog-form',
                             'handle' => 'create'
                         ],
                         '编辑' => [
-                            'class' => 'cumuli-dialog-form',
                             'handle' => 'update'
                         ],
                         '删除' => [
@@ -218,7 +216,6 @@ HTML;
                     // 分类右键菜单
                     'menu' => [
                         '编辑' => [
-                            'class' => 'cumuli-dialog-form',
                             'handle' => 'update'
                         ],
                         '删除' => [

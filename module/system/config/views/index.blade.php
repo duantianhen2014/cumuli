@@ -1,8 +1,10 @@
 <table id="{{ attr_id('propertygrid') }}"></table>
 
 <div id="{{ attr_id('propertygrid.toolbar') }}">
-    <a class="easyui-linkbutton handle" handle="save" iconCls="fa fa-save" plain="true">保存</a>
-    <a class="easyui-linkbutton handle" handle="refresh" iconCls="fa fa-refresh" plain="true">刷新</a>
+{!! module_toolbar() !!}
+
+{{--自定义不用控制权限的功能--}}
+<a class="easyui-linkbutton handle" handle="refresh" iconCls="fa fa-refresh" plain="true">刷新</a>
 </div>
 
 <script type="text/javascript">

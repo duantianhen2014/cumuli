@@ -12,20 +12,15 @@
 
 {{--顶部工具栏--}}
 <div id="{{ attr_id('datagrid.toolbar') }}">
-    <a class="easyui-linkbutton handle" data-handle="create" data-width="400" data-height="300"
-       data-href="/system/role/create" data-cache="false" iconCls="fa fa-plus" plain="true">添加</a>
-    <a class="easyui-linkbutton handle" data-handle="edit" data-width="400" data-height="300"
-       data-href="/system/role/update" data-cache="false" iconCls="fa fa-edit" plain="true">编辑</a>
-    <a class="easyui-linkbutton handle" data-handle="delete" data-href="/system/role/delete" iconCls="fa fa-minus"
-       plain="true">删除</a>
+    {!! module_toolbar() !!}
+
+    {{--自定义不用控制权限的功能--}}
+    <a class="easyui-linkbutton handle" handle="refresh" iconCls="fa fa-refresh" plain="true">刷新</a>
 </div>
 
 {{--右键菜单--}}
 <div id="{{ attr_id('datagrid.menu') }}" class="easyui-menu">
-    <div class="handle" data-handle="edit" data-width="400" data-height="300" data-href="/system/role/update"
-         data-cache="false" iconCls="fa fa-edit">编辑
-    </div>
-    <div class="handle" data-handle="delete" data-href="/system/role/delete" iconCls="fa fa-minus">删除</div>
+    {!! module_menu() !!}
 </div>
 
 <script type="text/javascript">
@@ -72,11 +67,15 @@
         .handle({
             create: function (e, row, rows, option) {
                 console.log('create', [e, row, rows, option]);
-                $.cumuli.dialog.form(e);
+                $.cumuli.dialog.form(e, {
+                    href: '/system/role/create',
+                    width: 400,
+                    height: 300,
+                });
             },
 
-            edit: function (e, row, rows, option) {
-                console.log('edit', e);
+            update: function (e, row, rows, option) {
+                console.log('update', e);
 
                 if (!row) {
                     $.cumuli.message.show('未选择数据', 'error');
@@ -84,7 +83,9 @@
                 }
 
                 $.cumuli.dialog.form(e, {
-                    href: $(e).data('href') + '?id=' + row.id,
+                    href: '/system/role/update?id=' + row.id,
+                    width: 400,
+                    height: 300,
                 });
             },
 

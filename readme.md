@@ -45,7 +45,7 @@ php artisan key:generate
 php artisan migrate --seed
 php artisan module:cache
 npm install
-npm run dev
+npm run prod
 ```
 
 ## 开发模块
