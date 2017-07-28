@@ -30,7 +30,7 @@
       maximized: false,
       collapsible: false,
       minimizable: false,
-      maximizable: false,
+      maximizable: true,
       closable: true,
       resizable: false,
       draggable: true,

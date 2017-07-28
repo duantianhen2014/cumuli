@@ -68,32 +68,32 @@
         ])
         .handle({
             create: function (e, row, rows, option) {
-                console.log('create', [e, row, rows, option]);
+                var that = this;
                 $.cumuli.dialog.form(e, {
                     href: '/system/role/create',
                     width: 400,
                     height: 300,
+                }).then(function (data) {
+                    that.refresh();
                 });
             },
 
             update: function (e, row, rows, option) {
-                console.log('update', e);
-
                 if (!row) {
                     $.cumuli.message.show('未选择数据', 'error');
                     return false;
                 }
-
+                var that = this;
                 $.cumuli.dialog.form(e, {
                     href: '/system/role/update?id=' + row.id,
                     width: 400,
                     height: 300,
+                }).then(function (data) {
+                    that.refresh();
                 });
             },
 
             delete: function (e, row, rows, option) {
-                console.log('delete', e);
-
                 if (!row) {
                     $.cumuli.message.show('未选择数据', 'error');
                     return false;
@@ -109,6 +109,21 @@
                         }
                         that.refresh();
                     });
+                });
+            },
+
+            access: function (e, row, rows, option) {
+                console.log('access', e);
+
+                if (!row) {
+                    $.cumuli.message.show('未选择数据', 'error');
+                    return false;
+                }
+
+                $.cumuli.dialog.form(e, {
+                    href: '/system/role/access?id=' + row.id,
+                    width: 400,
+                    height: 300,
                 });
             },
 

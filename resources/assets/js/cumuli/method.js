@@ -131,57 +131,61 @@
           if (typeof value == 'undefined') continue;
           option[key] = value;
         }
-
-        option['submit'] = option['submit'] || option['href'];
         return option;
       },
 
       /* 表单 支持提交功能 */
       form: function (e, merge, success, error) {
         const that = this;
-        let option = that.option(e);
 
-        option['buttons'] = [{
-          text: '确定',
-          iconCls: 'fa fa-check',
-          handler: function () {
-            $(that.dialog).find('form:first').form('submit', {
-              onSubmit: function () {
-                let isValid = $(this).form('validate');
-                if (!isValid) return false;
+        return new Promise(function (resolve, reject) {
+          let option = that.option(e);
 
-                $.cumuli.request.post(option['submit'], this, function (data) {
-                  if (data.status == 'error') {
-                    $.cumuli.message.show(data.message, 'error');
-                    typeof error == 'function' && error(data);
-                  } else {
-                    $(that.dialog).dialog('close');
-                    typeof success == 'function' && success(data);
-                  }
-                });
+          option['buttons'] = [{
+            text: '确定',
+            iconCls: 'fa fa-check',
+            handler: function () {
+              $(that.dialog).find('form:first').form('submit', {
+                onSubmit: function () {
+                  let isValid = $(this).form('validate');
+                  if (!isValid) return false;
 
-                return false;
-              }
+                  $.cumuli.request.post(option['submit'], this, function (data) {
+                    if (data.status == 'error') {
+                      $.cumuli.message.show(data.message || '操作失败', 'error');
+                      typeof error == 'function' && error(data);
+                      reject(data);
+                    } else {
+                      $(that.dialog).dialog('close');
+                      typeof success == 'function' && success(data);
+                      resolve(data);
+                    }
+                  });
+
+                  return false;
+                }
+              });
+            }
+          }, {
+            text: '取消',
+            iconCls: 'fa fa-close',
+            handler: function () {
+              $(that.dialog).dialog('close');
+            }
+          }];
+          //回车默认点击第一个按钮
+          option['onLoad'] = function () {
+            $(that.dialog).find('form:first').on('keyup', function (event) {
+              if (event.keyCode == 13) option['buttons'][0].handler();
             });
-          }
-        }, {
-          text: '取消',
-          iconCls: 'fa fa-close',
-          handler: function () {
-            $(that.dialog).dialog('close');
-          }
-        }];
-        //回车默认点击第一个按钮
-        option['onLoad'] = function () {
-          $(that.dialog).find('form:first').on('keyup', function (event) {
-            if (event.keyCode == 13) option['buttons'][0].handler();
-          });
-        };
+          };
 
-        //合并参数
-        if (typeof merge == 'object') $.extend(option, merge);
+          //合并参数
+          if (typeof merge == 'object') $.extend(option, merge);
+          option.submit = option.submit || option.href;
 
-        $(that.dialog).dialog(option).dialog('center');
+          $(that.dialog).dialog(option).dialog('center');
+        });
       },
 
       /* 显示页面 只能关闭 */
@@ -447,7 +451,7 @@
           type: 'POST',
           data: data,
           dataType: type,
-          success: callback,
+
           beforeSend: function () {
             $.messager.progress({text: 'Loading...'});
           },
@@ -466,7 +470,17 @@
           option.contentType = false;
         }
 
-        return $.ajax(option);
+        return new Promise(function (resolve, reject) {
+          $.ajax($.extend({
+            success: function (data) {
+              typeof callback == 'function' && callback.call(callback, data);
+              if (data.status == 'error') {
+                return reject(data);
+              }
+              resolve(data);
+            },
+          }, option));
+        });
       },
 
       get: function (url, data, callback, type) {

@@ -108,7 +108,7 @@ class Controller extends AppController
      */
     public function postCreate(Request $request)
     {
-        return $this->error([
+        return $this->success([
             'message' => '功能完善中'
         ]);
     }

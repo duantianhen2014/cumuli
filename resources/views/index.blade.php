@@ -117,10 +117,8 @@
     <script type="text/javascript">
         $(document).ready(function () {
             if (window.location.hash) {
-                $.cumuli.request.post('/system/page/hash', {path: window.location.hash.replace('#', '')}, function (data) {
-                    if (data.status != 'error') {
-                        $.cumuli.page.open(null, data);
-                    }
+                $.cumuli.request.post('/system/page/hash', {path: window.location.hash.replace('#', '')}).then(function (data) {
+                    $.cumuli.page.open(null, data);
                 });
             }
         });

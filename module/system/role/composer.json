@@ -28,19 +28,23 @@
                 "postCreate": "新增",
                 "getUpdate": "编辑",
                 "postUpdate": "编辑",
-                "postDelete": "删除"
+                "postDelete": "删除",
+                "getAccess": "权限",
+                "postAccess": "权限"
             },
             "icon": {
                 "查看": "fa fa-list-alt",
                 "新增": "fa fa-plus",
                 "编辑": "fa fa-edit",
-                "删除": "fa fa-minus"
+                "删除": "fa fa-minus",
+                "权限": "fa fa-key"
             },
             "access": {
                 "查看": true,
                 "新增": true,
                 "编辑": true,
-                "删除": true
+                "删除": true,
+                "权限": true
             },
             "toolbar": {
                 "新增": {
@@ -51,6 +55,9 @@
                 },
                 "删除": {
                     "handle": "delete"
+                },
+                "权限": {
+                    "handle": "access"
                 }
             },
             "menu": {
@@ -59,6 +66,9 @@
                 },
                 "删除": {
                     "handle": "delete"
+                },
+                "权限": {
+                    "handle": "access"
                 }
             }
         }
