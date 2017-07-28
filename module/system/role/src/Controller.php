@@ -16,7 +16,7 @@ class Controller extends AppController
      */
     public function getIndex()
     {
-        return view('index', ['module' => module()]);
+        return view('index', ['action' => module_action(__FUNCTION__)]);
     }
 
     /**

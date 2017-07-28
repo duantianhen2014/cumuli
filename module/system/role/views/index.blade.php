@@ -32,8 +32,8 @@
     $.cumuli.datagrid
         .init('#{{ attr_id('datagrid') }}', {
             title: '{{ breadcrumbs() }}',
-            iconCls: '{{ array_get($module, 'composer.extra.module.icon') }}',
-            url: '{{ array_get($module, 'url') }}',
+            iconCls: '{{ $action['icon'] }}',
+            url: '{{ $action['url'] }}',
             toolbar: '#{{ attr_id('datagrid.toolbar') }}',
             menu: '#{{ attr_id('datagrid.menu') }}',
         })

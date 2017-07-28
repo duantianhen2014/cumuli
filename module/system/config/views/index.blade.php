@@ -1,8 +1,4 @@
-<table id="{{ attr_id('propertygrid') }}"
-       iconCls="{{ array_get($module, 'composer.extra.module.icon') }}"
-       data-toolbar="#{{ attr_id('propertygrid.toolbar') }}"
-       data-title="{{ breadcrumbs() }}"
-       data-url="{{ array_get($module, 'url') }}"></table>
+<table id="{{ attr_id('propertygrid') }}"></table>
 
 <div id="{{ attr_id('propertygrid.toolbar') }}">
     <a class="easyui-linkbutton handle" handle="save" iconCls="fa fa-save" plain="true">保存</a>
@@ -11,7 +7,12 @@
 
 <script type="text/javascript">
     $.cumuli.propertygrid
-        .init('#{{ attr_id('propertygrid') }}', {})
+        .init('#{{ attr_id('propertygrid') }}', {
+            title: '{{ breadcrumbs() }}',
+            iconCls: '{{ $action['icon'] }}',
+            url: '{{ $action['url'] }}',
+            toolbar: '#{{ attr_id('propertygrid.toolbar') }}',
+        })
         .handle({
             save: function (e, row, rows, option) {
                 console.log('save', [e, row, rows, option]);

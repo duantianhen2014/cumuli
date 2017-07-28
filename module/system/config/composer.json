@@ -15,37 +15,36 @@
     },
     "extra": {
         "module": {
-            "name": "配置管理",
-            "icon": "fa fa-cogs",
-            "status": {
-                "access": true,
-                "menu": true
-            }
-        },
-        "menu": {
-            "查看": {
-                "action": [
-                    "getIndex",
-                    "postIndex"
-                ],
-                "icon": "fa fa-list-alt",
-                "status": {
-                    "access": true,
-                    "contextMenu": false,
-                    "toolbar": false
+            "module": {
+                "title": "配置管理",
+                "icon": "fa fa-cogs",
+                "action": "getIndex",
+                "access": true
+            },
+            "action": {
+                "getIndex": "查看",
+                "postIndex": "查看",
+                "postUpdate": "保存"
+            },
+            "icon": {
+                "查看": "fa fa-list-alt",
+                "保存": "fa fa-save",
+                "刷新": "fa fa-refresh"
+            },
+            "access": {
+                "查看": true,
+                "保存": true,
+                "刷新": false
+            },
+            "toolbar": {
+                "保存": {
+                    "handle": "save"
+                },
+                "刷新": {
+                    "handle": "refresh"
                 }
             },
-            "保存": {
-                "action": [
-                    "postUpdate"
-                ],
-                "icon": "fa fa-circle",
-                "status": {
-                    "access": true,
-                    "contextMenu": true,
-                    "toolbar": true
-                }
-            }
+            "menu": {}
         }
     }
 }

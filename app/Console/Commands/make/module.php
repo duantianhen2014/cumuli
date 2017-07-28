@@ -143,9 +143,9 @@ class module extends GeneratorCommand
 
         $this->files->put($path, $this->buildClass($name));
         $html = <<<HTML
-<div id="{{ attr_id('panel') }}" class="easyui-panel" title="{{ breadcrumbs() }}" iconCls="{{ array_get(\$module, 'composer.extra.module.icon') }}" fit="true" border="false">
+<div id="{{ attr_id('panel') }}" class="easyui-panel" title="{{ breadcrumbs() }}" iconCls="{{ \$action['icon'] }}" fit="true" border="false">
     <div>
-        <pre>{{ var_export(\$module, true) }}</pre>
+        <pre>{{ var_export(\$action, true) }}</pre>
     </div>
 </div>
 HTML;
@@ -170,51 +170,62 @@ HTML;
             ],
             'extra' => [
                 'module' => [
-                    'name' => '模块名称',
-                    'icon' => 'fa fa-puzzle-piece',
-                    'status' => [
-                        'access' => true,
-                        'menu' => true,
+                    // 模块信息
+                    'module' => [
+                        'title' => '模块名称',
+                        'icon' => 'fa fa-puzzle-piece',
+                        'action' => 'getIndex', // 模块入口，缺省时不显示入口页面
+                        'access' => true,        // 当前模块是否启用权限控制
+                    ],
+                    // 方法分类
+                    'action' => [
+                        'getIndex' => '查看',
+                        'postIndex' => '查看',
+                        'getCreate' => '新增',
+                        'postCreate' => '新增',
+                        'getUpdate' => '编辑',
+                        'postUpdate' => '编辑',
+                        'postDelete' => '删除',
+                    ],
+                    // 分类图标
+                    'icon' => [
+                        '查看' => 'fa fa-list-alt',
+                        '新增' => 'fa fa-plus-circle',
+                        '编辑' => 'fa fa-circle',
+                        '删除' => 'fa fa-minus-circle',
+                    ],
+                    // 分类权限启用状态
+                    'access' => [
+                        '查看' => true,
+                        '新增' => true,
+                        '编辑' => true,
+                        '删除' => true,
+                    ],
+                    // 分类工具栏
+                    'toolbar' => [
+                        '新增' => [
+                            'class' => 'cumuli-dialog-form',
+                            'handle' => 'create'
+                        ],
+                        '编辑' => [
+                            'class' => 'cumuli-dialog-form',
+                            'handle' => 'update'
+                        ],
+                        '删除' => [
+                            'handle' => 'delete'
+                        ],
+                    ],
+                    // 分类右键菜单
+                    'menu' => [
+                        '编辑' => [
+                            'class' => 'cumuli-dialog-form',
+                            'handle' => 'update'
+                        ],
+                        '删除' => [
+                            'handle' => 'delete'
+                        ],
                     ],
                 ],
-                'menu' => [
-                    '查看' => [
-                        'action' => ['getIndex', 'postIndex'],
-                        'icon' => 'fa fa-list-alt',
-                        'status' => [
-                            'access' => true,
-                            'contextMenu' => false,
-                            'toolbar' => false,
-                        ],
-                    ],
-                    '新增' => [
-                        'action' => ['getCreate', 'postCreate'],
-                        'icon' => 'fa fa-plus-circle',
-                        'status' => [
-                            'access' => true,
-                            'contextMenu' => false,
-                            'toolbar' => true,
-                        ],
-                    ],
-                    '编辑' => [
-                        'action' => ['getUpdate', 'postUpdate'],
-                        'icon' => 'fa fa-circle',
-                        'status' => [
-                            'access' => true,
-                            'contextMenu' => true,
-                            'toolbar' => true,
-                        ],
-                    ],
-                    '删除' => [
-                        'action' => ['postDelete'],
-                        'icon' => 'fa fa-minus-circle',
-                        'status' => [
-                            'access' => true,
-                            'contextMenu' => true,
-                            'toolbar' => true,
-                        ],
-                    ],
-                ]
             ]
         ], JSON_PRETTY_PRINT))));
 

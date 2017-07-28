@@ -15,59 +15,53 @@
     },
     "extra": {
         "module": {
-            "name": "角色管理",
-            "icon": "fa fa-group",
-            "status": {
-                "access": true,
-                "menu": true
-            }
-        },
-        "menu": {
-            "查看": {
-                "action": [
-                    "getIndex",
-                    "postIndex"
-                ],
-                "icon": "fa fa-list-alt",
-                "status": {
-                    "access": true,
-                    "contextMenu": false,
-                    "toolbar": false
+            "module": {
+                "title": "角色管理",
+                "icon": "fa fa-group",
+                "action": "getIndex",
+                "access": true
+            },
+            "action": {
+                "getIndex": "查看",
+                "postIndex": "查看",
+                "getCreate": "新增",
+                "postCreate": "新增",
+                "getUpdate": "编辑",
+                "postUpdate": "编辑",
+                "postDelete": "删除"
+            },
+            "icon": {
+                "查看": "fa fa-list-alt",
+                "新增": "fa fa-plus-circle",
+                "编辑": "fa fa-circle",
+                "删除": "fa fa-minus-circle"
+            },
+            "access": {
+                "查看": true,
+                "新增": true,
+                "编辑": true,
+                "删除": true
+            },
+            "toolbar": {
+                "新增": {
+                    "class": "cumuli-dialog-form",
+                    "handle": "create"
+                },
+                "编辑": {
+                    "class": "cumuli-dialog-form",
+                    "handle": "update"
+                },
+                "删除": {
+                    "handle": "delete"
                 }
             },
-            "新增": {
-                "action": [
-                    "getCreate",
-                    "postCreate"
-                ],
-                "icon": "fa fa-plus-circle",
-                "status": {
-                    "access": true,
-                    "contextMenu": false,
-                    "toolbar": true
-                }
-            },
-            "编辑": {
-                "action": [
-                    "getUpdate",
-                    "postUpdate"
-                ],
-                "icon": "fa fa-circle",
-                "status": {
-                    "access": true,
-                    "contextMenu": true,
-                    "toolbar": true
-                }
-            },
-            "删除": {
-                "action": [
-                    "postDelete"
-                ],
-                "icon": "fa fa-minus-circle",
-                "status": {
-                    "access": true,
-                    "contextMenu": true,
-                    "toolbar": true
+            "menu": {
+                "编辑": {
+                    "class": "cumuli-dialog-form",
+                    "handle": "update"
+                },
+                "删除": {
+                    "handle": "delete"
                 }
             }
         }

@@ -27,9 +27,12 @@ if (!function_exists('breadcrumbs')) {
             return '';
         }
 
+        $action = module_action($module['action'], $module['name']);
+
         return implode('/', [
             trans('module.' . array_get($module, 'group')),
-            array_get($module, 'composer.extra.module.name', array_get($module, 'module')),
+            array_get($module, 'composer.extra.module.module.title', array_get($module, 'module')),
+            array_get($action, 'title'),
         ]);
     }
 }
@@ -138,6 +141,27 @@ if (!function_exists('module_lang')) {
         }
         $lang = json_decode(file_get_contents(base_path('module/lang.json')), true);
         return $lang;
+    }
+}
+
+if (!function_exists('module_action')) {
+    function module_action($action, $module = '')
+    {
+        $module = module($module);
+        $url = explode('_', snake_case($action));
+        array_shift($url);
+        $url = '/' . implode('_', $url);
+
+        $title = array_get($module, "composer.extra.module.action.{$action}", '-');
+        $icon = array_get($module, "composer.extra.module.icon.{$title}", '');
+        $access = array_get($module, "composer.extra.module.access.{$title}", true);
+
+        return [
+            'url' => '/' . $module['name'] . ($url == '/index' ? '' : $url),
+            'icon' => $icon,
+            'title' => $title,
+            'access' => $action !== false,
+        ];
     }
 }
 

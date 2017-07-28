@@ -9,8 +9,8 @@ class Module
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -24,30 +24,15 @@ class Module
         $module = module();
 
         // 整个模块不使用权限控制
-        if (array_get($module, 'composer.extra.module.status.access', true) === false) {
+        if (array_get($module, 'composer.extra.module.module.access', true) === false) {
             return $next($request);
         }
 
         // 单个功能不使用权限控制
-        $menus = array_get($module, 'composer.extra.menu', []);
-        if (!empty($menus)) {
-            $access = true;
-            collect($menus)
-                ->filter(function ($option) use ($module) {
-                    return in_array(array_get($module, 'action'), array_get($option, 'action', []));
-                })
-                ->each(function ($option) use (&$access) {
-                    if (array_get($option, 'status.access', true) === false) {
-                        $access = false;
-                    }
-                });
-
-            // 当前action不受权限控制
-            if (!$access) {
-                return $next($request);
-            }
+        $action = module_action($module['action'], $module['name']);
+        if (array_get($action, 'access', true) === false) {
+            return $next($request);
         }
-
 
         // 通过权限表进行匹配
         $where = [
