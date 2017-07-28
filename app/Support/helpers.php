@@ -145,6 +145,13 @@ if (!function_exists('module_lang')) {
 }
 
 if (!function_exists('module_action')) {
+    /**
+     * 获取模块中action参数
+     *
+     * @param string $action
+     * @param string|array $module
+     * @return array
+     */
     function module_action($action, $module = '')
     {
         if (!is_array($module)) {
