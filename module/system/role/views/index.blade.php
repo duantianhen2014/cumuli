@@ -67,32 +67,40 @@
             }
         ])
         .handle({
-            create: function (e, row, rows, option) {
+            // 新增
+            create: function (e) {
                 var that = this;
-                $.cumuli.dialog.form(e, {
-                    href: '/system/role/create',
-                    width: 400,
-                    height: 300,
-                }).then(function (data) {
-                    that.refresh();
-                });
+                $.cumuli.dialog
+                    .form(e, {
+                        href: '/system/role/create',
+                        width: 400,
+                        height: 300,
+                    })
+                    .then(function (data) {
+                        that.refresh();
+                    });
             },
 
+            // 编辑
             update: function (e, row, rows, option) {
                 if (!row) {
                     $.cumuli.message.show('未选择数据', 'error');
                     return false;
                 }
+
                 var that = this;
-                $.cumuli.dialog.form(e, {
-                    href: '/system/role/update?id=' + row.id,
-                    width: 400,
-                    height: 300,
-                }).then(function (data) {
-                    that.refresh();
-                });
+                $.cumuli.dialog
+                    .form(e, {
+                        href: '/system/role/update?id=' + row.id,
+                        width: 400,
+                        height: 300,
+                    })
+                    .then(function (data) {
+                        that.refresh();
+                    });
             },
 
+            // 删除
             delete: function (e, row, rows, option) {
                 if (!row) {
                     $.cumuli.message.show('未选择数据', 'error');
@@ -103,15 +111,22 @@
                 $.messager.confirm('系统提示', '确定要继续吗？', function (res) {
                     if (!res) return false;
 
-                    $.cumuli.request.post('/system/role/delete', {id: row.id}, function (data) {
-                        if (data.status == 'error') {
-                            return $.cumuli.message.show(data.message, 'error');
-                        }
-                        that.refresh();
-                    });
+                    $.cumuli.request
+                        .post('/system/role/delete', {
+                            id: row.id
+                        })
+                        .then(
+                            function () {
+                                that.refresh();
+                            },
+                            function (data) {
+                                $.cumuli.message.show(data.message, 'error');
+                            }
+                        );
                 });
             },
 
+            // 权限
             access: function (e, row, rows, option) {
                 console.log('access', e);
 
@@ -120,11 +135,15 @@
                     return false;
                 }
 
-                $.cumuli.dialog.form(e, {
-                    href: '/system/role/access?id=' + row.id,
-                    width: 400,
-                    height: 300,
-                });
+                $.cumuli.dialog
+                    .form(e, {
+                        href: '/system/role/access?id=' + row.id,
+                        width: 400,
+                        height: 300,
+                    })
+                    .then(function (data) {
+                        console.log(data);
+                    });
             },
 
             //刷新

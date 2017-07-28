@@ -122,7 +122,7 @@ class Controller extends AppController
     {
         $id = $request->input('id');
         $row = $role->findOrFail($id);
-        dd($row);
+        dd($row->toArray());
         return view('update', ['row' => $row]);
     }
 

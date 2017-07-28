@@ -42,14 +42,16 @@
                                 if (!isValid) return false;
 
                                 // 表单提交
-                                $.cumuli.request.post('{{ route('password.email') }}', this).then(
-                                    function (data) {
-                                        window.location.href = '/';
-                                    },
-                                    function (data) {
-                                        return $.cumuli.message.show(data.message, 'error');
-                                    }
-                                );
+                                $.cumuli.request
+                                    .post('{{ route('password.email') }}', this)
+                                    .then(
+                                        function (data) {
+                                            window.location.href = '/';
+                                        },
+                                        function (data) {
+                                            return $.cumuli.message.show(data.message, 'error');
+                                        }
+                                    );
 
                                 // 防止触发form提交
                                 return false;
