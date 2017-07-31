@@ -106,6 +106,10 @@
 
       items: ['submit', 'constrain', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'iframe'],
 
+      close: function () {
+        $(this.dialog).dialog('close');
+      },
+
       /* 解析选项中自定义属性 */
       option: function (e) {
         let option = $.extend({}, $.cumuli.config.dialog); // 读取默认配置文件
@@ -156,7 +160,7 @@
                       typeof error == 'function' && error(data);
                       reject(data);
                     } else {
-                      $(that.dialog).dialog('close');
+                      that.close();
                       typeof success == 'function' && success(data);
                       resolve(data);
                     }
@@ -170,7 +174,7 @@
             text: '取消',
             iconCls: 'fa fa-close',
             handler: function () {
-              $(that.dialog).dialog('close');
+              that.close();
             }
           }];
           //回车默认点击第一个按钮
@@ -197,7 +201,7 @@
           text: '关闭',
           iconCls: 'fa fa-close',
           handler: function () {
-            $(that.dialog).dialog('close');
+            that.close();
           }
         }];
 
@@ -228,7 +232,7 @@
           text: '关闭',
           iconCls: 'fa fa-close',
           handler: function () {
-            $(that.dialog).dialog('close');
+            that.close();
           }
         }];
 

@@ -2,8 +2,9 @@
 
 namespace Module\System\Role;
 
-use Illuminate\Http\Request;
 use App\Role;
+use App\RoleAccess;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as AppController;
 
 class Controller extends AppController
@@ -173,6 +174,12 @@ class Controller extends AppController
         return view('access', ['action' => module_action(__FUNCTION__)]);
     }
 
+    /**
+     * 获取权限列表数据
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function postAccess(Request $request)
     {
         $data = collect(modules())
@@ -229,6 +236,29 @@ class Controller extends AppController
             'total' => $data->count(),
             'rows' => $data->toArray(),
         ]);
+    }
+
+    /**
+     * 权限保存
+     *
+     * @param Request $request
+     * @param Role $role
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function postAccessSave(Request $request, Role $role)
+    {
+        $id = $request->input('id', 0);
+        $row = $role->findOrFail($id);
+
+        $items = json_decode($request->input('access', '[]'), true);
+        $access = [];
+        foreach ($items as $item) {
+            array_push($access, new RoleAccess($item));
+        }
+
+        // 先清空原来数据再保存
+        $row->accesses()->delete();
+        return $row->accesses()->saveMany($access) ? $this->success('保存成功') : $this->error('保存失败');
     }
 
 }
