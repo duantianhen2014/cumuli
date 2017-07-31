@@ -17,7 +17,7 @@ class RoleAccessTablesSeeder extends Seeder
             'role_id' => 1,
             'group' => '*',
             'module' => '*',
-            'action' => '*',
+            'access' => '*',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);

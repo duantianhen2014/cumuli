@@ -141,6 +141,11 @@ if (!function_exists('module_action')) {
         $icon = array_get($module, "composer.extra.module.icon.{$title}", '');
         $access = array_get($module, "composer.extra.module.access.{$title}", true);
 
+        // 整个模块不启动权限控制
+        if (array_get($module, "composer.extra.module.module.access", true) === false) {
+            $access = false;
+        }
+
         return [
             'url' => '/' . $module['name'] . ($url == '/index' ? '' : $url),
             'icon' => $icon,
@@ -175,6 +180,12 @@ if (!function_exists('module_lang')) {
 }
 
 if (!function_exists('module_menu')) {
+    /**
+     * 获取模块右键菜单
+     *
+     * @param string|array $module
+     * @return string
+     */
     function module_menu($module = '')
     {
         if (!is_array($module)) {
@@ -201,6 +212,12 @@ HTML;
 }
 
 if (!function_exists('module_toolbar')) {
+    /**
+     * 获取模块工具栏
+     *
+     * @param string|array $module
+     * @return string
+     */
     function module_toolbar($module = '')
     {
         if (!is_array($module)) {
