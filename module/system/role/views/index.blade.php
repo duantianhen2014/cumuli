@@ -134,8 +134,8 @@
                 $.cumuli.dialog
                     .form(e, {
                         href: '/system/role/access?id=' + row.id,
-                        width: 400,
-                        height: 300,
+                        width: 600,
+                        height: 500,
                     })
                     .then(function (data) {
                         console.log(data);

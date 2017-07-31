@@ -170,7 +170,7 @@ class Controller extends AppController
      */
     public function getAccess()
     {
-        return view('access');
+        return view('access', ['action' => module_action(__FUNCTION__)]);
     }
 
 }
