@@ -124,22 +124,45 @@
 
             // 权限
             access: function (e, row, rows, option) {
-                console.log('access', e);
-
                 if (!row) {
                     $.cumuli.message.show('未选择数据', 'error');
                     return false;
                 }
+                $.cumuli.dialog.page(e, {
+                    href: '/system/role/access?id=' + row.id,
+                    width: 600,
+                    height: 500,
+                    buttons: [{
+                        text: '确定',
+                        iconCls: 'fa fa-check',
+                        handler: function () {
+                            // 获取选中项
+                            var checked = [];
+                            $('span.tree-checkbox.tree-checkbox1', $.cumuli.dialog.dialog).each(function () {
+                                var field = {};
+                                $(this).parents('td[field]').siblings('td[field]').each(function () {
+                                    field[$(this).attr('field')] = $(this).text();
+                                });
+                                checked.push(field);
+                            });
+                            checked.filter(function (item, i) {
+                                console.log(item, i);
+                                return true;
+                            });
 
-                $.cumuli.dialog
-                    .form(e, {
-                        href: '/system/role/access?id=' + row.id,
-                        width: 600,
-                        height: 500,
-                    })
-                    .then(function (data) {
-                        console.log(data);
-                    });
+                            // TODO 转成字符再提交，防止超出服务器最大字段数
+                            $.cumuli.request
+                                .post('/system/role/save_access', {access: JSON.stringify(checked)});
+//                            $($.cumuli.dialog.dialog).dialog('close');
+                        }
+                    }, {
+                        text: '取消',
+                        iconCls: 'fa fa-close',
+                        handler: function () {
+                            $($.cumuli.dialog.dialog).dialog('close');
+                        }
+                    }]
+                });
             },
 
             //刷新

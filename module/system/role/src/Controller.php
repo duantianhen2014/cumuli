@@ -173,4 +173,62 @@ class Controller extends AppController
         return view('access', ['action' => module_action(__FUNCTION__)]);
     }
 
+    public function postAccess(Request $request)
+    {
+        $data = collect(modules())
+            ->filter(function ($module) {
+                return array_get($module, 'composer.extra.module.module.access', true) !== false;
+            })
+            ->sortBy('composer.name')
+            ->map(function ($module) {
+                // 获取当前模块权限列表
+                $children = collect(array_get($module, 'composer.extra.module.access', []))
+                    ->filter(function ($status) {
+                        return $status !== false;
+                    })
+                    ->map(function ($status, $access) use ($module) {
+                        return [
+                            'id' => bin2hex(random_bytes(8)),  // 随机字符
+                            'iconCls' => array_get($module, "composer.extra.module.icon.{$access}", ''),
+                            'name' => $access,
+                            'group' => array_get($module, 'group'),
+                            'module' => array_get($module, 'module'),
+                            'access' => $access,
+                        ];
+                    })
+                    ->values();
+
+                // 返回模块信息
+                return [
+                    'id' => bin2hex(random_bytes(8)),  // 随机字符
+                    'state' => 'closed',
+                    'iconCls' => array_get($module, 'composer.extra.module.module.icon'),
+                    'name' => array_get($module, 'composer.extra.module.module.title', array_get($module, 'module')),
+                    'group' => array_get($module, 'group'),
+                    'module' => array_get($module, 'module'),
+                    'access' => '*',
+                    'children' => $children,
+                ];
+            })
+            ->groupBy('group')
+            ->map(function ($module, $group) {
+                return [
+                    'id' => bin2hex(random_bytes(8)),  // 随机字符
+                    'state' => 'closed',
+                    'iconCls' => 'fa fa-folder-o',
+                    'name' => trans("module.{$group}"),
+                    'group' => $group,
+                    'module' => '*',
+                    'access' => '*',
+                    'children' => $module,
+                ];
+            })
+            ->values();
+
+        return $this->success([
+            'total' => $data->count(),
+            'rows' => $data->toArray(),
+        ]);
+    }
+
 }

@@ -15,7 +15,7 @@
 
           switch (key) {
             case 'title':
-              if (!value) value = $(this.datagrid).find('caption:first').text();
+              if (!value) value = $('caption:first', this.datagrid).text();
               break;
             case 'icon':
               if (!value) value = $(this.datagrid).attr('iconCls');
@@ -145,7 +145,7 @@
             text: '确定',
             iconCls: 'fa fa-check',
             handler: function () {
-              $(that.dialog).find('form:first').form('submit', {
+              $('form:first', that.dialog).form('submit', {
                 onSubmit: function () {
                   let isValid = $(this).form('validate');
                   if (!isValid) return false;
@@ -175,7 +175,7 @@
           }];
           //回车默认点击第一个按钮
           option['onLoad'] = function () {
-            $(that.dialog).find('form:first').on('keyup', function (event) {
+            $('form:first', that.dialog).on('keyup', function (event) {
               if (event.keyCode == 13) option['buttons'][0].handler();
             });
           };
@@ -358,7 +358,7 @@
 
           switch (key) {
             case 'title':
-              if (!value) value = $(this.propertygrid).find('caption:first').text();
+              if (!value) value = $('caption:first', this.propertygrid).text();
               break;
             case 'icon':
               if (!value) value = $(this.propertygrid).attr('iconCls');
@@ -548,7 +548,7 @@
 
           switch (key) {
             case 'title':
-              if (!value) value = $(this.treegrid).find('caption:first').text();
+              if (!value) value = $('caption:first', this.treegrid).text();
               break;
             case 'icon':
               if (!value) value = $(this.treegrid).attr('iconCls');
