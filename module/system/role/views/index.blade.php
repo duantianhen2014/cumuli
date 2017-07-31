@@ -73,12 +73,10 @@
                 $.cumuli.dialog
                     .form(e, {
                         href: '/system/role/create',
-                        width: 400,
-                        height: 300,
+                        width: 375,
+                        height: 245,
                     })
-                    .then(function (data) {
-                        that.refresh();
-                    });
+                    .then(that.refresh);
             },
 
             // 编辑
@@ -92,12 +90,10 @@
                 $.cumuli.dialog
                     .form(e, {
                         href: '/system/role/update?id=' + row.id,
-                        width: 400,
-                        height: 300,
+                        width: 375,
+                        height: 245,
                     })
-                    .then(function (data) {
-                        that.refresh();
-                    });
+                    .then(that.refresh);
             },
 
             // 删除

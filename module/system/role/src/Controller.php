@@ -101,55 +101,76 @@ class Controller extends AppController
     }
 
     /**
-     * POST请求新增页面
+     * 添加数据提交
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
+     * @param Role $role
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postCreate(Request $request)
+    public function postCreate(Request $request, Role $role)
     {
-        return $this->success([
-            'message' => '功能完善中'
-        ]);
+        $role->name = $request->input('name');
+        $role->description = $request->input('description');
+
+        return $role->save() ? $this->success('添加成功') : $this->error('添加失败');
     }
 
     /**
-     * GET请求编辑页面
+     * 编辑页面
      *
-     * @return \Illuminate\View\View
+     * @param Request $request
+     * @param Role $role
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getUpdate(Request $request, Role $role)
     {
-        $id = $request->input('id');
-        $row = $role->findOrFail($id);
-        dd($row->toArray());
+        $row = $role->findOrFail($request->input('id', 0));
+
         return view('update', ['row' => $row]);
     }
 
     /**
-     * POST请求编辑页面
+     * 编辑数据提交
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
+     * @param Role $role
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postUpdate(Request $request)
+    public function postUpdate(Request $request, Role $role)
     {
-        return $this->error([
-            'message' => '功能完善中'
-        ]);
+        $row = $role->findOrFail($request->input('id', 0));
+
+        $row->name = $request->input('name');
+        $row->description = $request->input('description');
+
+        return $row->save() ? $this->success('修改成功') : $this->error('修改失败');
     }
 
     /**
-     * POST请求删除页面
+     * 删除数据
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
+     * @param Role $role
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postDelete(Request $request)
+    public function postDelete(Request $request, Role $role)
     {
-        return $this->error([
-            'message' => '功能完善中'
-        ]);
+        $id = $request->input('id', 0);
+        if ($id == 1) {
+            return $this->error('系统默认角色，禁止删除');
+        }
+
+        return $role->destroy($id) ? $this->success('删除成功') : $this->error('删除失败');
+    }
+
+    /**
+     * 权限设置
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getAccess()
+    {
+        return view('access');
     }
 
 }
