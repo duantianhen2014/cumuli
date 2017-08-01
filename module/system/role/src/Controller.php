@@ -244,8 +244,8 @@ class Controller extends AppController
                     'module' => '*',
                     'access' => '*',
                     'children' => $module,
-                    'checked' => $accesses->search(function ($item) use ($module) {
-                            return in_array($item->group, ['*', array_get($module, 'group')]) &&
+                    'checked' => $accesses->search(function ($item) use ($group) {
+                            return in_array($item->group, ['*', $group]) &&
                                 $item->module == '*' &&
                                 $item->access == '*';
                         }) !== false,
@@ -256,7 +256,6 @@ class Controller extends AppController
         return $this->success([
             'total' => $data->count(),
             'rows' => $data->toArray(),
-            'test' => $accesses
         ]);
     }
 
