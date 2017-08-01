@@ -25,7 +25,7 @@ class Controller extends AppController
      */
     public function getWest()
     {
-        $modules = collect(modules())
+        $modules = modules()
             ->filter(function ($module) {
                 return array_has($module, 'composer.extra.module.module.action');
             })

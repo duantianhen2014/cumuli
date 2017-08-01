@@ -188,7 +188,7 @@ class Controller extends AppController
         $row = $role->findOrFail($request->input('id', 0));
         $accesses = $row->accesses()->get();
 
-        $data = collect(modules())
+        $data = modules()
             ->filter(function ($module) {
                 return array_get($module, 'composer.extra.module.module.access', true) !== false;
             })

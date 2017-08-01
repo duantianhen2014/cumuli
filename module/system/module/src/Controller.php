@@ -26,7 +26,7 @@ class Controller extends AppController
      */
     public function postIndex(Request $request)
     {
-        $modules = collect(modules())->values();
+        $modules = modules()->values();
 
         // 分页信息
         $page = $request->input('page', 1);

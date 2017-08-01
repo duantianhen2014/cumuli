@@ -288,16 +288,16 @@ if (!function_exists('modules')) {
     /**
      * 获取所有模块信息
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     function modules()
     {
         if (!file_exists(base_path('module/module.json'))) {
-            return [];
+            return collect([]);
         }
         if (!is_writeable(base_path('module/module.json'))) {
-            return [];
+            return collect([]);
         }
-        return json_decode(file_get_contents(base_path('module/module.json')), true);
+        return collect(json_decode(file_get_contents(base_path('module/module.json')), true));
     }
 }
