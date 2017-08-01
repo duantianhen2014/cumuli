@@ -41,6 +41,14 @@ class Controller extends AppController
                     'iconCls' => array_get($module, 'composer.extra.module.module.icon', array_get($action, 'icon')),
                 ];
             })
+            // 权限验证
+            ->filter(function ($module) {
+                return accesses()->search(function ($item) use ($module) {
+                        return in_array($item->group, ['*', array_get($module, 'group')]) &&
+                            in_array($item->module, ['*', array_get($module, 'module')]) &&
+                            in_array($item->access, ['*', array_get($module, 'title')]);
+                    }) !== false;
+            })
             ->groupBy('group')
             ->toArray();
 

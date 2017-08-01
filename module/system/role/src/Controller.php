@@ -105,14 +105,11 @@ class Controller extends AppController
      * 添加数据提交
      *
      * @param Request $request
-     * @param Role $role
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postCreate(Request $request, Role $role)
+    public function postCreate(Request $request)
     {
-        $role->name = $request->input('name');
-        $role->description = $request->input('description');
-
+        $role = new Role($request->input());
         return $role->save() ? $this->success('添加成功') : $this->error('添加失败');
     }
 
@@ -126,7 +123,6 @@ class Controller extends AppController
     public function getUpdate(Request $request, Role $role)
     {
         $row = $role->findOrFail($request->input('id', 0));
-
         return view('update', ['row' => $row]);
     }
 
@@ -167,33 +163,43 @@ class Controller extends AppController
     /**
      * 权限设置
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getAccess()
+    public function getAccess(Request $request)
     {
-        return view('access', ['action' => module_action(__FUNCTION__)]);
+        $id = $request->input('id', 0);
+
+        return view('access', [
+            'id' => $id,
+            'action' => module_action(__FUNCTION__)
+        ]);
     }
 
     /**
      * 获取权限列表数据
      *
      * @param Request $request
+     * @param Role $role
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postAccess(Request $request)
+    public function postAccess(Request $request, Role $role)
     {
+        $row = $role->findOrFail($request->input('id', 0));
+        $accesses = $row->accesses()->get();
+
         $data = collect(modules())
             ->filter(function ($module) {
                 return array_get($module, 'composer.extra.module.module.access', true) !== false;
             })
             ->sortBy('composer.name')
-            ->map(function ($module) {
+            ->map(function ($module) use ($accesses) {
                 // 获取当前模块权限列表
                 $children = collect(array_get($module, 'composer.extra.module.access', []))
                     ->filter(function ($status) {
                         return $status !== false;
                     })
-                    ->map(function ($status, $access) use ($module) {
+                    ->map(function ($status, $access) use ($module, $accesses) {
                         return [
                             'id' => bin2hex(random_bytes(8)),  // 随机字符
                             'iconCls' => array_get($module, "composer.extra.module.icon.{$access}", ''),
@@ -201,6 +207,11 @@ class Controller extends AppController
                             'group' => array_get($module, 'group'),
                             'module' => array_get($module, 'module'),
                             'access' => $access,
+                            'checked' => $accesses->search(function ($item) use ($module, $access) {
+                                    return $item->group == array_get($module, 'group') &&
+                                        $item->module == array_get($module, 'module') &&
+                                        $item->access == $access;
+                                }) !== false,
                         ];
                     })
                     ->values();
@@ -215,10 +226,15 @@ class Controller extends AppController
                     'module' => array_get($module, 'module'),
                     'access' => '*',
                     'children' => $children,
+                    'checked' => $accesses->search(function ($item) use ($module) {
+                            return $item->group == array_get($module, 'group') &&
+                                $item->module == array_get($module, 'module') &&
+                                $item->access == '*';
+                        }) !== false,
                 ];
             })
             ->groupBy('group')
-            ->map(function ($module, $group) {
+            ->map(function ($module, $group) use ($accesses) {
                 return [
                     'id' => bin2hex(random_bytes(8)),  // 随机字符
                     'state' => 'closed',
@@ -228,6 +244,14 @@ class Controller extends AppController
                     'module' => '*',
                     'access' => '*',
                     'children' => $module,
+                    'checked' => $accesses->search(function ($item) use ($module) {
+                            return (
+                                    $item->group == '*' ||
+                                    $item->group == array_get($module, 'group')
+                                ) &&
+                                $item->module == '*' &&
+                                $item->access == '*';
+                        }) !== false,
                 ];
             })
             ->values();
@@ -235,6 +259,7 @@ class Controller extends AppController
         return $this->success([
             'total' => $data->count(),
             'rows' => $data->toArray(),
+            'test' => $accesses
         ]);
     }
 

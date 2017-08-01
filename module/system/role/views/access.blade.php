@@ -19,7 +19,7 @@
 <script type="text/javascript">
     $.cumuli.treegrid
         .init('#{{ attr_id('treegrid') }}', {
-            url: '{{ $action['url'] }}',
+            url: '/system/role/access?id={{ $id }}',
             toolbar: '#{{ attr_id('treegrid.toolbar') }}',
             pagination: false,
             checkbox: true,

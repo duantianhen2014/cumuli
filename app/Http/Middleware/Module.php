@@ -29,12 +29,15 @@ class Module
             return $next($request);
         }
 
-        // 通过权限表进行匹配
-        $where = [
-            'group' => array_get($module, 'group'),
-            'module' => array_get($module, 'module'),
-            'action' => array_get($module, 'action'),
-        ];
+        // 权限验证
+        $access = accesses()->search(function ($item) use ($module, $action) {
+            return in_array($item->group, ['*', array_get($module, 'group')]) &&
+                in_array($item->module, ['*', array_get($module, 'module')]) &&
+                in_array($item->access, ['*', array_get($action, 'title')]);
+        });
+        if ($access === false) {
+            return abort(403);
+        }
 
         return $next($request);
     }

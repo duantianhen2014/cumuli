@@ -1,5 +1,29 @@
 <?php
 
+if (!function_exists('accesses')) {
+    /**
+     * 获取当前用户权限列表
+     *
+     * @return \Illuminate\Support\Collection|null
+     */
+    function accesses()
+    {
+        static $accesses = null;
+
+        if (!is_null($accesses)) {
+            return $accesses;
+        }
+
+        $accesses = collect([]);
+        Auth::user()->roles()->get()->each(function ($role) use (&$accesses) {
+            $accesses = $accesses->merge($role->accesses()->get())->unique(function ($item) {
+                return implode('/', [$item->group, $item->module, $item->access]);
+            });
+        });
+        return $accesses;
+    }
+}
+
 if (!function_exists('attr_id')) {
     /**
      * 生成html属性ID
@@ -192,6 +216,13 @@ if (!function_exists('module_menu')) {
             $module = module($module);
         }
         return collect(array_get($module, 'composer.extra.module.menu', []))
+            ->filter(function ($attributes, $title) use ($module) {
+                return accesses()->search(function ($item) use ($module, $title) {
+                        return in_array($item->group, ['*', array_get($module, 'group')]) &&
+                            in_array($item->module, ['*', array_get($module, 'module')]) &&
+                            in_array($item->access, ['*', $title]);
+                    }) !== false;
+            })
             ->map(function ($attributes, $title) use ($module) {
                 $icon = array_get($module, "composer.extra.module.icon.{$title}", '');
                 $class = 'handle ' . array_get($attributes, 'class', '');
@@ -224,6 +255,13 @@ if (!function_exists('module_toolbar')) {
             $module = module($module);
         }
         return collect(array_get($module, 'composer.extra.module.toolbar', []))
+            ->filter(function ($attributes, $title) use ($module) {
+                return accesses()->search(function ($item) use ($module, $title) {
+                        return in_array($item->group, ['*', array_get($module, 'group')]) &&
+                            in_array($item->module, ['*', array_get($module, 'module')]) &&
+                            in_array($item->access, ['*', $title]);
+                    }) !== false;
+            })
             ->map(function ($attributes, $title) use ($module) {
                 $icon = array_get($module, "composer.extra.module.icon.{$title}", '');
                 $class = 'easyui-linkbutton handle ' . array_get($attributes, 'class', '');
