@@ -87,7 +87,6 @@ class Controller extends AppController
         return $this->success([
             'total' => $rows->total(),
             'rows' => $rows->items(),
-            'filterRules' => $filterRules,
         ]);
     }
 

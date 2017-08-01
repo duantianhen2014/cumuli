@@ -174,7 +174,7 @@ if (!function_exists('module_action')) {
             'url' => '/' . $module['name'] . ($url == '/index' ? '' : $url),
             'icon' => $icon,
             'title' => $title,
-            'access' => $action !== false,
+            'access' => $access !== false,
         ];
     }
 }

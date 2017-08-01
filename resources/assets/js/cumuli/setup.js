@@ -3,20 +3,9 @@
 
   // ajax默认设置
   $.ajaxSetup({
-
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
-
-    success: function (data, status, xhr) {
-      if (this.type.toUpperCase() != 'GET') {
-        if (data.status == 'error') {
-          return $.cumuli.message.show(data.message, 'error');
-        }
-        $.cumuli.message.show('操作成功', 'info');
-      }
-    },
-
     statusCode: {
       401: () => {
         window.location.href = '/';

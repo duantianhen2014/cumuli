@@ -13,9 +13,9 @@
                            data-options="required:true,validType:'email',prompt:'请输入邮箱',iconCls:'fa fa-envelope',iconWidth:22">
                 </div>
                 <div style="margin-bottom:20px">
-                    <input class="easyui-passwordbox" type="password" name="password"
+                    <input class="easyui-passwordbox" type="text" name="password"
                            style="width:100%;height:36px;padding:12px"
-                           data-options="required:true,validType:{length:[6,20]},prompt:'请输入密码',showEye:false,iconCls:'fa fa-lock',iconWidth:20">
+                           data-options="required:true,validType:{length:[6,20]},prompt:'请输入密码',iconCls:'fa fa-lock',iconWidth:20">
                 </div>
                 <div>
                     <label>
