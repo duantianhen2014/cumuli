@@ -208,9 +208,9 @@ class Controller extends AppController
                             'module' => array_get($module, 'module'),
                             'access' => $access,
                             'checked' => $accesses->search(function ($item) use ($module, $access) {
-                                    return $item->group == array_get($module, 'group') &&
-                                        $item->module == array_get($module, 'module') &&
-                                        $item->access == $access;
+                                    return in_array($item->group, ['*', array_get($module, 'group')]) &&
+                                        in_array($item->module, ['*', array_get($module, 'module')]) &&
+                                        in_array($item->access, ['*', $access]);
                                 }) !== false,
                         ];
                     })
@@ -227,8 +227,8 @@ class Controller extends AppController
                     'access' => '*',
                     'children' => $children,
                     'checked' => $accesses->search(function ($item) use ($module) {
-                            return $item->group == array_get($module, 'group') &&
-                                $item->module == array_get($module, 'module') &&
+                            return in_array($item->group, ['*', array_get($module, 'group')]) &&
+                                in_array($item->module, ['*', array_get($module, 'module')]) &&
                                 $item->access == '*';
                         }) !== false,
                 ];
@@ -245,10 +245,7 @@ class Controller extends AppController
                     'access' => '*',
                     'children' => $module,
                     'checked' => $accesses->search(function ($item) use ($module) {
-                            return (
-                                    $item->group == '*' ||
-                                    $item->group == array_get($module, 'group')
-                                ) &&
+                            return in_array($item->group, ['*', array_get($module, 'group')]) &&
                                 $item->module == '*' &&
                                 $item->access == '*';
                         }) !== false,
