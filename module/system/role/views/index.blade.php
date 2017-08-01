@@ -132,59 +132,69 @@
                     href: '/system/role/access?id=' + row.id,
                     width: 600,
                     height: 500,
-                    buttons: [{
-                        text: '确定',
-                        iconCls: 'fa fa-check',
-                        handler: function () {
-                            // 获取列表中的选中项
-                            var checked = [];
-                            $('span.tree-checkbox.tree-checkbox1', $.cumuli.dialog.dialog).each(function () {
-                                var field = {};
-                                $(this).parents('td[field]').siblings('td[field]').each(function () {
-                                    field[$(this).attr('field')] = $(this).text();
-                                });
-                                checked.push(field);
-                            });
+                    buttons: [
+                        {
+                            text: '确定',
+                            iconCls: 'fa fa-check',
+                            handler: function () {
+                                // 获取列表中的选中项
+                                var checked = [];
+                                $('span.tree-checkbox.tree-checkbox1', $.cumuli.dialog.dialog)
+                                    .each(function () {
+                                        var field = {};
+                                        $(this).parents('td[field]').siblings('td[field]').each(function () {
+                                            field[$(this).attr('field')] = $(this).text();
+                                        });
+                                        checked.push(field);
+                                    });
 
-                            // 获取包含通配符的父级项
-                            var wildcards = checked
-                                .filter(function (item) {
-                                    return item.module == '*' || item.access == '*';
-                                })
-                                .map(function (item) {
-                                    return [item.group, item.module, item.access].join('/');
-                                });
+                                // 获取包含通配符的父级项
+                                var wildcards = checked
+                                    .filter(function (item) {
+                                        return item.module == '*' || item.access == '*';
+                                    })
+                                    .map(function (item) {
+                                        return [item.group, item.module, item.access].join('/');
+                                    });
 
-                            // 过滤通配符包含的选项
-                            if (wildcards.length > 0) {
-                                checked = checked.filter(function (item) {
-                                    // 选中整个分组的情况
-                                    if (item.module == '*' && item.access == '*') return true;
-                                    // 选中整个模块的情况
-                                    if (item.access == '*') {
-                                        return $.inArray([item.group, '*', '*'].join('/'), wildcards) === -1;
-                                    }
-                                    // 单个权限的情况
-                                    return $.inArray([item.group, '*', '*'].join('/'), wildcards) === -1 && $.inArray([item.group, item.module, '*'].join('/'), wildcards) === -1;
-                                });
+                                // 过滤通配符包含的选项
+                                if (wildcards.length > 0) {
+                                    checked = checked
+                                        .filter(function (item) {
+                                            // 选中整个分组的情况
+                                            if (item.module == '*' && item.access == '*') return true;
+                                            // 选中整个模块的情况
+                                            if (item.access == '*') {
+                                                return $.inArray([item.group, '*', '*'].join('/'), wildcards) === -1;
+                                            }
+                                            // 单个权限的情况
+                                            return $.inArray([item.group, '*', '*'].join('/'), wildcards) === -1 && $.inArray([item.group, item.module, '*'].join('/'), wildcards) === -1;
+                                        });
+                                }
+
+                                // TODO 转成字符再提交，防止超出服务器最大字段数
+                                $.cumuli.request
+                                    .post('/system/role/access_save', {
+                                        id: row.id,
+                                        access: JSON.stringify(checked)
+                                    })
+                                    .then(
+                                        function () {
+                                            $.cumuli.dialog.close();
+                                        }, function (data) {
+                                            $.cumuli.message.show(data.message, 'error');
+                                        }
+                                    );
                             }
-
-                            // TODO 转成字符再提交，防止超出服务器最大字段数
-                            $.cumuli.request
-                                .post('/system/role/access_save', {id: row.id, access: JSON.stringify(checked)})
-                                .then(function () {
-                                    $.cumuli.dialog.close();
-                                }, function (data) {
-                                    $.cumuli.message.show(data.message, 'error');
-                                });
+                        },
+                        {
+                            text: '取消',
+                            iconCls: 'fa fa-close',
+                            handler: function () {
+                                $.cumuli.dialog.close();
+                            }
                         }
-                    }, {
-                        text: '取消',
-                        iconCls: 'fa fa-close',
-                        handler: function () {
-                            $.cumuli.dialog.close();
-                        }
-                    }]
+                    ]
                 });
             },
 

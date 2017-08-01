@@ -30,7 +30,8 @@
                 "postUpdate": "编辑",
                 "postDelete": "删除",
                 "getAccess": "权限",
-                "postAccess": "权限"
+                "postAccess": "权限",
+                "postAccessSave": "权限"
             },
             "icon": {
                 "查看": "fa fa-list-alt",

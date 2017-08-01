@@ -248,6 +248,9 @@ class Controller extends AppController
     public function postAccessSave(Request $request, Role $role)
     {
         $id = $request->input('id', 0);
+        if ($id == 1) {
+            return $this->error('系统默认角色，禁止修改');
+        }
         $row = $role->findOrFail($id);
 
         $items = json_decode($request->input('access', '[]'), true);
