@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\module;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -11,14 +11,14 @@ class deploy extends Command
      *
      * @var string
      */
-    protected $signature = 'module:deploy';
+    protected $signature = 'deploy';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '项目部署命令，比如代码检查，更新缓存等';
+    protected $description = '项目部署';
 
     /**
      * Execute the console command.

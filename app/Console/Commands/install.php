@@ -59,8 +59,8 @@ class install extends Command
         defined('INSTALL_PASSWORD') or define('INSTALL_PASSWORD', $password);
 
         $this->call('key:generate');
-        $this->call('migrate:refresh', ['--seed' => true]);
         $this->call('module:cache');
+        $this->call('migrate:refresh', ['--seed' => true]);
 
         $this->info('安装成功');
     }
