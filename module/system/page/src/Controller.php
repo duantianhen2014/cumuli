@@ -35,6 +35,7 @@ class Controller extends AppController
                 return [
                     'group' => array_get($module, 'group'),
                     'module' => array_get($module, 'module'),
+                    'access' => array_get($action, 'title'),
                     'href' => array_get($action, 'url'),
                     'text' => array_get($module, 'composer.extra.module.module.title', array_get($action, 'title')),
                     'title' => array_get($module, 'composer.extra.module.module.title', array_get($action, 'title')),
@@ -46,7 +47,7 @@ class Controller extends AppController
                 return accesses()->search(function ($item) use ($module) {
                         return in_array($item->group, ['*', array_get($module, 'group')]) &&
                             in_array($item->module, ['*', array_get($module, 'module')]) &&
-                            in_array($item->access, ['*', array_get($module, 'title')]);
+                            in_array($item->access, ['*', array_get($module, 'access')]);
                     }) !== false;
             })
             ->groupBy('group')
