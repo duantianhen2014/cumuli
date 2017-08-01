@@ -36,11 +36,12 @@ composer.lock
 package-lock.json
 /module/module.json
 /module/lang.json
-/public/css/app.css
-/public/css/themes
-/public/fonts/vendor
-/public/images/alipay.png
-/public/images/vendor
-/public/js/app.js
-/public/js/locale
-/public/mix-manifest.json
+
+# /public/css/app.css
+# /public/css/themes
+# /public/fonts/vendor
+# /public/images/alipay.png
+# /public/images/vendor
+# /public/js/app.js
+# /public/js/locale
+# /public/mix-manifest.json
