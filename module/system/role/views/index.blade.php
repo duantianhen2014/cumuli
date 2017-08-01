@@ -89,6 +89,7 @@
                 var that = this;
                 $.cumuli.dialog
                     .form(e, {
+                        title: $(e).text() + ' - ' + row.name,
                         href: '/system/role/update?id=' + row.id,
                         width: 375,
                         height: 245,
@@ -129,6 +130,7 @@
                     return false;
                 }
                 $.cumuli.dialog.page(e, {
+                    title: $(e).text() + ' - ' + row.name,
                     href: '/system/role/access?id=' + row.id,
                     width: 600,
                     height: 500,
