@@ -155,10 +155,13 @@ class Controller extends AppController
 
         $status = $row->save();
 
-        // 更新中间表，默认用户不修改角色
-        if ($row->id > 1 && $status && $request->has('role')) {
+        // 更新关联表，默认用户不修改角色
+        if ($row->id > 1 && $status) {
             $row->roles()->detach();
-            $row->roles()->attach(array_unique($request->input('role')));
+
+            if ($request->has('role')) {
+                $row->roles()->attach(array_unique($request->input('role')));
+            }
         }
 
         return $status ? $this->success('修改成功') : $this->error('修改失败');
