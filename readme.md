@@ -1,9 +1,16 @@
 # cumuli
 
+[![Latest Stable Version](https://poser.pugx.org/wangdong/cumuli/version)](https://packagist.org/packages/wangdong/cumuli) 
+[![Latest Unstable Version](https://poser.pugx.org/wangdong/cumuli/v/unstable)](https://packagist.org/packages/wangdong/cumuli) 
+[![Total Downloads](https://poser.pugx.org/wangdong/cumuli/downloads)](https://packagist.org/packages/wangdong/cumuli) 
+[![composer.lock available](https://poser.pugx.org/wangdong/cumuli/composerlock)](https://packagist.org/packages/wangdong/cumuli)
+
+**说明：** 为了方便使用，编译后的静态文件一并更新进来了，如果不需要深度修改可以忽略node.js部分
+
 ## 开发前准备
 
 1. 安装编辑器插件: http://editorconfig.org/#download
-2. 安装composer命令: 参考https://getcomposer.org/
+2. 安装composer命令: 参考https://getcomposer.org
 3. 安装node.js >= 6.0，下载地址: https://nodejs.org
 
 ## 配置国内加速
@@ -38,6 +45,13 @@ echo 'sass_binary_site=https://npm.taobao.org/mirrors/node-sass/' >> ~/.npmrc
 
 ## 初始化脚本
 
+**通过composer方式**
+```
+composer create-project wangdong/cumuli cumuli  dev-master
+php artisan install
+```
+
+**其他方式**
 ```
 composer install
 php -r "file_exists('.env') || copy('.env.example', '.env');"
