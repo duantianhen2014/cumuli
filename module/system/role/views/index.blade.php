@@ -15,12 +15,11 @@
     </table>
 
     {{--顶部工具栏--}}
-    <div id="{{ attr_id('datagrid.toolbar') }}">
-        {!! module_toolbar() !!}
-
-        {{--自定义不用控制权限的功能--}}
-        <a class="easyui-linkbutton handle" handle="refresh" iconCls="fa fa-refresh" plain="true">刷新</a>
-    </div>
+    @if(module_toolbar())
+        <div id="{{ attr_id('datagrid.toolbar') }}">
+            {!! module_toolbar() !!}
+        </div>
+    @endif
 
     {{--右键菜单--}}
     @if(module_menu())

@@ -81,11 +81,14 @@ class Controller extends AppController
         });
 
         // 分页
-        $rows = $user->paginate($request->input('rows', 20));
+        $paginate = $user->paginate($request->input('rows', 20));
 
         return $this->success([
-            'total' => $rows->total(),
-            'rows' => $rows->items(),
+            'total' => $paginate->total(),
+            'rows' => $paginate->map(function ($item) {
+                $item->roles = $item->roles()->get()->pluck('name')->implode(',');
+                return $item;
+            }),
         ]);
     }
 
@@ -119,39 +122,64 @@ class Controller extends AppController
     }
 
     /**
-     * GET请求编辑页面
+     * 编辑页面
      *
-     * @return \Illuminate\View\View
+     * @param Request $request
+     * @param User $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getUpdate()
+    public function getUpdate(Request $request, User $user)
     {
-        return view('update');
+        $row = $user->findOrFail($request->input('id', 0));
+        return view('update', ['row' => $row]);
     }
 
     /**
-     * POST请求编辑页面
+     * 提交编辑数据
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
+     * @param User $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postUpdate(Request $request)
+    public function postUpdate(Request $request, User $user)
     {
-        return $this->error([
-            'message' => '功能完善中'
-        ]);
+        $row = $user->findOrFail($request->input('id', 0));
+
+        $row->name = $request->input('name');
+        $row->email = $request->input('email');
+
+        // 填了密码才进行修改
+        if ($request->input('password')) {
+            $row->password = $request->input('password');
+        }
+
+        $status = $row->save();
+
+        // 更新中间表，默认用户不修改角色
+        if ($row->id > 1 && $status && $request->has('role')) {
+            $row->roles()->detach();
+            $row->roles()->attach(array_unique($request->input('role')));
+        }
+
+        return $status ? $this->success('修改成功') : $this->error('修改失败');
     }
 
     /**
-     * POST请求删除页面
+     * 删除数据
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
+     * @param User $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postDelete(Request $request)
+    public function postDelete(Request $request, User $user)
     {
-        return $this->error([
-            'message' => '功能完善中'
-        ]);
+        $id = $request->input('id', 0);
+        if ($id == 1) {
+            return $this->error('系统默认用户，禁止删除');
+        }
+        $row = $user->findOrFail($id);
+        $row->roles()->detach();  // 删除关联数据
+        return $row->delete() ? $this->success('删除成功') : $this->error('删除失败');
     }
 
     /**
@@ -164,11 +192,19 @@ class Controller extends AppController
     public function postExistsEmail(Request $request, User $user)
     {
         $email = $request->input('email');
-        $reverse = $request->input('reverse', false); // 是否颠倒返回结果
-        $exists = $user->where('email', $email)->exists();
-        if ($reverse) {
+
+        // 过滤默认值的情况
+        if ($request->has('current') && $request->input('current') == $email) {
+            $exists = false;
+        } else {
+            $exists = $user->where('email', $email)->exists();
+        }
+
+        // 颠倒返回结果
+        if ($request->has('reverse')) {
             $exists = !$exists;
         }
+
         return var_export($exists, true);
     }
 }

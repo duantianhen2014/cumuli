@@ -156,7 +156,9 @@ class Controller extends AppController
             return $this->error('系统默认角色，禁止删除');
         }
 
-        return $role->destroy($id) ? $this->success('删除成功') : $this->error('删除失败');
+        $row = $role->findOrFail($id);
+        $row->users()->detach();  // 删除关联数据
+        return $row->delete() ? $this->success('删除成功') : $this->error('删除失败');
     }
 
     /**

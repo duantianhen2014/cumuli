@@ -7,7 +7,8 @@
         <tr>
             <th data-options="field:'id',width:60,sortable:true">ID</th>
             <th data-options="field:'name',width:100,sortable:true">名称</th>
-            <th data-options="field:'email',width:150,sortable:false">邮箱</th>
+            <th data-options="field:'email',width:150,sortable:true">邮箱</th>
+            <th data-options="field:'roles',width:150,sortable:false">角色</th>
             <th data-options="field:'created_at',width:100,sortable:true">创建时间</th>
             <th data-options="field:'updated_at',width:100,sortable:true">更新时间</th>
         </tr>
@@ -15,12 +16,11 @@
     </table>
 
     {{--顶部工具栏--}}
-    <div id="{{ attr_id('datagrid.toolbar') }}">
-        {!! module_toolbar() !!}
-
-        {{--自定义不用控制权限的功能--}}
-        <a class="easyui-linkbutton handle" handle="refresh" iconCls="fa fa-refresh" plain="true">刷新</a>
-    </div>
+    @if(module_toolbar())
+        <div id="{{ attr_id('datagrid.toolbar') }}">
+            {!! module_toolbar() !!}
+        </div>
+    @endif
 
     {{--右键菜单--}}
     @if(module_menu())
@@ -51,6 +51,12 @@
                 type: 'textbox',
                 options: {},
                 op: ['contains', 'beginwith', 'endwith']
+            },
+            {
+                field: 'roles',
+                type: 'label',
+                options: {},
+                op: []
             },
             {
                 field: 'created_at',

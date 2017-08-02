@@ -3,14 +3,15 @@
         <tr>
             <td width="40">名称</td>
             <td>
-                <input type="text" name="name" style="width: 266px;" class="easyui-textbox"
-                       data-options="required:true">
+                <input class="easyui-textbox" type="text" name="name" data-options="required:true,prompt:'请输入名称'"
+                       style="width: 260px;">
             </td>
         </tr>
         <tr>
             <td>描述</td>
             <td>
-                <textarea name="description" style="width: 260px;height: 90px;"></textarea>
+                <input class="easyui-textbox" name="description" multiline="true" data-options="prompt:'请输入描述'"
+                       style="width: 260px;height: 90px;">
             </td>
         </tr>
     </table>
