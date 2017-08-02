@@ -1,4 +1,4 @@
-# cumuli
+# Cumuli系统
 
 [![Latest Stable Version](https://poser.pugx.org/wangdong/cumuli/version)](https://packagist.org/packages/wangdong/cumuli) 
 [![Latest Unstable Version](https://poser.pugx.org/wangdong/cumuli/v/unstable)](https://packagist.org/packages/wangdong/cumuli) 
@@ -45,12 +45,14 @@ echo 'sass_binary_site=https://npm.taobao.org/mirrors/node-sass/' >> ~/.npmrc
 
 **通过composer方式**
 ```
-composer create-project wangdong/cumuli cumuli  dev-master
+composer create-project wangdong/cumuli cumuli dev-master
 php artisan install
 ```
 
 **其他方式**
 ```
+git clone https://github.com/repertory/cumuli.git cumuli
+cd cumuli
 composer install
 php -r "file_exists('.env') || copy('.env.example', '.env');"
 php artisan install
