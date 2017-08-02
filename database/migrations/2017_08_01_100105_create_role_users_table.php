@@ -17,7 +17,6 @@ class CreateRoleUsersTable extends Migration
             $table->increments('id')->comment('ID');
             $table->integer('role_id')->unsigned()->comment('角色ID');
             $table->integer('user_id')->unsigned()->comment('用户ID');
-            $table->timestamps();
             $table->unique(['role_id', 'user_id']);
             $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('user_id')->references('id')->on('users');
