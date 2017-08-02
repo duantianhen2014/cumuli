@@ -46,6 +46,7 @@ echo 'sass_binary_site=https://npm.taobao.org/mirrors/node-sass/' >> ~/.npmrc
 **通过composer方式**
 ```
 composer create-project wangdong/cumuli cumuli dev-master
+cd cumuli
 php artisan install
 ```
 
