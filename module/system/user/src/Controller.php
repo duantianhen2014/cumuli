@@ -20,9 +20,10 @@ class Controller extends AppController
     }
 
     /**
-     * POST请求入口页面
+     * 获取列表数据
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
+     * @param User $user
      * @return \Illuminate\Http\JsonResponse
      */
     public function postIndex(Request $request, User $user)

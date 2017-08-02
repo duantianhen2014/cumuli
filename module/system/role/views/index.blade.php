@@ -1,39 +1,39 @@
-<table id="{{ attr_id('datagrid') }}">
-    <thead>
-    <tr>
-        <th data-options="field:'id',width:60,sortable:true">ID</th>
-        <th data-options="field:'name',width:100,sortable:true">名称</th>
-        <th data-options="field:'description',width:300,sortable:false">描述</th>
-        <th data-options="field:'created_at',width:100,sortable:true">创建时间</th>
-        <th data-options="field:'updated_at',width:100,sortable:true">更新时间</th>
-    </tr>
-    </thead>
-</table>
+<div class="easyui-panel" title="{{ breadcrumbs() }}" iconCls="{{ $action['icon'] }}" fit="true" border="false">
 
-{{--顶部工具栏--}}
-<div id="{{ attr_id('datagrid.toolbar') }}">
-    {!! module_toolbar() !!}
+    {{--列表展示--}}
+    <table id="{{ attr_id('datagrid') }}" url="{{ $action['url'] }}" toolbar="#{{ attr_id('datagrid.toolbar') }}"
+           menu="#{{ attr_id('datagrid.menu') }}">
+        <thead>
+        <tr>
+            <th data-options="field:'id',width:60,sortable:true">ID</th>
+            <th data-options="field:'name',width:100,sortable:true">名称</th>
+            <th data-options="field:'description',width:300,sortable:false">描述</th>
+            <th data-options="field:'created_at',width:100,sortable:true">创建时间</th>
+            <th data-options="field:'updated_at',width:100,sortable:true">更新时间</th>
+        </tr>
+        </thead>
+    </table>
 
-    {{--自定义不用控制权限的功能--}}
-    <a class="easyui-linkbutton handle" handle="refresh" iconCls="fa fa-refresh" plain="true">刷新</a>
-</div>
+    {{--顶部工具栏--}}
+    <div id="{{ attr_id('datagrid.toolbar') }}">
+        {!! module_toolbar() !!}
 
-{{--右键菜单--}}
-@if(module_menu())
-    <div id="{{ attr_id('datagrid.menu') }}" class="easyui-menu">
-        {!! module_menu() !!}
+        {{--自定义不用控制权限的功能--}}
+        <a class="easyui-linkbutton handle" handle="refresh" iconCls="fa fa-refresh" plain="true">刷新</a>
     </div>
-@endif
+
+    {{--右键菜单--}}
+    @if(module_menu())
+        <div id="{{ attr_id('datagrid.menu') }}" class="easyui-menu">
+            {!! module_menu() !!}
+        </div>
+    @endif
+
+</div>
 
 <script type="text/javascript">
     $.cumuli.datagrid
-        .init('#{{ attr_id('datagrid') }}', {
-            title: '{{ breadcrumbs() }}',
-            iconCls: '{{ $action['icon'] }}',
-            url: '{{ $action['url'] }}',
-            toolbar: '#{{ attr_id('datagrid.toolbar') }}',
-            menu: '#{{ attr_id('datagrid.menu') }}',
-        })
+        .init('#{{ attr_id('datagrid') }}')
         .filter([
             {
                 field: 'id',

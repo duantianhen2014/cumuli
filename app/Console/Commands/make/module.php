@@ -145,7 +145,7 @@ class module extends GeneratorCommand
         $html = <<<HTML
 <div id="{{ attr_id('panel') }}" class="easyui-panel" title="{{ breadcrumbs() }}" iconCls="{{ \$action['icon'] }}" fit="true" border="false">
     <div>
-        <pre>{{ var_export(\$action, true) }}</pre>
+        <pre>{{ var_export(module(), true) }}</pre>
     </div>
 </div>
 HTML;

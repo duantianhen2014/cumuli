@@ -1,20 +1,18 @@
-<table id="{{ attr_id('propertygrid') }}"></table>
+<div class="easyui-panel" title="{{ breadcrumbs() }}" iconCls="{{ $action['icon'] }}" fit="true" border="false">
 
-<div id="{{ attr_id('propertygrid.toolbar') }}">
-{!! module_toolbar() !!}
+    <table id="{{ attr_id('propertygrid') }}" url="{{ $action['url'] }}"
+           toolbar="#{{ attr_id('propertygrid.toolbar') }}"></table>
 
-{{--自定义不用控制权限的功能--}}
-<a class="easyui-linkbutton handle" handle="refresh" iconCls="fa fa-refresh" plain="true">刷新</a>
+    <div id="{{ attr_id('propertygrid.toolbar') }}">
+        {!! module_toolbar() !!}
+        <a class="easyui-linkbutton handle" handle="refresh" iconCls="fa fa-refresh" plain="true">刷新</a>
+    </div>
+
 </div>
 
 <script type="text/javascript">
     $.cumuli.propertygrid
-        .init('#{{ attr_id('propertygrid') }}', {
-            title: '{{ breadcrumbs() }}',
-            iconCls: '{{ $action['icon'] }}',
-            url: '{{ $action['url'] }}',
-            toolbar: '#{{ attr_id('propertygrid.toolbar') }}',
-        })
+        .init('#{{ attr_id('propertygrid') }}')
         .handle({
             save: function (e, row, rows, option) {
                 console.log('save', [e, row, rows, option]);

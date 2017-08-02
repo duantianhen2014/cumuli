@@ -4,7 +4,7 @@
   $.extend($.cumuli, {
     datagrid: {
       datagrid: null,
-      items: ['title', 'icon', 'url', 'toolbar', 'tools', 'fit', 'border'],
+      items: ['title', 'icon', 'url', 'toolbar', 'menu', 'tools', 'fit', 'border'],
 
       /* 解析选项中自定义属性 */
       option: function () {
@@ -351,7 +351,7 @@
   $.extend($.cumuli, {
     propertygrid: {
       propertygrid: null,
-      items: ['title', 'icon', 'url', 'toolbar', 'tools', 'fit', 'border'],
+      items: ['title', 'icon', 'url', 'toolbar', 'menu', 'tools', 'fit', 'border'],
 
       /* 解析选项中自定义属性 */
       option: function () {
@@ -541,7 +541,7 @@
   $.extend($.cumuli, {
     treegrid: {
       treegrid: null,
-      items: ['title', 'icon', 'url', 'toolbar', 'tools', 'id', 'name', 'lines', 'animate', 'fit', 'border'],
+      items: ['title', 'icon', 'url', 'toolbar', 'menu', 'tools', 'id', 'name', 'lines', 'animate', 'fit', 'border'],
 
       /* 解析选项中自定义属性 */
       option: function () {
