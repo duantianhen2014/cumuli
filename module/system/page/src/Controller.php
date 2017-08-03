@@ -25,6 +25,12 @@ class Controller extends AppController
         return view('edit', ['user' => Auth::user()]);
     }
 
+    /**
+     * 修改资料
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function postEdit(Request $request)
     {
         $user = Auth::user();
@@ -34,11 +40,22 @@ class Controller extends AppController
         return $user->save() ? $this->success('修改成功') : $this->error('修改失败');
     }
 
+    /**
+     * 修改密码
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getPassword()
     {
         return view('password');
     }
 
+    /**
+     * 修改密码
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function postPassword(Request $request)
     {
         $current = $request->input('current');
@@ -54,6 +71,11 @@ class Controller extends AppController
         return $user->save() ? $this->success('修改成功') : $this->error('修改失败');
     }
 
+    /**
+     * 用户简介
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getProfile()
     {
         return view('profile', ['user' => Auth::user()]);
