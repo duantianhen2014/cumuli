@@ -27,8 +27,11 @@ class Controller extends AppController
 
     public function postEdit(Request $request)
     {
-//        $request->input();
-        return $this->error('完善中');
+        $user = Auth::user();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+
+        return $user->save() ? $this->success('修改成功') : $this->error('修改失败');
     }
 
     public function getPassword()
