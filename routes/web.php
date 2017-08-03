@@ -14,6 +14,12 @@
 // 身份认证
 Auth::routes();
 
+// 社会化登录
+Route::get('login/{driver}', 'Auth\LoginController@redirectToProvider')
+    ->where('driver', '[A-Za-z]+');
+Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback')
+    ->where('driver', '[A-Za-z]+');
+
 // 入口页面
 Route::get('/', function () {
     return view('index', ['user' => Auth::user()]);

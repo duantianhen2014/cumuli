@@ -37,4 +37,9 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role', 'role_users');
     }
 
+    public function socialites()
+    {
+        return $this->hasMany('App\UserSocialite');
+    }
+
 }
