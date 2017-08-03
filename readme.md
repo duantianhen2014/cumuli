@@ -5,6 +5,10 @@
 [![Total Downloads](https://poser.pugx.org/wangdong/cumuli/downloads)](https://packagist.org/packages/wangdong/cumuli) 
 [![composer.lock available](https://poser.pugx.org/wangdong/cumuli/composerlock)](https://packagist.org/packages/wangdong/cumuli)
 
+## 捐赠作者
+
+![支付宝捐赠](resources/assets/img/alipay.png)
+
 ## 开发前准备
 
 1. 安装编辑器插件: http://editorconfig.org/#download
