@@ -25,6 +25,7 @@ class CreateUserSocialitesTable extends Migration
             $table->json('data')->comment('其他信息');
             $table->timestamps();
             $table->unique(['unique_id', 'driver']);
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -61,6 +61,11 @@ class UserSocialite extends Model
             $row->delete();
         }
 
+        // 根据当前服务器配置域名生成一个不唯一的邮箱地址
+        if (empty($socialite->email)) {
+            $socialite->email = implode('@', [bin2hex(random_bytes(5)), ltrim($_SERVER['SERVER_NAME'], '*.')]);
+        }
+
         // 创建本地用户
         $user = User::where('email', $socialite->email)->first();
         if (!$user) {
