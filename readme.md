@@ -7,7 +7,7 @@
 
 ## 捐赠作者
 
-<img src="resources/assets/img/alipay.png" width="200" alt="支付宝捐赠" />
+<img src="resources/assets/img/alipay.png" width="240" alt="支付宝捐赠" />
 
 ## 开发前准备
 
