@@ -11,10 +11,21 @@ class Role extends Model
         'name', 'description',
     ];
 
+    /**
+     * 多对多关联
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function users()
     {
         return $this->belongsToMany('App\User', 'role_users');
     }
+
+    /**
+     * 一对多关联
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
 
     public function accesses()
     {

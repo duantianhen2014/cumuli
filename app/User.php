@@ -27,16 +27,33 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * password字段转换
+     *
+     * @param $value
+     */
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = bcrypt($value);
+        if (strlen($value) > 20) {
+            $this->attributes['password'] = bcrypt($value);
+        }
     }
 
+    /**
+     * 多对多关联
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function roles()
     {
         return $this->belongsToMany('App\Role', 'role_users');
     }
 
+    /**
+     * 一对多关联
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function socialites()
     {
         return $this->hasMany('App\UserSocialite');

@@ -13,20 +13,40 @@ class UserSocialite extends Model
         'unique_id', 'driver', 'name', 'nickname', 'email', 'avatar', 'data',
     ];
 
+    // 查询时自动转换类型
     protected $casts = [
         'data' => 'array',
     ];
 
+    /**
+     * data字段转换
+     *
+     * @param $value
+     */
     public function setDataAttribute($value)
     {
-        $this->attributes['data'] = json_encode($value);
+        if (is_array($value)) {
+            $this->attributes['data'] = json_encode($value);
+        }
     }
 
+    /**
+     * 一对多反向关联
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * 社会化登录
+     *
+     * @param $socialite
+     * @param string $driver
+     * @return mixed
+     */
     public function login($socialite, $driver = 'github')
     {
         // 已关联本地用户
