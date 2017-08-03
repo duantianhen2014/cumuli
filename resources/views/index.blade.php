@@ -16,15 +16,14 @@
         {{--工具栏菜单--}}
         <div style="display: none">
             <div id="{{ attr_id('menu.account') }}">
-                <div iconCls="fa fa-user-circle-o">{{ $user->name ?: '-' }}</div>
-                <div class="menu-sep"></div>
                 <div class="cumuli-dialog-page" data-href="{{ config('module.page.profile') }}" data-width="400"
-                     data-height="300"
-                     iconCls="fa fa-address-card-o">个人信息
+                     data-height="300" iconCls="fa fa-user-circle-o">{{ $user->name ?: '-' }}</div>
+                <div class="menu-sep"></div>
+                <div class="cumuli-dialog-form" data-href="{{ config('module.page.edit') }}" data-width="400"
+                     data-height="300" iconCls="fa fa-address-card-o">个人资料
                 </div>
                 <div class="cumuli-dialog-form" data-href="{{ config('module.page.password') }}" data-width="400"
-                     data-height="300"
-                     iconCls="fa fa-edit">密码修改
+                     data-height="300" iconCls="fa fa-edit">密码修改
                 </div>
                 <div class="menu-sep"></div>
                 <div iconCls="fa fa-sign-out" class="cumuli-window-location-confirm" data-href="/logout"

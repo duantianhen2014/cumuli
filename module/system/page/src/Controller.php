@@ -2,6 +2,8 @@
 
 namespace Module\System\Page;
 
+use Auth;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as AppController;
 
@@ -16,6 +18,42 @@ class Controller extends AppController
     public function getDashboard()
     {
         return view('dashboard');
+    }
+
+    public function getEdit()
+    {
+        return view('edit', ['user' => Auth::user()]);
+    }
+
+    public function postEdit(Request $request)
+    {
+//        $request->input();
+        return $this->error('完善中');
+    }
+
+    public function getPassword()
+    {
+        return view('password');
+    }
+
+    public function postPassword(Request $request)
+    {
+        $current = $request->input('current');
+
+        $exists = Auth::once(['email' => Auth::user()->email, 'password' => $current]);
+        if (!$exists) {
+            return $this->error('密码不正确');
+        }
+
+        $user = Auth::user();
+        $user->password = $request->input('password');
+
+        return $user->save() ? $this->success('修改成功') : $this->error('修改失败');
+    }
+
+    public function getProfile()
+    {
+        return view('profile', ['user' => Auth::user()]);
     }
 
     /**
@@ -56,6 +94,12 @@ class Controller extends AppController
         return view('west', ['modules' => $modules]);
     }
 
+    /**
+     * 获取hash地址信息
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function postHash(Request $request)
     {
         $path = $request->input('path');
@@ -70,6 +114,32 @@ class Controller extends AppController
             'href' => array_get($module, 'url'),
             'iconCls' => array_get($module, 'composer.extra.module.module.icon', 'fa fa-hashtag'),
         ]);
+    }
+
+    /**
+     * 验证邮箱是否存在 TODO 比较特殊的情况,返回字符类型的 true|false
+     *
+     * @param Request $request
+     * @param User $user
+     * @return string
+     */
+    public function postExistsEmail(Request $request, User $user)
+    {
+        $email = $request->input('email');
+
+        // 过滤默认值的情况
+        if ($request->has('current') && $request->input('current') == $email) {
+            $exists = false;
+        } else {
+            $exists = $user->where('email', $email)->exists();
+        }
+
+        // 颠倒返回结果
+        if ($request->has('reverse')) {
+            $exists = !$exists;
+        }
+
+        return var_export($exists, true);
     }
 
 }

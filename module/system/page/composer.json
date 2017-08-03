@@ -22,8 +22,14 @@
             },
             "action": {
                 "getDashboard": "查看",
+                "getEdit": "查看",
+                "postEdit": "查看",
+                "getPassword": "查看",
+                "postPassword": "查看",
+                "getProfile": "查看",
                 "getWest": "查看",
-                "postHash": "查看"
+                "postHash": "查看",
+                "postExistsEmail": "查看"
             },
             "icon": {
                 "查看": "fa fa-list-alt"
