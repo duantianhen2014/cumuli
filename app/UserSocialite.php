@@ -25,7 +25,7 @@ class UserSocialite extends Model
      */
     public function setDataAttribute($value)
     {
-        if (is_array($value)) {
+        if (!is_string($value)) {
             $this->attributes['data'] = json_encode($value);
         }
     }
@@ -66,14 +66,20 @@ class UserSocialite extends Model
             $socialite->email = implode('@', [bin2hex(random_bytes(5)), ltrim($_SERVER['SERVER_NAME'], '*.')]);
         }
 
-        // 创建本地用户
-        $user = User::where('email', $socialite->email)->first();
-        if (!$user) {
-            $user = new User([
-                'name' => $socialite->name,
-                'email' => $socialite->email,
-            ]);
-            $user->save();
+        // 已登录的情况下直接关联
+        if (Auth::check()) {
+            $user = Auth::user();
+        } else {
+            // 通过邮箱关联本地用户
+            $user = User::where('email', $socialite->email)->first();
+            if (!$user) {
+                // 创建本地用户
+                $user = new User([
+                    'name' => $socialite->name,
+                    'email' => $socialite->email,
+                ]);
+                $user->save();
+            }
         }
 
         // 保存第三方登录信息
