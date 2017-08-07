@@ -41,4 +41,10 @@ return [
         'redirect' => env('GITHUB_REDIRECT'),
     ],
 
+    'dingtalk' => [
+        'client_id' => env('DINGTALK_KEY'),
+        'client_secret' => env('DINGTALK_SECRET'),
+        'redirect' => env('DINGTALK_REDIRECT'),
+    ],
+
 ];
