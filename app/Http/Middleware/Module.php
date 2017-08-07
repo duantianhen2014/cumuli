@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Closure;
 
 class Module
@@ -22,6 +23,11 @@ class Module
 
         // 获取当前模块信息
         $module = module();
+
+        // 登录验证
+        if (array_get($module, 'composer.extra.module.module.auth', true) !== false && !Auth::check()) {
+            return abort(401);
+        }
 
         // 不使用权限控制的情况
         $action = module_action($module['action'], $module);

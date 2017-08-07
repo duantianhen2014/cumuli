@@ -14,12 +14,6 @@
 // 身份认证
 Auth::routes();
 
-// 社会化登录
-Route::get('login/{driver}', 'Auth\LoginController@redirectToProvider')
-    ->where('driver', '[A-Za-z]+');
-Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback')
-    ->where('driver', '[A-Za-z]+');
-
 // 入口页面
 Route::get('/', function () {
     return view('index', ['user' => Auth::user()]);
@@ -41,7 +35,10 @@ if ($module) {
 
     // 验证控制器中对应方法是否存在，否则模块路由无效
     if (method_exists($controller, $action)) {
-        Route::$method($url, "{$controller}@{$action}")->middleware(['auth', 'module']);
+        Route::$method($url, "{$controller}@{$action}")->middleware('module');
     }
-
 }
+
+// 社会化登录，放在模块路由下面，方便进行覆盖
+Route::get('login/{driver}', 'Auth\LoginController@redirectToProvider')->where('driver', '[A-Za-z]+');
+Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback')->where('driver', '[A-Za-z]+');
