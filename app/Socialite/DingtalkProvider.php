@@ -2,12 +2,12 @@
 
 namespace App\Socialite;
 
-use Log;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
 use Laravel\Socialite\Two\InvalidStateException;
+use Mockery\Exception;
 
 class DingtalkProvider extends AbstractProvider implements ProviderInterface
 {
@@ -48,6 +48,10 @@ class DingtalkProvider extends AbstractProvider implements ProviderInterface
             'headers' => ['Accept' => 'application/json'],
         ]);
         $response = json_decode($response->getBody(), true);
+
+        if (empty($response['user_info'])) {
+            throw new Exception('获取persistent_code失败');
+        }
 
         return $response['user_info'];
     }
@@ -142,7 +146,7 @@ class DingtalkProvider extends AbstractProvider implements ProviderInterface
         $response = json_decode($response->getBody(), true);
 
         if (empty($response['persistent_code'])) {
-            throw new InvalidStateException;
+            throw new Exception('获取persistent_code失败');
         }
 
         $this->openid = $response['openid'];
@@ -159,7 +163,7 @@ class DingtalkProvider extends AbstractProvider implements ProviderInterface
         $response = json_decode($response->getBody(), true);
 
         if (empty($response['access_token'])) {
-            throw new InvalidStateException;
+            throw new Exception('获取access_token失败');
         }
 
         $this->accessToken = $response['access_token'];
