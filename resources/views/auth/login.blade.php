@@ -46,7 +46,13 @@
                 closable: false,
                 constrain: true,
                 buttons: [{
-                    text: '登录',
+                    text: 'Github登录',
+                    iconCls: 'fa fa-github',
+                    handler: function () {
+                        window.location.href = '/login/github';
+                    }
+                }, {
+                    text: '直接登录',
                     iconCls: 'fa fa-sign-in',
                     handler: function () {
                         $dialog.find('form:first').form('submit', {
@@ -76,7 +82,7 @@
                 onOpen: function () {
                     // 回车提交表单
                     $dialog.find('form:first').on('keyup', function (event) {
-                        if (event.keyCode == 13) $dialog.dialog('options').buttons[0].handler();
+                        if (event.keyCode == 13) $dialog.dialog('options').buttons[1].handler();
                     });
                 }
             });

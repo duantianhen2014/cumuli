@@ -50,7 +50,7 @@ class DingtalkProvider extends AbstractProvider implements ProviderInterface
         $response = json_decode($response->getBody(), true);
 
         if (empty($response['user_info'])) {
-            throw new Exception('获取persistent_code失败');
+            throw new Exception('获取用户信息失败');
         }
 
         return $response['user_info'];
