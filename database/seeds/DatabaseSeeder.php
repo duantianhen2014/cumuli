@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(ConfigTablesSeeder::class);       // 添加默认用户
         $this->call(UserTablesSeeder::class);       // 添加默认用户
         $this->call(RoleTablesSeeder::class);       // 添加默认角色
         $this->call(RoleAccessTablesSeeder::class); // 添加角色默认权限
