@@ -5,7 +5,7 @@
 **自动创建模块**
 
 ```
-php artisan make:module group/name
+php artisan make:module group/module
 ```
 
 **更新模块缓存**

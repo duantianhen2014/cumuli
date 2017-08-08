@@ -36,6 +36,7 @@ composer.lock
 package-lock.json
 /module/module.json
 /module/lang.json
+/module/*-*
 
 # /public/css/app.css
 # /public/css/themes
