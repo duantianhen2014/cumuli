@@ -17,7 +17,8 @@
         "php": ">=5.6.4",
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "wangdong/cumuli-module-system-page": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -50,11 +51,13 @@
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
+            "php artisan optimize",
+            "php artisan module:cache"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "php artisan optimize",
+            "php artisan module:cache"
         ]
     },
     "config": {

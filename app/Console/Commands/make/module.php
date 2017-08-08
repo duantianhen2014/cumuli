@@ -157,6 +157,7 @@ HTML;
             'name' => strtolower($this->getNameInput()),
             'description' => 'Cumuli系统功能模块',
             'type' => 'cumuli-module',
+            'license' => 'MIT',
             'authors' => [
                 [
                     'name' => 'author name',
@@ -165,7 +166,7 @@ HTML;
             ],
             'autoload' => [
                 'psr-4' => [
-                    $this->getNamespace($name) => 'src/'
+                    $this->getNamespace($name) . '\\' => 'src/'
                 ]
             ],
             'extra' => [
