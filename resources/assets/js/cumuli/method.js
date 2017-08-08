@@ -351,7 +351,7 @@
   $.extend($.cumuli, {
     propertygrid: {
       propertygrid: null,
-      items: ['title', 'icon', 'url', 'toolbar', 'menu', 'tools', 'fit', 'border'],
+      items: ['title', 'icon', 'url', 'toolbar', 'tools', 'fit', 'border'],
 
       /* 解析选项中自定义属性 */
       option: function () {
@@ -384,19 +384,6 @@
         //合并参数
         if (typeof merge == 'object') $.extend(option, merge);
 
-        //自动开启右键菜单功能
-        if (option.menu) {
-          const that = this;
-          option['onRowContextMenu'] = function (e, index, row) {
-            if (index < 0) return false;
-
-            e.preventDefault();
-            $(that.propertygrid).propertygrid('unselectAll');
-            $(that.propertygrid).propertygrid('selectRow', index);
-            $(option.menu).menu('show', {left: e.pageX, top: e.pageY});
-          };
-        }
-
         $(this.propertygrid).propertygrid(option);
 
         return this;
@@ -418,19 +405,6 @@
         // 监听工具栏
         if (option.toolbar) {
           $(option.toolbar).on('click', '.handle', function () {
-            let handle = $(this).data('handle') || $(this).attr('handle');
-            if (typeof handles[handle] == 'function') {
-              let selected = $propertygrid.propertygrid('getSelected');   //当前选中的行
-              let allSelected = $propertygrid.propertygrid('getSelections'); //全部选中的行
-
-              handles[handle](this, selected, allSelected, option);
-            }
-          });
-        }
-
-        // 监听右键菜单
-        if (option.menu) {
-          $(option.menu).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
             if (typeof handles[handle] == 'function') {
               let selected = $propertygrid.propertygrid('getSelected');   //当前选中的行
