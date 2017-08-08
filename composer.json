@@ -18,7 +18,9 @@
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
-        "wangdong/cumuli-module-system-page": "dev-master"
+        "wangdong/cumuli-module-system-page": "dev-master",
+        "wangdong/cumuli-module-system-role": "dev-master",
+        "wangdong/cumuli-module-system-user": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
