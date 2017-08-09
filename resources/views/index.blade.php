@@ -79,7 +79,7 @@
                     <span>关于</span>
                     <div class="menu-content" style="padding:10px">
                         <b style="font-size: 24px">Cumuli系统</b>
-                        <span>v1.0.0</span>
+                        <span>{{ config('app.version') }}</span>
                     </div>
                 </div>
             </div>
