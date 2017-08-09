@@ -14,6 +14,7 @@
 1. 安装编辑器插件: http://editorconfig.org/#download
 2. 安装composer命令: 参考https://getcomposer.org
 3. 安装node.js >= 6.0，下载地址: https://nodejs.org
+4. 安装mysql >= 5.7，其他版本未进行测试
 
 ## 配置国内加速
 
