@@ -51,6 +51,14 @@
   $(document).ready(() => {
     $.cumuli.theme.changeStatus();               // 选中当前主题
     $('body > .panel-loading:first').remove(); // 移除加载效果
+
+    // 小屏设备自动隐藏左侧导航
+    if ($('body').width() <= 768) {
+      try {
+        $('body').layout('collapse', 'west');
+      } catch (e) {
+      }
+    }
   });
 
 })(jQuery);

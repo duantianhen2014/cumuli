@@ -4,14 +4,15 @@
 
     {{--顶部工具栏区域--}}
     <div
-        data-options="region:'north',split:false,border:true,title:'{{ config('app.name', 'Cumuli系统') }}',collapsible:false,iconCls:'{{ config('app.icon') }}',height:'auto'">
+        data-options="region:'north',split:false,border:true,title:'{{ config('app.name', 'Cumuli系统') }}',collapsible:true,hideCollapsedContent:false,iconCls:'{{ config('app.icon') }}',height:'auto'">
 
         {{--工具栏按钮--}}
-        <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.account') }}',hasDownArrow:false">账户</a>
-        <a class="easyui-menubutton"
-           data-options="menu:'#{{ attr_id('menu.collect') }}',hasDownArrow:false">收藏</a>
-        <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.display') }}',hasDownArrow:false">显示</a>
-        <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.help') }}',hasDownArrow:false">帮助</a>
+        <div style="padding: 1px">
+            <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.account') }}',hasDownArrow:false">账户</a>
+            <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.collect') }}',hasDownArrow:false">收藏</a>
+            <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.display') }}',hasDownArrow:false">显示</a>
+            <a class="easyui-menubutton" data-options="menu:'#{{ attr_id('menu.help') }}',hasDownArrow:false">帮助</a>
+        </div>
 
         {{--工具栏菜单--}}
         <div style="display: none">
@@ -32,7 +33,7 @@
             </div>
 
             <div id="{{ attr_id('menu.collect') }}">
-                <div class="cumuli-page-collect" iconCls="fa fa-plus">添加收藏</div>
+                <div class="cumuli-page-collect" iconCls="fa fa-plus" handle="console.log">添加收藏</div>
                 <div iconCls="fa fa-link">
                     <span>收藏列表</span>
                     <div></div>

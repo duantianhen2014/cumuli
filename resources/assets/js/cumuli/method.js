@@ -308,8 +308,16 @@
       },
 
       open: function (e, merge) {
-        $tabs = $('body').layout('panel', 'center').eq(0).find('.easyui-tabs:first');
+        $tabs = $('body').layout('panel', 'center').find('.easyui-tabs:first');
         if (!$tabs) return;
+
+        // 小屏设备自动隐藏左侧导航
+        if ($('body').width() <= 768) {
+          try {
+            $('body').layout('collapse', 'west');
+          } catch (e) {
+          }
+        }
 
         let option = this.option(e);
 
@@ -338,11 +346,23 @@
       },
 
       // 收藏当前页面
-      collect: function () {
-        $tabs = $('body').layout('panel', 'center').eq(0).find('.easyui-tabs:first');
+      collect: function (e, merge) {
+        $tabs = $('body').layout('panel', 'center').find('.easyui-tabs:first');
         if (!$tabs) return;
 
-        console.log($tabs.tabs('getSelected').panel('options'));
+        let option = {
+          handle: $(e).data('handle') || $(e).attr('handle')
+        };
+
+        //合并参数
+        if (typeof merge == 'object') $.extend(option, merge);
+
+        if (typeof option.handle == 'string') {
+          option.handle = eval('(' + option.handle + ')');
+          option.handle($tabs.tabs('getSelected').panel('options'));
+        } else if (typeof option.handle == 'function') {
+          option.handle($tabs.tabs('getSelected').panel('options'));
+        }
       },
     }
   });

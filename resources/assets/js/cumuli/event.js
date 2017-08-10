@@ -35,7 +35,7 @@
   });
   // 收藏打开页面
   $(document).on('click', '.cumuli-page-collect', function () {
-    $.cumuli.page.collect();
+    $.cumuli.page.collect(this);
   });
 
   /* 页面跳转 */
