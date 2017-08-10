@@ -653,6 +653,7 @@
     }
   });
 
+  // upload方法
   $.extend($.cumuli, {
     upload: {
       items: ['href', 'upload', 'multiple', 'accept', 'name'],

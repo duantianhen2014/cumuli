@@ -58,12 +58,17 @@
     let that = this;
     $.cumuli.upload.click(this).then(
       data => {
-        $(that).prop('src', data.path)
+        $(that).prop('src', data.path);
       },
       err => {
         $.cumuli.message.show(err.message || '上传失败', 'error');
       }
     );
+  });
+
+  /* 图片裁剪 */
+  $(document).on('crop', 'input[type="image"]', function () {
+    console.log('crop');
   });
 
 })(jQuery);

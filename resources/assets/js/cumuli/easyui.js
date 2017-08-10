@@ -34,13 +34,15 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
         if (options.accept) html.push('data-accept="' + options.accept + '"');
         if (options.size) html.push('data-size="' + options.size + '"');
 
-        if (options.crop) html.push('data-crop="' + options.crop + '"');
-        if (options.subfix) html.push('data-subfix="' + options.subfix + '"');
+        if (options.upload && options.crop) {
+          html.push('data-crop="' + options.crop + '"');
+          html.push('onclick="$(this).trigger(\'crop\')"');
+        }
         if (options.width) html.push('data-width="' + options.width + '"');
         if (options.height) html.push('data-height="' + options.height + '"');
         if (options.fit) html.push('data-fit="' + options.fit + '"');
 
-        html.push('onclick="$(this).trigger(\'upload\')"');
+        if(options.upload && !options.crop) html.push('onclick="$(this).trigger(\'upload\')"');
 
         html.push('/>');
         return $(html.join(' ')).appendTo(container);
