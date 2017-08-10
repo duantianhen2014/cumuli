@@ -451,11 +451,25 @@
           dataType: type,
 
           beforeSend: function () {
-            $.messager.progress({text: 'Loading...'});
+            $.messager.progress({title: 'Loading...', text: '0%', interval: false});
           },
           complete: function () {
             $.messager.progress('close');
           },
+          xhr: function () {
+            let xhr = $.ajaxSettings.xhr();
+            if (xhr.upload) {
+              // 百分比进度条
+              xhr.upload.onprogress = function (event) {
+                let progress = 100 * event.loaded / event.total;
+                $('.messager-p-bar:first', '.messager-window').progressbar({
+                  text: progress + '%',
+                  value: progress
+                });
+              };
+            }
+            return xhr;
+          }
         };
 
         // 在原有$.post方法上增加了两种数据格式(FormData 和 FORM元素)
@@ -470,8 +484,8 @@
 
         return new Promise(function (resolve, reject) {
           $.ajax($.extend({
-            success: function (data) {
-              typeof callback == 'function' && callback.call(callback, data);
+            success: function (data, textStatus, jqXHR) {
+              typeof callback == 'function' && callback.call(callback, data, textStatus, jqXHR);
               if (data.status == 'error') {
                 return reject(data);
               }
@@ -636,6 +650,73 @@
 
         return this;
       },
+    }
+  });
+
+  $.extend($.cumuli, {
+    upload: {
+      items: ['href', 'upload', 'multiple', 'accept', 'name'],
+      option: function (e, merge) {
+        let option = {
+          id: 'upload-' + new Date().getTime(),
+          upload: '',
+          name: 'upload',
+          multiple: false,
+          accept: '*/*'
+        };
+
+        for (var i = 0; i < this.items.length; i++) {
+          var key = this.items[i];
+          var value = $(e).data(key) || $(e).attr(key);
+
+          if (typeof value == 'undefined') continue;
+          option[key] = value;
+        }
+
+        if (!option.upload) option.upload = option.href || '';
+
+        //合并参数
+        if (typeof merge == 'object') $.extend(option, merge);
+        return option;
+      },
+
+      // 点击上传
+      click: function (e, merge) {
+        let option = this.option(e, merge);
+
+        // 验证
+        if (!option.upload) {
+          $.cumuli.message.show('缺少上传参数', 'error');
+          return false;
+        }
+
+        // 重置操作
+        $('#' + option.id) && $('#' + option.id).remove();
+        $('body').append('<div id="' + option.id + '" style="display: none"></div>');
+
+        // 创建表单
+        let html = [];
+        html.push('<form>');
+        html.push('<input type="file" name="' + option.name + '"');
+        option.accept && html.push(' accept="' + option.accept + '"');
+        option.multiple && html.push(' multiple');
+        html.push(' />');
+        html.push('</form>');
+        $('#' + option.id).append(html.join(''));
+
+        return new Promise(function (resolve, reject) {
+          // 上传操作
+          $('input[type="file"]', '#' + option.id)
+            .on('change', function () {
+              let form = document.querySelector('#' + option.id + ' > form');
+              $.cumuli.request
+                .post(option.upload, new FormData(form))
+                .then(resolve, reject);
+              $('#' + option.id).remove();
+            })
+            .trigger('click');
+        });
+      }
     }
   });
 

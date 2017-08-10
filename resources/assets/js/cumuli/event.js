@@ -53,4 +53,17 @@
     });
   });
 
+  /* 文件上传 */
+  $(document).on('upload', 'input[type="image"]', function () {
+    let that = this;
+    $.cumuli.upload.click(this, {accept: 'image/*'}).then(
+      data => {
+        $(that).prop('src', data.path)
+      },
+      err => {
+        $.cumuli.message.show(err.message || '上传失败', 'error');
+      }
+    );
+  });
+
 })(jQuery);
