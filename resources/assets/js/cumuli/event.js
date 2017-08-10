@@ -56,7 +56,7 @@
   /* 文件上传 */
   $(document).on('upload', 'input[type="image"]', function () {
     let that = this;
-    $.cumuli.upload.click(this, {accept: 'image/*'}).then(
+    $.cumuli.upload.click(this).then(
       data => {
         $(that).prop('src', data.path)
       },

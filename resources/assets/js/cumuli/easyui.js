@@ -26,7 +26,9 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
   $.extend($.fn.datagrid.defaults.editors, {
     image: {
       init: function (container, options) {
-        var html = ['<input type="image" class="datagrid-editable-input" alt="点击上传图片" title="点击上传图片" style="cursor:pointer;display:block"'];
+        let html = ['<input type="image" class="datagrid-editable-input" alt="点击上传图片" title="点击上传图片" style="cursor:pointer;display:block"'];
+        if(!options.accept) options.accept = 'image/gif,image/jpeg,image/jpg,image/png,image/svg';
+
         if (options.upload) html.push('data-upload="' + options.upload + '"');
         if (options.multiple) html.push('data-multiple="' + options.multiple + '"');
         if (options.accept) html.push('data-accept="' + options.accept + '"');
