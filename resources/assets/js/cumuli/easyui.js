@@ -36,6 +36,7 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
         if (options.upload && options.crop) {
           html.push('onclick="$(this).trigger(\'crop\')"');
         }
+        if (options.driver) html.push('data-driver="' + options.driver + '"');
         if (options.width) html.push('data-width="' + options.width + '"');
         if (options.height) html.push('data-height="' + options.height + '"');
         if (options.fit) html.push('data-fit="' + options.fit + '"');

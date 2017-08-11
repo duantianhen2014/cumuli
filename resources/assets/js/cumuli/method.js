@@ -348,14 +348,16 @@
 
   $.extend($.cumuli, {
     image: {
-      items: ['href', 'upload', 'accept', 'name', 'width', 'height'],
+      items: ['href', 'upload', 'accept', 'name', 'width', 'height', 'driver'],
       option: function (e, merge) {
         let option = {
           upload: '',
           name: 'upload',
           accept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
+          multiple: false,
           width: 240,
           height: 180,
+          driver: 'local',
         };
 
         for (let i = 0; i < this.items.length; i++) {
@@ -397,66 +399,77 @@
                 {
                   iconCls: 'fa fa-search-plus',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('zoom', 0.1);
                   }
                 },
                 {
                   iconCls: 'fa fa-search-minus',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('zoom', -0.1);
                   }
                 },
                 {
                   iconCls: 'fa fa-arrow-left',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('move', -10, 0);
                   }
                 },
                 {
                   iconCls: 'fa fa-arrow-right',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('move', 10, 0);
                   }
                 },
                 {
                   iconCls: 'fa fa-arrow-up',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('move', 0, -10);
                   }
                 },
                 {
                   iconCls: 'fa fa-arrow-down',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('move', 0, 10);
                   }
                 },
                 {
                   iconCls: 'fa fa-rotate-left',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('rotate', -45);
                   }
                 },
                 {
                   iconCls: 'fa fa-rotate-right',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('rotate', 45);
                   }
                 },
                 {
                   iconCls: 'fa fa-arrows-h',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('scaleX', -1);
                   }
                 },
                 {
                   iconCls: 'fa fa-arrows-v',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('scaleY', -1);
                   }
                 },
                 {
                   iconCls: 'fa fa-refresh',
                   handler: function () {
+                    if (!$img) return false;
                     $img.cropper('reset');
                   }
                 },
@@ -466,11 +479,17 @@
                   text: '确定',
                   iconCls: 'fa fa-check',
                   handler: function () {
-                    let img = $img.cropper('getCroppedCanvas', {
-                      width: option.width,
-                      height: option.height
-                    }).toDataURL();
-                    console.log('%c', 'background:url(' + img + ') no-repeat; padding:' + option.height / 2 + 'px ' + option.width / 2 + 'px; line-height:' + option.height + 'px;');
+                    if (!$img) return false;
+                    if (option.driver == 'local') {
+                      let img = $img.cropper('getCroppedCanvas', {
+                        width: option.width,
+                        height: option.height
+                      }).toDataURL();
+                      console.info('%c', 'background:url(' + img + ') no-repeat; padding:' + option.height / 2 + 'px ' + option.width / 2 + 'px; line-height:' + option.height + 'px;');
+                    } else {
+                      console.info($img.cropper('getData'));
+                    }
+
                   }
                 },
                 {
@@ -481,11 +500,17 @@
                   }
                 }
               ],
+              onResize: function () {
+                if ($img) {
+                  $img.cropper('destroy').cropper({aspectRatio: option.width / option.height});
+                }
+              },
               onOpen: function () {
-                $img = $('img:first', this);
-
+                // 稍微延迟加载，避免不能全屏问题
+                let that = this;
                 setTimeout(function () {
-                  // 稍微延迟加载，避免不能全屏问题
+                  $img = $('img:first', that);
+
                   $img.prop('src', event.target.result).cropper({aspectRatio: option.width / option.height});
                 }, 150);
               }
