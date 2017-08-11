@@ -71,4 +71,12 @@
     console.log('crop');
   });
 
+  // 图片预览
+  $(document).on('mouseenter', '.cumuli-gallery', function () {
+    lightGallery(this, {
+      selector: '.cumuli-gallery-item',
+      cssEasing: 'cubic-bezier(0.680, -0.550, 0.265, 1.550)'
+    });
+  });
+
 })(jQuery);

@@ -71,8 +71,10 @@
                 </div>
                 <div iconCls="fa fa-qrcode">
                     <span>捐赠作者</span>
-                    <div class="menu-content" style="padding:10px">
-                        <img src="/images/alipay.png" alt="支付宝捐赠" height="300">
+                    <div class="menu-content cumuli-gallery" style="padding:10px">
+                        <a class="cumuli-gallery-item" href="/images/alipay.png" target="_blank" title="支付宝捐赠">
+                            <img src="/images/alipay.png" alt="支付宝捐赠" height="300">
+                        </a>
                     </div>
                 </div>
                 <div class="menu-sep"></div>
