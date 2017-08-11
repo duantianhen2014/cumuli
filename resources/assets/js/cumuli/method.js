@@ -218,15 +218,14 @@
           option.content = html.join('');
           option.href = null;
         }
-        console.log(option);
 
         $(that.dialog).dialog(option).dialog('center');
       },
 
       /* 显示内容(不支持href)，只能关闭 */
       content: function (e, merge) {
-        var that = this;
-        var option = that.option(e);
+        let that = this;
+        let option = that.option(e);
 
         option['buttons'] = [{
           text: '关闭',
@@ -245,14 +244,247 @@
 
       /* 显示其他内容区域 */
       element: function (e, merge) {
-        var dialog = e;
-        var option = this.option(dialog);
+        let dialog = e;
+        let option = this.option(dialog);
 
         //合并参数
         if (typeof merge == 'object') $.extend(option, merge);
 
         option['href'] = null;
         $(dialog).dialog(option).dialog('center');
+      }
+    }
+  });
+
+  // file方法
+  $.extend($.cumuli, {
+    file: {
+      // 读取单个file
+      read: function (file) {
+        return new Promise(function (resolve, reject) {
+          let reader = new FileReader();
+          reader.onloadstart = function (e) {
+            $.messager.progress({title: '读取文件...', text: '0%', interval: false});
+          };
+          // 进度
+          reader.onprogress = function (e) {
+            let progress = 100 * e.loaded / e.total;
+            $('.messager-p-bar:first', '.messager-window').progressbar({
+              text: progress + '%',
+              value: progress
+            });
+          };
+          // 读取中断
+          reader.onabort = function (e) {
+            $('.messager-p-bar:first', '.messager-window').progressbar({text: '读取中断',});
+            $.messager.progress('close');
+            reject(e);
+          };
+          // 读取异常
+          reader.onerror = function (e) {
+            $('.messager-p-bar:first', '.messager-window').progressbar({text: '读取异常',});
+            $.messager.progress('close');
+            reject(e);
+          };
+          // 读取成功
+          reader.onload = function (e) {
+            $.messager.progress('close');
+            resolve(e);
+          };
+          reader.readAsDataURL(file);
+        });
+
+      },
+
+      // 选择本地文件，返回file和FormData
+      input: function (merge) {
+        let option = {
+          id: 'file-input-' + new Date().getTime(),
+          upload: '',
+          name: 'upload',
+          multiple: false,
+          accept: '*/*'
+        };
+
+        //合并参数
+        if (typeof merge == 'object') $.extend(option, merge);
+
+        // 重置操作
+        $('#' + option.id) && $('#' + option.id).remove();
+        $('body').append('<div id="' + option.id + '" style="display: none"></div>');
+
+        // 创建表单
+        let html = [];
+        html.push('<form>');
+        html.push('<input type="file" name="' + option.name + '"');
+        option.accept && html.push(' accept="' + option.accept + '"');
+        option.multiple && html.push(' multiple');
+        html.push(' />');
+        html.push('</form>');
+        $('#' + option.id).append(html.join(''));
+
+        return new Promise(function (resolve, reject) {
+          // 上传操作
+          $('input[type="file"]', '#' + option.id)
+            .on('change', function (event) {
+              resolve({
+                files: event.target.files,
+                formData: new FormData(document.querySelector('#' + option.id + ' > form'))
+              });
+
+              $('#' + option.id).remove();
+            })
+            .trigger('click');
+        });
+      }
+    }
+  });
+
+  $.extend($.cumuli, {
+    image: {
+      items: ['href', 'upload', 'accept', 'name', 'width', 'height'],
+      option: function (e, merge) {
+        let option = {
+          upload: '',
+          name: 'upload',
+          accept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
+          width: 240,
+          height: 180,
+        };
+
+        for (let i = 0; i < this.items.length; i++) {
+          let key = this.items[i];
+          let value = $(e).data(key) || $(e).attr(key);
+
+          if (typeof value == 'undefined') continue;
+          option[key] = value;
+        }
+
+        if (!option.upload) option.upload = option.href || '';
+
+        //合并参数
+        if (typeof merge == 'object') $.extend(option, merge);
+        return option;
+      },
+
+      // 选择图片并裁剪
+      crop: function (e, merge) {
+        let option = this.option(e, merge);
+
+        // 验证
+        if (!option.upload) {
+          $.cumuli.message.show('缺少上传参数', 'error');
+          return false;
+        }
+
+        $.cumuli.file.input(option)
+          .then(input => $.cumuli.file.read(input.files[0]))
+          .then(function (event) {
+            let $img = null;
+            $.cumuli.dialog.page(null, {
+              title: '图片裁剪',
+              content: '<div style="width:100%;height:100%;margin:0;padding:0;overflow:hidden"><img /></div>',
+              maximizable: false,
+              maximized: true,
+              closable: false,
+              tools: [
+                {
+                  iconCls: 'fa fa-search-plus',
+                  handler: function () {
+                    $img.cropper('zoom', 0.1);
+                  }
+                },
+                {
+                  iconCls: 'fa fa-search-minus',
+                  handler: function () {
+                    $img.cropper('zoom', -0.1);
+                  }
+                },
+                {
+                  iconCls: 'fa fa-arrow-left',
+                  handler: function () {
+                    $img.cropper('move', -10, 0);
+                  }
+                },
+                {
+                  iconCls: 'fa fa-arrow-right',
+                  handler: function () {
+                    $img.cropper('move', 10, 0);
+                  }
+                },
+                {
+                  iconCls: 'fa fa-arrow-up',
+                  handler: function () {
+                    $img.cropper('move', 0, -10);
+                  }
+                },
+                {
+                  iconCls: 'fa fa-arrow-down',
+                  handler: function () {
+                    $img.cropper('move', 0, 10);
+                  }
+                },
+                {
+                  iconCls: 'fa fa-rotate-left',
+                  handler: function () {
+                    $img.cropper('rotate', -45);
+                  }
+                },
+                {
+                  iconCls: 'fa fa-rotate-right',
+                  handler: function () {
+                    $img.cropper('rotate', 45);
+                  }
+                },
+                {
+                  iconCls: 'fa fa-arrows-h',
+                  handler: function () {
+                    $img.cropper('scaleX', -1);
+                  }
+                },
+                {
+                  iconCls: 'fa fa-arrows-v',
+                  handler: function () {
+                    $img.cropper('scaleY', -1);
+                  }
+                },
+                {
+                  iconCls: 'fa fa-refresh',
+                  handler: function () {
+                    $img.cropper('reset');
+                  }
+                },
+              ],
+              buttons: [
+                {
+                  text: '确定',
+                  iconCls: 'fa fa-check',
+                  handler: function () {
+                    let img = $img.cropper('getCroppedCanvas', {
+                      width: option.width,
+                      height: option.height
+                    }).toDataURL();
+                    console.log('%c', 'background:url(' + img + ') no-repeat; padding:' + option.height/2 + 'px ' + option.width/2 + 'px; line-height:' + option.height + 'px;');
+                  }
+                },
+                {
+                  text: '关闭',
+                  iconCls: 'fa fa-close',
+                  handler: function () {
+                    $.cumuli.dialog.close();
+                  }
+                }
+              ],
+              onOpen: function () {
+                $img = $('img:first', this);
+
+                setTimeout(function () {
+                  // 稍微延迟加载，避免不能全屏问题
+                  $img.prop('src', event.target.result).cropper({aspectRatio: option.width / option.height});
+                }, 150);
+              }
+            });
+          });
       }
     }
   });
@@ -659,16 +891,15 @@
       items: ['href', 'upload', 'multiple', 'accept', 'name'],
       option: function (e, merge) {
         let option = {
-          id: 'upload-' + new Date().getTime(),
           upload: '',
           name: 'upload',
           multiple: false,
           accept: '*/*'
         };
 
-        for (var i = 0; i < this.items.length; i++) {
-          var key = this.items[i];
-          var value = $(e).data(key) || $(e).attr(key);
+        for (let i = 0; i < this.items.length; i++) {
+          let key = this.items[i];
+          let value = $(e).data(key) || $(e).attr(key);
 
           if (typeof value == 'undefined') continue;
           option[key] = value;
@@ -691,31 +922,10 @@
           return false;
         }
 
-        // 重置操作
-        $('#' + option.id) && $('#' + option.id).remove();
-        $('body').append('<div id="' + option.id + '" style="display: none"></div>');
-
-        // 创建表单
-        let html = [];
-        html.push('<form>');
-        html.push('<input type="file" name="' + option.name + '"');
-        option.accept && html.push(' accept="' + option.accept + '"');
-        option.multiple && html.push(' multiple');
-        html.push(' />');
-        html.push('</form>');
-        $('#' + option.id).append(html.join(''));
-
         return new Promise(function (resolve, reject) {
-          // 上传操作
-          $('input[type="file"]', '#' + option.id)
-            .on('change', function () {
-              let form = document.querySelector('#' + option.id + ' > form');
-              $.cumuli.request
-                .post(option.upload, new FormData(form))
-                .then(resolve, reject);
-              $('#' + option.id).remove();
-            })
-            .trigger('click');
+          $.cumuli.file.input(option)
+            .then(input => $.cumuli.request.post(option.upload, input.formData))
+            .then(resolve, reject);
         });
       }
     }

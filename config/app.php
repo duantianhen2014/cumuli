@@ -14,7 +14,7 @@ return [
 
     'name' => env('APP_NAME', 'Cumuli系统'),
     'icon' => env('APP_ICON', 'fa fa-cloud'),
-    'version' => 'v1.0.1',
+    'version' => 'v1.1.0',
 
     /*
     |--------------------------------------------------------------------------
@@ -181,6 +181,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Socialite\SocialiteServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
     ],
 
@@ -232,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

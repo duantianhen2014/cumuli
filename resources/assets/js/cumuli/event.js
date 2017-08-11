@@ -69,6 +69,7 @@
   /* 图片裁剪 */
   $(document).on('crop', 'input[type="image"]', function () {
     console.log('crop');
+    $.cumuli.image.crop(this);
   });
 
   // 图片预览

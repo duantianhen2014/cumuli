@@ -9,6 +9,7 @@ require('lg-pager.js');
 require('lg-thumbnail.js');
 require('lg-video.js');
 require('lg-zoom.js');
+require('cropper');
 
 // 加载第三方包
 require('jquery.cookie');
