@@ -313,6 +313,11 @@
         $('#' + option.id) && $('#' + option.id).remove();
         $('body').append('<div id="' + option.id + '" style="display: none"></div>');
 
+        // 多文件上传时name必须为数组
+        if (option.multiple && !option.name.endsWith('[]')) {
+          option.name += '[]';
+        }
+
         // 创建表单
         let html = [];
         html.push('<form>');
@@ -320,6 +325,7 @@
         option.accept && html.push(' accept="' + option.accept + '"');
         option.multiple && html.push(' multiple');
         html.push(' />');
+        html.push('<input type="hidden" name="name" value="' + option.name + '" />');
         html.push('</form>');
         $('#' + option.id).append(html.join(''));
 
@@ -464,7 +470,7 @@
                       width: option.width,
                       height: option.height
                     }).toDataURL();
-                    console.log('%c', 'background:url(' + img + ') no-repeat; padding:' + option.height/2 + 'px ' + option.width/2 + 'px; line-height:' + option.height + 'px;');
+                    console.log('%c', 'background:url(' + img + ') no-repeat; padding:' + option.height / 2 + 'px ' + option.width / 2 + 'px; line-height:' + option.height + 'px;');
                   }
                 },
                 {
