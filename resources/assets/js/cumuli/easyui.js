@@ -26,22 +26,20 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
   $.extend($.fn.datagrid.defaults.editors, {
     image: {
       init: function (container, options) {
-        let html = ['<input type="image" class="datagrid-editable-input" alt="点击上传图片" title="点击上传图片" style="cursor:pointer;display:block"'];
+        let html = ['<input type="image" class="datagrid-editable-input cumuli-upload-click" alt="点击上传图片" title="点击上传图片" style="cursor:pointer;display:block"'];
         if (!options.accept) options.accept = 'image/gif,image/jpeg,image/jpg,image/png,image/svg';
 
-        if (options.upload) html.push('data-upload="' + options.upload + '"');
+        if (options.upload) {
+          html.push('data-upload="' + options.upload + '"');
+          html.push('onclick="$(this).trigger(\'upload\')"'); // 解决点击事件被屏蔽的问题
+        }
         if (options.multiple) html.push('data-multiple="' + options.multiple + '"');
         if (options.accept) html.push('data-accept="' + options.accept + '"');
 
-        if (options.upload && options.crop) {
-          html.push('onclick="$(this).trigger(\'crop\')"');
-        }
-        if (options.driver) html.push('data-driver="' + options.driver + '"');
+        if (options.crop) html.push('data-crop="' + options.crop + '"');
         if (options.width) html.push('data-width="' + options.width + '"');
         if (options.height) html.push('data-height="' + options.height + '"');
         if (options.fit) html.push('data-fit="' + options.fit + '"');
-
-        if (options.upload && !options.crop) html.push('onclick="$(this).trigger(\'upload\')"');
 
         html.push('/>');
         return $(html.join(' ')).appendTo(container);

@@ -325,7 +325,7 @@
         option.accept && html.push(' accept="' + option.accept + '"');
         option.multiple && html.push(' multiple');
         html.push(' />');
-        html.push('<input type="hidden" name="name" value="' + option.name + '" />');
+        html.push('<input type="hidden" name="name" value="' + option.name.replace(/\[\]$/, '') + '" />');
         html.push('</form>');
         $('#' + option.id).append(html.join(''));
 
@@ -342,26 +342,20 @@
             })
             .trigger('click');
         });
-      }
-    }
-  });
+      },
 
-  $.extend($.cumuli, {
-    image: {
-      items: ['href', 'upload', 'accept', 'name', 'width', 'height', 'driver'],
-      option: function (e, merge) {
+      // 上传文件
+      upload: function (e, merge) {
+        let items = ['href', 'upload', 'multiple', 'accept', 'name'];
         let option = {
           upload: '',
           name: 'upload',
-          accept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
           multiple: false,
-          width: 240,
-          height: 180,
-          driver: 'local',
+          accept: '*/*'
         };
 
-        for (let i = 0; i < this.items.length; i++) {
-          let key = this.items[i];
+        for (let i = 0; i < items.length; i++) {
+          let key = items[i];
           let value = $(e).data(key) || $(e).attr(key);
 
           if (typeof value == 'undefined') continue;
@@ -372,12 +366,6 @@
 
         //合并参数
         if (typeof merge == 'object') $.extend(option, merge);
-        return option;
-      },
-
-      // 选择图片并裁剪
-      crop: function (e, merge) {
-        let option = this.option(e, merge);
 
         // 验证
         if (!option.upload) {
@@ -385,137 +373,207 @@
           return false;
         }
 
-        $.cumuli.file.input(option)
-          .then(input => $.cumuli.file.read(input.files[0]))
-          .then(function (event) {
-            let $img = null;
-            $.cumuli.dialog.page(null, {
-              title: '图片裁剪',
-              content: '<div style="width:100%;height:100%;margin:0;padding:0;overflow:hidden"><img /></div>',
-              maximizable: false,
-              maximized: true,
-              closable: false,
-              tools: [
-                {
-                  iconCls: 'fa fa-search-plus',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('zoom', 0.1);
-                  }
-                },
-                {
-                  iconCls: 'fa fa-search-minus',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('zoom', -0.1);
-                  }
-                },
-                {
-                  iconCls: 'fa fa-arrow-left',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('move', -10, 0);
-                  }
-                },
-                {
-                  iconCls: 'fa fa-arrow-right',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('move', 10, 0);
-                  }
-                },
-                {
-                  iconCls: 'fa fa-arrow-up',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('move', 0, -10);
-                  }
-                },
-                {
-                  iconCls: 'fa fa-arrow-down',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('move', 0, 10);
-                  }
-                },
-                {
-                  iconCls: 'fa fa-rotate-left',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('rotate', -45);
-                  }
-                },
-                {
-                  iconCls: 'fa fa-rotate-right',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('rotate', 45);
-                  }
-                },
-                {
-                  iconCls: 'fa fa-arrows-h',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('scaleX', -1);
-                  }
-                },
-                {
-                  iconCls: 'fa fa-arrows-v',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('scaleY', -1);
-                  }
-                },
-                {
-                  iconCls: 'fa fa-refresh',
-                  handler: function () {
-                    if (!$img) return false;
-                    $img.cropper('reset');
-                  }
-                },
-              ],
-              buttons: [
-                {
-                  text: '确定',
-                  iconCls: 'fa fa-check',
-                  handler: function () {
-                    if (!$img) return false;
-                    if (option.driver == 'local') {
-                      let img = $img.cropper('getCroppedCanvas', {
+        return new Promise(function (resolve, reject) {
+          $.cumuli.file.input(option)
+            .then(input => $.cumuli.request.post(option.upload, input.formData))
+            .then(resolve, reject);
+        });
+      }
+    }
+  });
+
+  // image方法
+  $.extend($.cumuli, {
+    image: {
+      items: ['accept', 'name', 'width', 'height', 'crop'],
+      option: function (e, merge) {
+        let option = {
+          name: 'upload',
+          accept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
+          multiple: false,
+          width: 240,
+          height: 180,
+          crop: 'local',
+        };
+
+        for (let i = 0; i < this.items.length; i++) {
+          let key = this.items[i];
+          let value = $(e).data(key) || $(e).attr(key);
+
+          if (typeof value == 'undefined') continue;
+          option[key] = value;
+        }
+
+        //合并参数
+        if (typeof merge == 'object') $.extend(option, merge);
+        return option;
+      },
+
+      // 选择图片并裁剪
+      crop: function (e, merge) {
+        let option = this.option(e, merge);
+        let formData = null;
+
+        return new Promise(function (resolve, reject) {
+          $.cumuli.file.input(option)
+            .then(input => {
+              formData = input.formData;
+              return $.cumuli.file.read(input.files[0]);
+            })
+            .then(function (event) {
+              if (!event.target.result) return false;
+
+              let $img = null;
+              $.cumuli.dialog.page(null, {
+                title: '图片裁剪',
+                content: '<div style="width:100%;height:100%;margin:0;padding:0;overflow:hidden"><img /></div>',
+                maximizable: false,
+                maximized: true,
+                closable: false,
+                tools: [
+                  {
+                    iconCls: 'fa fa-search',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('zoomTo', 1);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-search-plus',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('zoom', 0.1);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-search-minus',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('zoom', -0.1);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-arrow-left',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('move', -10, 0);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-arrow-right',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('move', 10, 0);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-arrow-up',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('move', 0, -10);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-arrow-down',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('move', 0, 10);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-rotate-left',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('rotate', -45);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-rotate-right',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('rotate', 45);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-arrows-h',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('scaleX', -1);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-arrows-v',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('scaleY', -1);
+                    }
+                  },
+                  {
+                    iconCls: 'fa fa-refresh',
+                    handler: function () {
+                      if (!$img) return false;
+                      $img.cropper('reset');
+                    }
+                  },
+                ],
+                buttons: [
+                  {
+                    text: '确定',
+                    iconCls: 'fa fa-check',
+                    handler: function () {
+                      if (!$img) {
+                        reject();
+                        return false;
+                      }
+
+                      let canvas = $img.cropper('getCroppedCanvas', {
                         width: option.width,
                         height: option.height
-                      }).toDataURL();
-                      console.info('%c', 'background:url(' + img + ') no-repeat; padding:' + option.height / 2 + 'px ' + option.width / 2 + 'px; line-height:' + option.height + 'px;');
-                    } else {
-                      console.info($img.cropper('getData'));
-                    }
+                      });
 
+                      // 调试输出
+                      canvas && console.log('%c', 'background:url(' + canvas.toDataURL() + ') no-repeat; padding:' + option.height / 2 + 'px ' + option.width / 2 + 'px; line-height:' + option.height + 'px;');
+
+                      resolve({
+                        type: option.crop,
+                        crop: {
+                          canvas: canvas,
+                          data: $img.cropper('getData'),
+                          containerData: $img.cropper('getContainerData'),
+                          canvasData: $img.cropper('getCanvasData'),
+                          imageData: $img.cropper('getImageData'),
+                        },
+                        formData: formData,
+                      });
+
+                      $.cumuli.dialog.close();
+                    }
+                  },
+                  {
+                    text: '关闭',
+                    iconCls: 'fa fa-close',
+                    handler: function () {
+                      $.cumuli.dialog.close();
+                    }
+                  }
+                ],
+                onResize: function () {
+                  if ($img) {
+                    $img.cropper('destroy').cropper({aspectRatio: option.width / option.height});
                   }
                 },
-                {
-                  text: '关闭',
-                  iconCls: 'fa fa-close',
-                  handler: function () {
-                    $.cumuli.dialog.close();
-                  }
-                }
-              ],
-              onResize: function () {
-                if ($img) {
-                  $img.cropper('destroy').cropper({aspectRatio: option.width / option.height});
-                }
-              },
-              onOpen: function () {
-                // 稍微延迟加载，避免不能全屏问题
-                let that = this;
-                setTimeout(function () {
-                  $img = $('img:first', that);
+                onOpen: function () {
+                  // 稍微延迟加载，避免不能全屏问题
+                  let that = this;
+                  setTimeout(function () {
+                    $img = $('img:first', that);
 
-                  $img.prop('src', event.target.result).cropper({aspectRatio: option.width / option.height});
-                }, 150);
-              }
+                    $img.prop('src', event.target.result).cropper({aspectRatio: option.width / option.height});
+                  }, 150);
+                }
+              });
             });
-          });
+        });
       }
     }
   });
@@ -913,52 +971,6 @@
 
         return this;
       },
-    }
-  });
-
-  // upload方法
-  $.extend($.cumuli, {
-    upload: {
-      items: ['href', 'upload', 'multiple', 'accept', 'name'],
-      option: function (e, merge) {
-        let option = {
-          upload: '',
-          name: 'upload',
-          multiple: false,
-          accept: '*/*'
-        };
-
-        for (let i = 0; i < this.items.length; i++) {
-          let key = this.items[i];
-          let value = $(e).data(key) || $(e).attr(key);
-
-          if (typeof value == 'undefined') continue;
-          option[key] = value;
-        }
-
-        if (!option.upload) option.upload = option.href || '';
-
-        //合并参数
-        if (typeof merge == 'object') $.extend(option, merge);
-        return option;
-      },
-
-      // 点击上传
-      click: function (e, merge) {
-        let option = this.option(e, merge);
-
-        // 验证
-        if (!option.upload) {
-          $.cumuli.message.show('缺少上传参数', 'error');
-          return false;
-        }
-
-        return new Promise(function (resolve, reject) {
-          $.cumuli.file.input(option)
-            .then(input => $.cumuli.request.post(option.upload, input.formData))
-            .then(resolve, reject);
-        });
-      }
     }
   });
 

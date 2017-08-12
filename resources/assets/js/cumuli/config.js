@@ -37,6 +37,7 @@
       openAnimation: 'fade',
       closeAnimation: 'fade',
       modal: true,
+      tools: [],
       content: null,
       href: null,
       method: 'get',
