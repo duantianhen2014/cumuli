@@ -18,8 +18,8 @@ class CreateConfigsTable extends Migration
             $table->string('group')->comment('分组');
             $table->string('name')->comment('名称');
             $table->string('key')->comment('字段名')->unique();
-            $table->json('value')->comment('配置')->nullable();
-            $table->json('editor')->comment('类型')->nullable();
+            $table->string('value')->comment('值')->nullable();
+            $table->text('editor')->comment('类型')->nullable();
             $table->timestamps();
         });
     }

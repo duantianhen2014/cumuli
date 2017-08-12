@@ -22,7 +22,7 @@ class CreateUserSocialitesTable extends Migration
             $table->string('nickname')->comment('昵称');
             $table->string('email')->comment('邮箱');
             $table->string('avatar')->nullable()->comment('头像');
-            $table->json('data')->comment('其他信息');
+            $table->text('data')->comment('其他信息');
             $table->timestamps();
             $table->unique(['unique_id', 'driver']);
             $table->foreign('user_id')->references('id')->on('users');
