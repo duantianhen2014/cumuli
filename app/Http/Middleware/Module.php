@@ -16,13 +16,13 @@ class Module
      */
     public function handle($request, Closure $next)
     {
-        // 只允许ajax请求
-        if (!$request->ajax()) {
-            return redirect('/#/' . $request->path());
-        }
-
         // 获取当前模块信息
         $module = module();
+
+        // 只允许ajax请求
+        if (array_get($module, 'composer.extra.module.module.ajax', true) !== false && !$request->ajax()) {
+            return redirect('/#/' . $request->path());
+        }
 
         // 登录验证
         if (array_get($module, 'composer.extra.module.module.auth', true) !== false && !Auth::check()) {

@@ -385,7 +385,7 @@
   // image方法
   $.extend($.cumuli, {
     image: {
-      items: ['accept', 'name', 'width', 'height', 'crop'],
+      items: ['accept', 'name', 'width', 'height', 'crop', 'upload'],
       option: function (e, merge) {
         let option = {
           name: 'upload',
@@ -393,7 +393,8 @@
           multiple: false,
           width: 240,
           height: 180,
-          crop: 'local',
+          crop: 'canvas',
+          upload: '',
         };
 
         for (let i = 0; i < this.items.length; i++) {
@@ -424,6 +425,7 @@
               if (!event.target.result) return false;
 
               let $img = null;
+              let scale = [1, 1];
               $.cumuli.dialog.page(null, {
                 title: '图片裁剪',
                 content: '<div style="width:100%;height:100%;margin:0;padding:0;overflow:hidden"><img /></div>',
@@ -498,20 +500,23 @@
                     iconCls: 'fa fa-arrows-h',
                     handler: function () {
                       if (!$img) return false;
-                      $img.cropper('scaleX', -1);
+                      scale[0] *= -1;
+                      $img.cropper('scaleX', scale[0]);
                     }
                   },
                   {
                     iconCls: 'fa fa-arrows-v',
                     handler: function () {
                       if (!$img) return false;
-                      $img.cropper('scaleY', -1);
+                      scale[1] *= -1;
+                      $img.cropper('scaleY', scale[1]);
                     }
                   },
                   {
                     iconCls: 'fa fa-refresh',
                     handler: function () {
                       if (!$img) return false;
+                      scale = [1, 1];
                       $img.cropper('reset');
                     }
                   },
@@ -526,26 +531,29 @@
                         return false;
                       }
 
-                      let canvas = $img.cropper('getCroppedCanvas', {
+                      // 追加参数
+                      formData.append('type', option.crop);
+                      formData.append('crop', JSON.stringify({
+                        data: $img.cropper('getData'),
                         width: option.width,
-                        height: option.height
-                      });
+                        height: option.height,
+                      }));
 
-                      // 调试输出
-                      canvas && console.log('%c', 'background:url(' + canvas.toDataURL() + ') no-repeat; padding:' + option.height / 2 + 'px ' + option.width / 2 + 'px; line-height:' + option.height + 'px;');
+                      // 如果使用HTML5处理，则需要替换原始formData
+                      if (option.crop == 'canvas') {
+                        $img
+                          .cropper('getCroppedCanvas', {
+                            width: option.width,
+                            height: option.height,
+                          })
+                          .toBlob(blob => {
+                            formData.set(formData.get('name'), blob);
 
-                      resolve({
-                        type: option.crop,
-                        crop: {
-                          canvas: canvas,
-                          data: $img.cropper('getData'),
-                          containerData: $img.cropper('getContainerData'),
-                          canvasData: $img.cropper('getCanvasData'),
-                          imageData: $img.cropper('getImageData'),
-                        },
-                        formData: formData,
-                      });
-
+                            $.cumuli.request.post(option.upload, formData).then(resolve, reject);
+                          });
+                      } else {
+                        $.cumuli.request.post(option.upload, formData).then(resolve, reject);
+                      }
                       $.cumuli.dialog.close();
                     }
                   },
@@ -772,7 +780,7 @@
           dataType: type,
 
           beforeSend: function () {
-            $.messager.progress({title: 'Loading...', text: '0%', interval: false});
+            $.messager.progress({title: '数据发送中...', text: '0%', interval: false});
           },
           complete: function () {
             $.messager.progress('close');

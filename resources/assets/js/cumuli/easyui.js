@@ -41,6 +41,25 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
         if (options.height) html.push('data-height="' + options.height + '"');
         if (options.fit) html.push('data-fit="' + options.fit + '"');
 
+        // 听过回调形式写入数据
+        html.push(`callback="function(result){
+        let row = null;
+        let $datagrid = $(this).parents('.datagrid-view:first').find('.datagrid-f:first');
+        
+        try{
+          row = $datagrid.datagrid('getSelected');
+        }catch(e){
+          row = $datagrid.parents('.propertygrid').data('clickRow');
+        }
+        
+        console.log($datagrid, row);
+        
+        // let index = $datagrid.datagrid('getRowIndex', row);
+        // $datagrid.datagrid('beginEdit', index);
+        // let ed = $datagrid.datagrid('getEditor', {index:index,field:'value'});
+        // $(ed.target).prop('src', result.paths[0]);
+        }"`);
+
         html.push('/>');
         return $(html.join(' ')).appendTo(container);
       },

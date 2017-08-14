@@ -55,23 +55,26 @@
 
   /* 文件上传 */
   $(document).on('click upload', '.cumuli-upload-click', function () {
+    let that = this;
+
     // 判断是否需要裁剪图片再上传
     let crop = $(this).data('crop') || $(this).attr('crop');
-    let upload = $(this).data('upload') || $(this).attr('upload') || $(this).data('href') || $(this).attr('href') || '';
-    let handle = crop ? $.cumuli.image.crop(this).then(data => $.cumuli.request.post(upload, data.formData)) : $.cumuli.file.upload(this);
+    let handle = crop ? $.cumuli.image.crop(this) : $.cumuli.file.upload(this);
 
-    // 赋值操作
-    let assign = $(this).data('assign') || $(this).attr('assign');
-    assign = assign ? assign.split('::') : [this, 'src'];
+    let callback = $(this).data('callback') || $(this).attr('callback');
 
     // 上传完成后的操作
     handle.then(
       data => {
-        $(assign[0]).prop(assign[1] || 'src', data.path);
+        $(that).data('result', data.result);
+
+        // 支持回调函数
+        if (callback) {
+          callback = eval('(' + callback + ')');
+          callback(data.result);
+        }
       },
-      err => {
-        $.cumuli.message.show(err.message || '上传失败', 'error');
-      }
+      err => $.cumuli.message.show(err.message || '上传失败', 'error'),
     );
   });
 
