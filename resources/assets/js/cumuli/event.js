@@ -59,17 +59,20 @@
 
     let condition = {}; // 解决某些地方无法获取焦点问题
 
-    // datagrid
-    let $datagrid = $(that).parents('.datagrid-view').find('.datagrid-f:first');
-    if ($datagrid) {
-      let row = $datagrid.datagrid('getSelected');
-      let index = $datagrid.datagrid('getRowIndex', row);
+    try {
+      // datagrid
+      let $datagrid = $(that).parents('.datagrid-view').find('.datagrid-f:first');
+      if ($datagrid) {
+        let row = $datagrid.datagrid('getSelected');
+        let index = $datagrid.datagrid('getRowIndex', row);
 
-      condition.datagrid = {
-        datagrid: $datagrid,
-        index: index,
-        row: row,
-      };
+        condition.datagrid = {
+          datagrid: $datagrid,
+          index: index,
+          row: row,
+        };
+      }
+    } catch (e) {
     }
 
     // 判断是否需要裁剪图片再上传
