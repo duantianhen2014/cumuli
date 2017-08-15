@@ -33,7 +33,6 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
           html.push('data-upload="' + options.upload + '"');
           html.push('onclick="$(this).trigger(\'upload\')"'); // 解决点击事件被屏蔽的问题
         }
-        if (options.multiple) html.push('data-multiple="' + options.multiple + '"');
         if (options.accept) html.push('data-accept="' + options.accept + '"');
 
         if (options.crop) html.push('data-crop="' + options.crop + '"');
@@ -41,24 +40,12 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
         if (options.height) html.push('data-height="' + options.height + '"');
         if (options.fit) html.push('data-fit="' + options.fit + '"');
 
-        // 听过回调形式写入数据
-        html.push(`callback="function(result){
-        let row = null;
-        let $datagrid = $(this).parents('.datagrid-view:first').find('.datagrid-f:first');
-        
-        try{
-          row = $datagrid.datagrid('getSelected');
-        }catch(e){
-          row = $datagrid.parents('.propertygrid').data('clickRow');
-        }
-        
-        console.log($datagrid, row);
-        
-        // let index = $datagrid.datagrid('getRowIndex', row);
-        // $datagrid.datagrid('beginEdit', index);
-        // let ed = $datagrid.datagrid('getEditor', {index:index,field:'value'});
-        // $(ed.target).prop('src', result.paths[0]);
-        }"`);
+        // 通过回调形式写入数据
+        html.push(`data-callback="function(result, condition){
+         $(condition.datagrid.datagrid).datagrid('beginEdit', condition.datagrid.index);
+         var ed = $(condition.datagrid.datagrid).datagrid('getEditor', {index:condition.datagrid.index, field:'value'});
+         $(ed.target).prop('src', $.cumuli.url.upload.full(result.paths[0]));
+       }"`);
 
         html.push('/>');
         return $(html.join(' ')).appendTo(container);
@@ -67,17 +54,17 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
         $(target).remove();
       },
       getValue: function (target) {
-        return $(target).attr('src');
+        return $.cumuli.url.upload.path($(target).attr('src'));
       },
       setValue: function (target, value) {
-        $(target).prop('src', value);
+        $(target).prop('src', $.cumuli.url.upload.full(value));
       },
       resize: function (target, width) {
-        var fit = $(target).data('fit');
+        let fit = $(target).data('fit');
         if (fit) {
           $(target)._outerWidth(width);
         } else {
-          $(target).css('max-width', width);
+          $(target).css('maxWidth', width);
         }
       }
     },
@@ -148,13 +135,13 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
     },
     idcard: {
       validator: function (value) {
-        var Wi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2, 1];// 加权因子;
-        var ValideCode = [1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2];// 身份证验证位值，10代表X;
+        let Wi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2, 1];// 加权因子;
+        let ValideCode = [1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2];// 身份证验证位值，10代表X;
 
         if (value.length == 15) {
           return isValidityBrithBy15IdCard(value);
         } else if (value.length == 18) {
-          var a_idCard = value.split('');// 得到身份证数组
+          let a_idCard = value.split('');// 得到身份证数组
           if (isValidityBrithBy18IdCard(value) && isTrueValidateCodeBy18IdCard(a_idCard)) {
             return true;
           }
@@ -163,11 +150,11 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
         return false;
 
         function isTrueValidateCodeBy18IdCard(a_idCard) {
-          var sum = 0; // 声明加权求和变量
+          let sum = 0; // 声明加权求和变量
           if (a_idCard[17].toLowerCase() == 'x') {
             a_idCard[17] = 10;// 将最后位为x的验证码替换为10方便后续操作
           }
-          for (var i = 0; i < 17; i++) {
+          for (let i = 0; i < 17; i++) {
             sum += Wi[i] * a_idCard[i];// 加权求和
           }
           valCodePosition = sum % 11;// 得到验证码所位置
@@ -178,10 +165,10 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
         }
 
         function isValidityBrithBy18IdCard(idCard18) {
-          var year = idCard18.substring(6, 10);
-          var month = idCard18.substring(10, 12);
-          var day = idCard18.substring(12, 14);
-          var temp_date = new Date(year, parseFloat(month) - 1, parseFloat(day));
+          let year = idCard18.substring(6, 10);
+          let month = idCard18.substring(10, 12);
+          let day = idCard18.substring(12, 14);
+          let temp_date = new Date(year, parseFloat(month) - 1, parseFloat(day));
           // 这里用getFullYear()获取年份，避免千年虫问题
           if (temp_date.getFullYear() != parseFloat(year) || temp_date.getMonth() != parseFloat(month) - 1 || temp_date.getDate() != parseFloat(day)) {
             return false;
@@ -190,10 +177,10 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
         }
 
         function isValidityBrithBy15IdCard(idCard15) {
-          var year = idCard15.substring(6, 8);
-          var month = idCard15.substring(8, 10);
-          var day = idCard15.substring(10, 12);
-          var temp_date = new Date(year, parseFloat(month) - 1, parseFloat(day));
+          let year = idCard15.substring(6, 8);
+          let month = idCard15.substring(8, 10);
+          let day = idCard15.substring(10, 12);
+          let temp_date = new Date(year, parseFloat(month) - 1, parseFloat(day));
           // 对于老身份证中的你年龄则不需考虑千年虫问题而使用getYear()方法
           if (temp_date.getYear() != parseFloat(year) || temp_date.getMonth() != parseFloat(month) - 1 || temp_date.getDate() != parseFloat(day)) {
             return false;

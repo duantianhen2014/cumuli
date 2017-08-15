@@ -1,5 +1,12 @@
 (function ($) {
 
+  // upload默认配置
+  $.extend($.cumuli.config, {
+    upload: {
+      url: window.location.origin,
+    }
+  });
+
   // datagrid默认配置
   $.extend($.cumuli.config, {
     datagrid: {

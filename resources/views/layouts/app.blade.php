@@ -32,6 +32,9 @@
 
 <script type="text/javascript" src="{{ elixir('js/app.js') }}"></script>
 <script type="text/javascript" src="{{ elixir('js/locale/'. app()->getLocale() .'.js') }}"></script>
+<script title="text/javascript">
+    $.extend($.cumuli.config.upload, {url: '{{ config('filesystems.disks.public.url') }}'});
+</script>
 @yield('script')
 </body>
 </html>

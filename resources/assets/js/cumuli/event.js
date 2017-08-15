@@ -57,21 +57,35 @@
   $(document).on('click upload', '.cumuli-upload-click', function () {
     let that = this;
 
+    let condition = {}; // 解决某些地方无法获取焦点问题
+
+    // datagrid
+    let $datagrid = $(that).parents('.datagrid-view').find('.datagrid-f:first');
+    if ($datagrid) {
+      let row = $datagrid.datagrid('getSelected');
+      let index = $datagrid.datagrid('getRowIndex', row);
+
+      condition.datagrid = {
+        datagrid: $datagrid,
+        index: index,
+        row: row,
+      };
+    }
+
     // 判断是否需要裁剪图片再上传
     let crop = $(this).data('crop') || $(this).attr('crop');
     let handle = crop ? $.cumuli.image.crop(this) : $.cumuli.file.upload(this);
 
-    let callback = $(this).data('callback') || $(this).attr('callback');
-
     // 上传完成后的操作
     handle.then(
       data => {
-        $(that).data('result', data.result);
+        $(that).data('uploaded', data.result);
 
         // 支持回调函数
+        let callback = $(that).data('callback') || $(this).attr('callback');
         if (callback) {
           callback = eval('(' + callback + ')');
-          callback(data.result);
+          callback.call(that, data.result, condition);
         }
       },
       err => $.cumuli.message.show(err.message || '上传失败', 'error'),

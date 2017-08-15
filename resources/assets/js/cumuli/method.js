@@ -688,7 +688,7 @@
 
         if (typeof option.handle == 'string') {
           option.handle = eval('(' + option.handle + ')');
-          option.handle($tabs.tabs('getSelected').panel('options'));
+          option.handle.call(e, $tabs.tabs('getSelected').panel('options'));
         } else if (typeof option.handle == 'function') {
           option.handle($tabs.tabs('getSelected').panel('options'));
         }
@@ -979,6 +979,23 @@
 
         return this;
       },
+    }
+  });
+
+  // url方法
+  $.extend($.cumuli, {
+    url: {
+      // 上传地址处理
+      upload: {
+        // 获取带域名地址
+        full: function (path) {
+          return [$.cumuli.config.upload.url.replace(/\/$/, ''), path].join('/');
+        },
+        // 不带域名的路径
+        path: function (url) {
+          return url.replace($.cumuli.config.upload.url.replace(/\/$/, '') + '/', '');
+        }
+      }
     }
   });
 
