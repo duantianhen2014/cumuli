@@ -102,9 +102,9 @@
   // dialog方法
   $.extend($.cumuli, {
     dialog: {
-      dialog: '.cumuli-dialog:first',
+      dialog: '#cumuli-dialog-common',
 
-      items: ['submit', 'constrain', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'iframe'],
+      items: ['dialog', 'submit', 'constrain', 'href', 'content', 'title', 'width', 'height', 'icon', 'modal', 'maximized', 'collapsible', 'minimizable', 'maximizable', 'closable', 'resizable', 'draggable', 'method', 'iframe'],
 
       close: function () {
         $(this.dialog).dialog('close');
@@ -177,18 +177,12 @@
               that.close();
             }
           }];
-          //回车默认点击第一个按钮
-          option['onLoad'] = function () {
-            $('form:first', that.dialog).on('keyup', function (event) {
-              if (event.keyCode == 13) option['buttons'][0].handler();
-            });
-          };
 
           //合并参数
           if (typeof merge == 'object') $.extend(option, merge);
           option.submit = option.submit || option.href;
 
-          $(that.dialog).dialog(option).dialog('center');
+          $(option.dialog || that.dialog).dialog(option).dialog('center');
         });
       },
 
@@ -219,7 +213,9 @@
           option.href = null;
         }
 
-        $(that.dialog).dialog(option).dialog('center');
+        $(option.dialog || that.dialog).dialog(option).dialog('center');
+
+        return option.dialog || that.dialog;
       },
 
       /* 显示内容(不支持href)，只能关闭 */
@@ -239,7 +235,9 @@
         if (typeof merge == 'object') $.extend(option, merge);
 
         option['href'] = null;
-        $(that.dialog).dialog(option).dialog('center');
+        $(option.dialog || that.dialog).dialog(option).dialog('center');
+
+        return option.dialog || that.dialog;
       },
 
       /* 显示其他内容区域 */
@@ -251,7 +249,9 @@
         if (typeof merge == 'object') $.extend(option, merge);
 
         option['href'] = null;
-        $(dialog).dialog(option).dialog('center');
+        $(option.dialog || dialog).dialog(option).dialog('center');
+
+        return option.dialog || dialog;
       }
     }
   });
@@ -426,7 +426,8 @@
 
               let $img = null;
               let scale = [1, 1];
-              $.cumuli.dialog.page(null, {
+              let dialog = $.cumuli.dialog.page(null, {
+                dialog: '#cumuli-dialog-second',
                 title: '图片裁剪',
                 content: '<div style="width:100%;height:100%;margin:0;padding:0;overflow:hidden"><img /></div>',
                 maximizable: false,
@@ -554,14 +555,14 @@
                       } else {
                         $.cumuli.request.post(option.upload, formData).then(resolve, reject);
                       }
-                      $.cumuli.dialog.close();
+                      $(dialog).dialog('close');
                     }
                   },
                   {
                     text: '关闭',
                     iconCls: 'fa fa-close',
                     handler: function () {
-                      $.cumuli.dialog.close();
+                      $(dialog).dialog('close');
                     }
                   }
                 ],

@@ -28,7 +28,9 @@
     <div align="center">&copy; 2017 {{ config('app.name') }}</div>
 </div>
 
-<div class="easyui-dialog cumuli-dialog" data-options="closed:true,title:'Loading...'"></div>
+{{--多个弹出层，支持在弹出层上面再调用一次弹出层--}}
+<div id="cumuli-dialog-common" class="easyui-dialog" data-options="closed:true,title:'Loading...'"></div>
+<div id="cumuli-dialog-second" class="easyui-dialog" data-options="closed:true,title:'Loading...'"></div>
 
 <script type="text/javascript" src="{{ elixir('js/app.js') }}"></script>
 <script type="text/javascript" src="{{ elixir('js/locale/'. app()->getLocale() .'.js') }}"></script>

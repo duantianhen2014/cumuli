@@ -45,6 +45,7 @@ require('../../extension/jquery-easyui-texteditor/jquery.texteditor');
          $(condition.datagrid.datagrid).datagrid('beginEdit', condition.datagrid.index);
          var ed = $(condition.datagrid.datagrid).datagrid('getEditor', {index:condition.datagrid.index, field:'value'});
          $(ed.target).prop('src', $.cumuli.url.upload.full(result.paths[0]));
+         $(condition.datagrid.datagrid).datagrid('endEdit', condition.datagrid.index);
        }"`);
 
         html.push('/>');
