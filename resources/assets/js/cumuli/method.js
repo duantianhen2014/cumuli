@@ -373,7 +373,7 @@
           }
 
           $.cumuli.file.input(option)
-            .then(input => $.cumuli.request.post(option.upload, input.formData))
+            .then(input => $.cumuli.request.post(option.upload, input.formData), reject)
             .then(resolve, reject);
         });
       }
@@ -423,7 +423,7 @@
             .then(input => {
               formData = input.formData;
               return $.cumuli.file.read(input.files[0]);
-            })
+            }, reject)
             .then(function (event) {
               if (!event.target.result) return false;
 
