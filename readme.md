@@ -3,6 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/wangdong/cumuli/version)](https://packagist.org/packages/wangdong/cumuli) 
 [![Latest Unstable Version](https://poser.pugx.org/wangdong/cumuli/v/unstable)](https://packagist.org/packages/wangdong/cumuli) 
 [![Total Downloads](https://poser.pugx.org/wangdong/cumuli/downloads)](https://packagist.org/packages/wangdong/cumuli) 
+[![License](https://poser.pugx.org/wangdong/cumuli/license)](https://packagist.org/packages/wangdong/cumuli)
 [![composer.lock available](https://poser.pugx.org/wangdong/cumuli/composerlock)](https://packagist.org/packages/wangdong/cumuli)
 
 ## 捐赠作者
