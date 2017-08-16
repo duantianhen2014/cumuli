@@ -1,6 +1,22 @@
 // 默认设置
 (function ($) {
 
+  // cumuli方法支持
+  $.fn.extend({
+    cumuli: function (method) {
+      let text = '$.cumuli.' + (typeof method == 'function' ? method.call(this) : method);
+      let callback = eval('(' + text + ')');
+
+      if (typeof callback == 'function') {
+        arguments[0] = this;
+        let parent = eval('(' + text.replace(/\.[^\.]+$/, '') + ')'); // 解决this作用域问题
+        return callback.apply(parent, arguments);
+      } else {
+        return callback;
+      }
+    }
+  });
+
   // ajax默认设置
   $.ajaxSetup({
     headers: {

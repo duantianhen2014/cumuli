@@ -144,10 +144,19 @@ class module extends GeneratorCommand
         $this->files->put($path, $this->buildClass($name));
         $html = <<<HTML
 <div id="{{ attr_id('panel') }}" class="easyui-panel" title="{{ breadcrumbs() }}" iconCls="{{ \$action['icon'] }}" fit="true" border="false">
-    <div>
+    <div class="handle" handle="run">
         <pre>{{ var_export(module(), true) }}</pre>
     </div>
 </div>
+<script type="text/javascript">
+    \$.cumuli.panel
+        .init('#{{ attr_id('panel') }}')
+        .handle({
+            run: function (e) {
+                alert(\$(e).text());
+            }
+        });
+</script>
 HTML;
 
         $this->files->put($view, $html);

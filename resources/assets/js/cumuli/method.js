@@ -293,7 +293,6 @@
           };
           reader.readAsDataURL(file);
         });
-
       },
 
       // 选择本地文件，返回file和FormData
@@ -367,13 +366,12 @@
         //合并参数
         if (typeof merge == 'object') $.extend(option, merge);
 
-        // 验证
-        if (!option.upload) {
-          $.cumuli.message.show('缺少上传参数', 'error');
-          return false;
-        }
-
         return new Promise(function (resolve, reject) {
+          // 验证
+          if (!option.upload) {
+            return reject({message: '缺少上传参数'});
+          }
+
           $.cumuli.file.input(option)
             .then(input => $.cumuli.request.post(option.upload, input.formData))
             .then(resolve, reject);
@@ -416,6 +414,11 @@
         let formData = null;
 
         return new Promise(function (resolve, reject) {
+          // 验证
+          if (!option.upload) {
+            return reject({message: '缺少上传参数'});
+          }
+
           $.cumuli.file.input(option)
             .then(input => {
               formData = input.formData;
@@ -694,6 +697,55 @@
           option.handle($tabs.tabs('getSelected').panel('options'));
         }
       },
+    }
+  });
+
+  // panel方法
+  $.extend($.cumuli, {
+    panel: {
+      panel: null,
+      items: ['title', 'icon', 'url', 'tools', 'fit', 'border'],
+      option: function (e, merge) {
+        let option = {};
+        for (let i = 0; i < this.items.length; i++) {
+          let key = this.items[i];
+          let value = $(e).data(key) || $(e).attr(key);
+
+          switch (key) {
+            case 'title':
+              if (!value) value = $('caption:first', e).text();
+              break;
+            case 'icon':
+              if (!value) value = $(e).attr('iconCls');
+              key = 'iconCls';
+              break;
+          }
+
+          if (typeof value == 'undefined') continue;
+          option[key] = value;
+        }
+
+        //合并参数
+        if (typeof merge == 'object') $.extend(option, merge);
+
+        return option;
+      },
+      init: function (e, merge) {
+        this.panel = e;
+        $(e).panel(this.option(e, merge));
+
+        return this;
+      },
+      handle: function (handles) {
+        if (typeof handles != 'object') handles = {};
+
+        $(this.panel).on('click', '.handle', function () {
+          let handle = $(this).data('handle') || $(this).attr('handle');
+          if (typeof handles[handle] == 'function') {
+            handles[handle](this);
+          }
+        });
+      }
     }
   });
 
