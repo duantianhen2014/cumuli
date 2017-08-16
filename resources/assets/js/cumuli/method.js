@@ -680,9 +680,6 @@
 
       // 收藏当前页面
       collect: function (e, merge) {
-        $tabs = $('body').layout('panel', 'center').find('.easyui-tabs:first');
-        if (!$tabs) return;
-
         let option = {
           handle: $(e).data('handle') || $(e).attr('handle')
         };
@@ -690,12 +687,20 @@
         //合并参数
         if (typeof merge == 'object') $.extend(option, merge);
 
-        if (typeof option.handle == 'string') {
-          option.handle = eval('(' + option.handle + ')');
-          option.handle.call(e, $tabs.tabs('getSelected').panel('options'));
-        } else if (typeof option.handle == 'function') {
-          option.handle($tabs.tabs('getSelected').panel('options'));
-        }
+        return new Promise(function (resolve, reject) {
+          $tabs = $('body').layout('panel', 'center').find('.easyui-tabs:first');
+          if (!$tabs) return reject({message: '获取失败，请重试！'});
+
+          let options = $tabs.tabs('getSelected').panel('options');
+          if (typeof option.handle == 'string') {
+            option.handle = eval('(' + option.handle + ')');
+            option.handle.call(e, options);
+          } else if (typeof option.handle == 'function') {
+            option.handle(options);
+          }
+
+          return options ? resolve(options) : reject({message: '获取失败，请重试！'});
+        });
       },
     }
   });
