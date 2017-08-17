@@ -14,6 +14,16 @@
       } else {
         return callback;
       }
+    },
+    handle: function (handles) {
+      if (typeof handles != 'object') handles = {};
+
+      $(this).on('click', '.handle', function () {
+        let handle = $(this).data('handle') || $(this).attr('handle');
+        if (handle && typeof handles[handle] == 'function') {
+          handles[handle](this);
+        }
+      });
     }
   });
 

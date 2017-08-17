@@ -72,7 +72,7 @@
         if (option.toolbar) {
           $(option.toolbar).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (typeof handles[handle] == 'function') {
+            if (handle && typeof handles[handle] == 'function') {
               let selected = $datagrid.datagrid('getSelected');   //当前选中的行
               let allSelected = $datagrid.datagrid('getSelections'); //全部选中的行
 
@@ -85,7 +85,7 @@
         if (option.menu) {
           $(option.menu).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (typeof handles[handle] == 'function') {
+            if (handle && typeof handles[handle] == 'function') {
               let selected = $datagrid.datagrid('getSelected');   //当前选中的行
               let allSelected = $datagrid.datagrid('getSelections'); //全部选中的行
 
@@ -431,8 +431,10 @@
               let scale = [1, 1];
               let dialog = $.cumuli.dialog.page(null, {
                 dialog: '#cumuli-dialog-second',
+                iconCls: 'fa fa-crop',
                 title: '图片裁剪',
                 content: '<div style="width:100%;height:100%;margin:0;padding:0;overflow:hidden"><img /></div>',
+                draggable: false,
                 maximizable: false,
                 maximized: true,
                 closable: false,
@@ -746,7 +748,7 @@
 
         $(this.panel).on('click', '.handle', function () {
           let handle = $(this).data('handle') || $(this).attr('handle');
-          if (typeof handles[handle] == 'function') {
+          if (handle && typeof handles[handle] == 'function') {
             handles[handle](this);
           }
         });
@@ -813,7 +815,7 @@
         if (option.toolbar) {
           $(option.toolbar).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (typeof handles[handle] == 'function') {
+            if (handle && typeof handles[handle] == 'function') {
               let selected = $propertygrid.propertygrid('getSelected');   //当前选中的行
               let allSelected = $propertygrid.propertygrid('getSelections'); //全部选中的行
 
@@ -1013,7 +1015,7 @@
         if (option.toolbar) {
           $(option.toolbar).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (typeof handles[handle] == 'function') {
+            if (handle && typeof handles[handle] == 'function') {
               let selected = $treegrid.treegrid('getSelected');   //当前选中的行
               let allSelected = $treegrid.treegrid('getSelections'); //全部选中的行
 
@@ -1026,7 +1028,7 @@
         if (option.menu) {
           $(option.menu).on('click', '.handle', function () {
             let handle = $(this).data('handle') || $(this).attr('handle');
-            if (typeof handles[handle] == 'function') {
+            if (handle && typeof handles[handle] == 'function') {
               let selected = $treegrid.treegrid('getSelected');   //当前选中的行
               let allSelected = $treegrid.treegrid('getSelections'); //全部选中的行
 
