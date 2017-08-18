@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
         Commands\install::class,
         Commands\make\module::class,
         Commands\module\cache::class,
+        Commands\socket\server::class,
+        Commands\socket\redis::class,
     ];
 
     /**

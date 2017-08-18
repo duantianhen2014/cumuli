@@ -14,7 +14,7 @@ return [
 
     'name' => env('APP_NAME', 'Cumuli系统'),
     'icon' => env('APP_ICON', 'fa fa-cloud'),
-    'version' => 'v1.1.3',
+    'version' => 'v1.2.0',
 
     /*
     |--------------------------------------------------------------------------
@@ -176,7 +176,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 

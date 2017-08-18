@@ -50,6 +50,16 @@ class User extends Authenticatable
     }
 
     /**
+     * 多对多关联
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function structures()
+    {
+        return $this->belongsToMany('App\Structure', 'structure_users');
+    }
+
+    /**
      * 一对多关联
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
