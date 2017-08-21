@@ -53,14 +53,29 @@ class server extends Command
         $redis = new ProcessSubject('php artisan socket:redis');
 
         // WebSocket服务
-        $server->subscribe(function (MessageSubject $messageSubject) use ($subject) {
-            $subject->onNext(['type' => 'socket', 'on' => 'connected', 'subject' => $messageSubject]);
-            $messageSubject->subscribe(function ($message) use ($subject, $messageSubject) {
-                $subject->onNext(['type' => 'socket', 'on' => 'data', 'message' => $message, 'subject' => $messageSubject]);
-            });
-        }, function ($error) use ($subject) {
-            $subject->onNext(['type' => 'socket', 'on' => 'error', 'error' => $error]);
-        });
+        $server->subscribe(
+            function (MessageSubject $messageSubject) use ($subject) {
+                $subject->onNext(['type' => 'socket', 'on' => 'connected', 'subject' => $messageSubject]);
+
+                $messageSubject->subscribe(
+                    function ($message) use ($subject, $messageSubject) {
+                        echo 'next';
+                        $subject->onNext(['type' => 'socket', 'on' => 'data', 'message' => $message, 'subject' => $messageSubject]);
+                    },
+                    function ($error) use ($subject, $messageSubject) {
+                        echo 'error';
+                        $subject->onNext(['type' => 'socket', 'on' => 'error', 'error' => $error, 'subject' => $messageSubject]);
+                    },
+                    function () use ($subject, $messageSubject) {
+                        echo 'complete';
+                        $subject->onNext(['type' => 'socket', 'on' => 'close', 'subject' => $messageSubject]);
+                    }
+                );
+            },
+            function ($error) use ($subject) {
+                $subject->onNext(['type' => 'socket', 'on' => 'error', 'error' => $error]);
+            }
+        );
 
         // 订阅汇总
         $subject
@@ -74,12 +89,22 @@ class server extends Command
                 switch ($data['type']) {
                     case 'socket':
                         switch ($data['on']) {
+                            // 连接成功
                             case 'connected':
                                 array_push($this->sockets, $data['subject']);
                                 $data['subject']->send('connected');
                                 break;
+                            // 接收到数据
                             case 'data':
                                 $data['subject']->send($data['message']);
+                                break;
+                            // 连接发生错误
+                            case 'error':
+                                $data['subject']->send('error');
+                                break;
+                            // 连接关闭
+                            case 'close':
+                                $data['subject']->send('closed');
                                 break;
                         }
                         break;
