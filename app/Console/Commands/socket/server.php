@@ -38,8 +38,6 @@ class server extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -119,10 +117,10 @@ class server extends Command
                     printf("%s\n", json_encode($data, JSON_PRETTY_PRINT));
                 },
                 function ($error) {
-                    echo "Socket Server Error: " . var_export($error, true) . PHP_EOL;
+                    $this->error("Socket Server Error: " . var_export($error, true));
                 }
             );
 
-        echo "Socket Server Running On {$host}:{$port}" . PHP_EOL;
+        $this->info("Socket Server Running On {$host}:{$port}");
     }
 }
