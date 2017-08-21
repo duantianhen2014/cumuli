@@ -55,7 +55,7 @@ class server extends Command
         // WebSocket服务
         $server->subscribe(
             function (MessageSubject $messageSubject) use ($subject) {
-                $subject->onNext(['type' => 'socket', 'on' => 'connected', 'subject' => $messageSubject]);
+                $subject->onNext(['type' => 'socket', 'on' => 'connect', 'subject' => $messageSubject]);
 
                 $messageSubject->subscribe(
                     function ($message) use ($subject, $messageSubject) {
@@ -73,7 +73,7 @@ class server extends Command
                 );
             },
             function ($error) use ($subject) {
-                $subject->onNext(['type' => 'socket', 'on' => 'error', 'error' => $error]);
+                $subject->onError($error);
             }
         );
 
@@ -85,38 +85,43 @@ class server extends Command
             ->filter(function ($data) {
                 return is_array($data) && array_key_exists('type', $data);
             })
-            ->subscribe(function ($data) {
-                switch ($data['type']) {
-                    case 'socket':
-                        switch ($data['on']) {
-                            // 连接成功
-                            case 'connected':
-                                array_push($this->sockets, $data['subject']);
-                                $data['subject']->send('connected');
-                                break;
-                            // 接收到数据
-                            case 'data':
-                                $data['subject']->send($data['message']);
-                                break;
-                            // 连接发生错误
-                            case 'error':
-                                $data['subject']->send('error');
-                                break;
-                            // 连接关闭
-                            case 'close':
-                                $data['subject']->send('closed');
-                                break;
-                        }
-                        break;
+            ->subscribe(
+                function ($data) {
+                    switch ($data['type']) {
+                        case 'socket':
+                            switch ($data['on']) {
+                                // 连接成功
+                                case 'connect':
+                                    array_push($this->sockets, $data['subject']);
+                                    $data['subject']->send('connected');
+                                    break;
+                                // 接收到数据
+                                case 'data':
+                                    $data['subject']->send($data['message']);
+                                    break;
+                                // 连接发生错误
+                                case 'error':
+                                    $data['subject']->send('error');
+                                    break;
+                                // 连接关闭
+                                case 'close':
+                                    $data['subject']->send('closed');
+                                    break;
+                            }
+                            break;
 
-                    case 'redis':
-                        foreach ($this->sockets as $socket) {
-                            $socket->send($data['data']);
-                        }
-                        break;
+                        case 'redis':
+                            foreach ($this->sockets as $socket) {
+                                $socket->send($data['data']);
+                            }
+                            break;
+                    }
+                    printf("%s\n", json_encode($data, JSON_PRETTY_PRINT));
+                },
+                function ($error) {
+                    echo "Socket Server Error: " . var_export($error, true) . PHP_EOL;
                 }
-                printf("%s\n", json_encode($data, JSON_PRETTY_PRINT));
-            });
+            );
 
         echo "Socket Server Running On {$host}:{$port}" . PHP_EOL;
     }
