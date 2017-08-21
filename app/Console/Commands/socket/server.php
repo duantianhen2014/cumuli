@@ -54,12 +54,12 @@ class server extends Command
 
         // WebSocket服务
         $server->subscribe(function (MessageSubject $messageSubject) use ($subject) {
-            $subject->onNext(['from' => 'socket', 'type' => 'connected', 'data' => $messageSubject]);
+            $subject->onNext(['type' => 'socket', 'on' => 'connected', 'subject' => $messageSubject]);
             $messageSubject->subscribe(function ($message) use ($subject, $messageSubject) {
-                $subject->onNext(['from' => 'socket', 'type' => 'data', 'data' => $message]);
+                $subject->onNext(['type' => 'socket', 'on' => 'data', 'message' => $message, 'subject' => $messageSubject]);
             });
         }, function ($error) use ($subject) {
-            $subject->onNext(['from' => 'socket', 'type' => 'error', 'data' => $error]);
+            $subject->onNext(['type' => 'socket', 'on' => 'error', 'error' => $error]);
         });
 
         // 订阅汇总
@@ -68,20 +68,18 @@ class server extends Command
                 return json_decode($json, true);
             }))
             ->filter(function ($data) {
-                return is_array($data) && array_key_exists('from', $data);
+                return is_array($data) && array_key_exists('type', $data);
             })
             ->subscribe(function ($data) {
-                switch ($data['from']) {
+                switch ($data['type']) {
                     case 'socket':
-                        switch ($data['type']) {
+                        switch ($data['on']) {
                             case 'connected':
-                                array_push($this->sockets, $data['data']);
-                                $data['data']->send('connected');
+                                array_push($this->sockets, $data['subject']);
+                                $data['subject']->send('connected');
                                 break;
                             case 'data':
-                                foreach ($this->sockets as $socket) {
-                                    $socket->send($data['data']);
-                                }
+                                $data['subject']->send($data['message']);
                                 break;
                         }
                         break;
@@ -92,7 +90,7 @@ class server extends Command
                         }
                         break;
                 }
-                var_export(json_encode($data));
+                printf("%s\n", json_encode($data, JSON_PRETTY_PRINT));
             });
 
         echo "Socket Server Running On {$host}:{$port}" . PHP_EOL;

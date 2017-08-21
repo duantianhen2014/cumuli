@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use Auth;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,23 +10,18 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class Event implements ShouldBroadcast
+class Event
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $user;
-
-    protected $channel;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($channel = '')
+    public function __construct()
     {
-        $this->user = Auth::user();
-        $this->channel = $channel ?: new PrivateChannel('channel-name');
+        //
     }
 
     /**
@@ -37,17 +31,6 @@ class Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return [$this->channel];
+        return new PrivateChannel('channel-name');
     }
-
-    /**
-     * Get the name the event should be broadcast on.
-     *
-     * @return string
-     */
-    public function broadcastAs()
-    {
-        return 'socket:event';
-    }
-
 }

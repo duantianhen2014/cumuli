@@ -39,7 +39,7 @@ class redis extends Command
     public function handle()
     {
         Predis::psubscribe(['*'], function ($message, $channel) {
-            echo json_encode(['from' => 'redis', 'type' => $channel, 'data' => $message]);
+            echo json_encode(['type' => 'redis', 'channel' => $channel, 'data' => $message]);
         });
     }
 }
