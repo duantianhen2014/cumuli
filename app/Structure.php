@@ -12,7 +12,7 @@ class Structure extends Model
 
     // 追加字段
     protected $appends = [
-        'iconCls'
+        'iconCls',
     ];
 
     /**
@@ -50,6 +50,29 @@ class Structure extends Model
     public function children()
     {
         return $this->child()->with('children');
+    }
+
+    /**
+     * 包含子节点操作
+     *
+     * @return $this
+     */
+    public function withChildren()
+    {
+        $ids = [$this->id]; // 当前ID
+
+        // 遍历获取ID
+        $children = $this->children;
+        while ($children->count()) {
+            $collect = collect([]);
+            $children->each(function ($child) use (&$ids, &$collect) {
+                array_push($ids, $child->id);
+                $collect = $collect->merge($child->children);
+            });
+            $children = $collect;
+        }
+
+        return $this->whereIn('id', $ids);
     }
 
 }
