@@ -1,5 +1,6 @@
 // 核心模块
 require('EasyUI');
+require('EasyUI/jquery.easyui.mobile');
 require('../../extension/datagrid-filter/datagrid-filter');
 require('../../extension/jquery-easyui-color/jquery.color');
 require('../../extension/jquery-easyui-etree/jquery.etree');
