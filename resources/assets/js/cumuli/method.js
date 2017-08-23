@@ -440,7 +440,7 @@
                 closable: false,
                 tools: [
                   {
-                    iconCls: 'fa fa-search',
+                    iconCls: 'fa fa-clone',
                     handler: function () {
                       if (!$img) return false;
                       $img.cropper('zoomTo', 1);
