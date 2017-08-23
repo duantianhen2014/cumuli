@@ -75,4 +75,27 @@ class Structure extends Model
         return $this->whereIn('id', $ids);
     }
 
+    /**
+     * 验证上级菜单是否正确
+     * @param int $parentId
+     * @return bool
+     */
+    public function isParent($parentId = 0)
+    {
+        $ids = [$this->id]; // 当前ID
+
+        // 遍历获取ID
+        $children = $this->children;
+        while ($children->count()) {
+            $collect = collect([]);
+            $children->each(function ($child) use (&$ids, &$collect) {
+                array_push($ids, $child->id);
+                $collect = $collect->merge($child->children);
+            });
+            $children = $collect;
+        }
+
+        return !in_array($parentId, $ids);
+    }
+
 }
