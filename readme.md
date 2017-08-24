@@ -15,7 +15,22 @@
 1. 安装编辑器插件: http://editorconfig.org/#download
 2. 安装composer命令: 参考https://getcomposer.org
 3. 安装node.js >= 6.0，下载地址: https://nodejs.org
-4. 安装mysql >= 5.7，其他版本未进行测试
+
+## 数据库支持
+
+1. mysql
+   - 创建数据库`mysql -e "create database cumuli"`
+   - 修改.env中`DB_CONNECTION=mysql`
+   - 修改.env中`DB_`开头其他配置
+2. postgresql
+   - root用户下创建数据库`runuser -l postgres -c "psql -c 'create database cumuli'"`
+   - 修改.env中`DB_CONNECTION=pgsql`
+   - 修改.env中`DB_`开头其他配置
+3. sqlite 
+   - 创建数据库`touch database/database.sqlite`
+   - 修改.env中`DB_CONNECTION=sqlite`
+   - 移除.env中其他`DB_`开头配置
+4. sqlserver (未测试)
 
 ## 配置国内加速
 
