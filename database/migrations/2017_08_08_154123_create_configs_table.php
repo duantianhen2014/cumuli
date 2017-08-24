@@ -17,9 +17,9 @@ class CreateConfigsTable extends Migration
             $table->increments('id');
             $table->string('group')->comment('分组');
             $table->string('name')->comment('名称');
-            $table->string('key')->comment('字段名')->unique();
-            $table->string('value')->comment('值')->nullable();
-            $table->text('editor')->comment('类型')->nullable();
+            $table->string('key')->unique()->comment('字段名');
+            $table->string('value')->default('""')->comment('值');
+            $table->text('editor')->default('{"type":"textbox"}')->comment('类型');
             $table->timestamps();
         });
     }

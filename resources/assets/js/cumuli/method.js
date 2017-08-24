@@ -437,7 +437,9 @@
                 draggable: false,
                 maximizable: false,
                 maximized: true,
+                resizable: false,
                 closable: false,
+                collapsible: false,
                 tools: [
                   {
                     iconCls: 'fa fa-clone',
