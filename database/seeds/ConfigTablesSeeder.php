@@ -39,6 +39,15 @@ class ConfigTablesSeeder extends Seeder
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
             ],
+            [
+                'group' => '前端配置',
+                'name' => '上传地址',
+                'key' => 'module.config.upload.url',
+                'value' => json_encode(config('module.config.upload.url')),
+                'editor' => json_encode(['type' => 'textbox']),
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime(),
+            ],
         ]);
     }
 }
