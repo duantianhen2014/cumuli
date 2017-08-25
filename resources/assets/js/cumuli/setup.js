@@ -75,7 +75,6 @@
   $.cumuli.theme.change(); // 切换上次选中主题，必须ready之前调用
 
   $(document).ready(() => {
-    $.cumuli.theme.changeStatus();               // 选中当前主题
     $('body > .panel-loading:first').remove(); // 移除加载效果
 
     // 小屏设备自动隐藏左侧导航
