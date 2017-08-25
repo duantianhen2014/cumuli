@@ -16,7 +16,7 @@ Auth::routes();
 
 // 入口页面
 Route::get('/', function () {
-    return view('index', ['user' => Auth::user()]);
+    return view('index');
 })->middleware('auth');
 
 // 退出登录
