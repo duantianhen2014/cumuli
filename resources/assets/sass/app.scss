@@ -13,6 +13,20 @@ a {
 .fa {
   background: none !important; // 解决图标重合问题
   font-size: 14px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.tree-icon.fa {
+  margin-top: 2px;
+}
+
+.tree-icon {
+  text-align: center;
 }
 
 .word-wrap, .messager-body {

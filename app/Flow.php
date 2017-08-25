@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Flow extends Model
 {
+    protected $fillable = [
+        'name', 'description', 'success', 'fail',
+    ];
 
     /**
      * 一对多关联

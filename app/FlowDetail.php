@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class FlowDetail extends Model
 {
+    protected $fillable = [
+        'form', 'view', 'success', 'fail', 'check',
+    ];
+
+    // 查询时自动转换类型
+    protected $casts = [
+        'check' => 'array',
+    ];
+
     /**
      * 一对多反向关联
      *
