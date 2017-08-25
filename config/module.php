@@ -9,4 +9,11 @@ return [
         'dashboard' => '/system/page/dashboard',  // 首页展示
     ],
 
+    // 页面中的js配置项，调用位置 resources/views/layouts/app.blade.php
+    'config' => [
+        'upload' => [
+            'url' => config('filesystems.disks.public.url'),
+        ]
+    ],
+
 ];
