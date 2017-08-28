@@ -12,6 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
+    'title' => env('APP_NAME', 'Cumuli系统'),
     'name' => env('APP_NAME', 'Cumuli系统'),
     'icon' => env('APP_ICON', 'fa fa-cloud'),
     'version' => 'v1.2.0',

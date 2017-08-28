@@ -14,6 +14,15 @@ class ConfigTablesSeeder extends Seeder
         DB::table('configs')->insert([
             [
                 'group' => '系统设置',
+                'name' => '页面标题',
+                'key' => 'app.title',
+                'value' => json_encode(config('app.title')),
+                'editor' => json_encode(['type' => 'textbox']),
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime(),
+            ],
+            [
+                'group' => '系统设置',
                 'name' => '系统名称',
                 'key' => 'app.name',
                 'value' => json_encode(config('app.name')),
