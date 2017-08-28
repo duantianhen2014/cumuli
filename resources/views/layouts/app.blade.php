@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="wangdong">
     <meta name="contact" content="mail@wangdong.io">
-    <title>{{ config('app.name', 'Cumuli系统') }}</title>
+    <title>{{ config('app.name') }}</title>
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}" type="text/css"/>
     <link rel="stylesheet" href="{{ elixir('css/themes/black.css') }}" type="text/css" theme="black" disabled/>
     <link rel="stylesheet" href="{{ elixir('css/themes/bootstrap.css') }}" type="text/css" theme="bootstrap" disabled/>

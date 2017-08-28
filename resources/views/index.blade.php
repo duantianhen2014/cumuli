@@ -8,7 +8,7 @@
             region:'north',
             split:false,
             border:true,
-            title:'{{ config('app.name', 'Cumuli系统') }}',
+            title:'{{ config('app.name') }}',
             collapsible:true,
             hideCollapsedContent:false,
             iconCls:'{{ config('app.icon') }}',
