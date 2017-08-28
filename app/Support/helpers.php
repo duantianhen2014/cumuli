@@ -208,14 +208,18 @@ if (!function_exists('module_menu')) {
      * 获取模块右键菜单
      *
      * @param string|array $module
+     * @param array $includes
      * @return string
      */
-    function module_menu($module = '')
+    function module_menu($module = '', $includes = [])
     {
         if (!is_array($module)) {
             $module = module($module);
         }
         return collect(array_get($module, 'composer.extra.module.menu', []))
+            ->filter(function ($attributes, $title) use ($includes) {
+                return empty($includes) || in_array($title, $includes);
+            })
             ->filter(function ($attributes, $title) use ($module) {
                 return accesses()->search(function ($item) use ($module, $title) {
                         return in_array($item->group, ['*', array_get($module, 'group')]) &&
@@ -247,14 +251,18 @@ if (!function_exists('module_toolbar')) {
      * 获取模块工具栏
      *
      * @param string|array $module
+     * @param array $includes
      * @return string
      */
-    function module_toolbar($module = '')
+    function module_toolbar($module = '', $includes = [])
     {
         if (!is_array($module)) {
             $module = module($module);
         }
         return collect(array_get($module, 'composer.extra.module.toolbar', []))
+            ->filter(function ($attributes, $title) use ($includes) {
+                return empty($includes) || in_array($title, $includes);
+            })
             ->filter(function ($attributes, $title) use ($module) {
                 return accesses()->search(function ($item) use ($module, $title) {
                         return in_array($item->group, ['*', array_get($module, 'group')]) &&
