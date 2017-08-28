@@ -617,7 +617,7 @@
   // page方法
   $.extend($.cumuli, {
     page: {
-      items: ['href', 'title', 'icon', 'closable', 'cache'],
+      items: ['href', 'title', 'icon', 'closable', 'cache', 'iframe'],
 
       /* 解析选项中自定义属性 */
       option: function (e) {
