@@ -6,6 +6,7 @@ return [
     'page' => [
         'north' => '/system/page/north',           // 左侧菜单
         'west' => '/system/page/west',              // 左侧菜单
+        'hash' => '/system/page/hash',              // hash地址解析
         'dashboard' => '/system/page/dashboard',  // 首页展示
     ],
 

@@ -26,9 +26,11 @@
 @yield('content')
 
 {{--底部版权信息区域--}}
-<div data-options="region:'south',split:false,border:true">
-    <div align="center">&copy; 2017 {{ config('app.name') }} <span>{{ config('app.version') }}</span></div>
-</div>
+@if(config('app.copyright'))
+    <div data-options="region:'south',split:false,border:true">
+        {!! config('app.copyright') !!}
+    </div>
+@endif
 
 {{--多个弹出层，支持在弹出层上面再调用一次弹出层--}}
 <div id="cumuli-dialog-common" class="easyui-dialog" data-options="closed:true,title:'Loading...'"></div>
