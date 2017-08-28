@@ -666,8 +666,11 @@
         $tabs.tabs('tabs').forEach(function ($tab, index) {
           let panel = $tab.panel('options');
 
-          // 必须同时满足3个条件才能认为存在
-          if (panel.href == option.href && panel.title == option.title && panel.iconCls == option.iconCls) {
+          // 必须同时满足多个条件才能认为存在
+          if (panel.iframe && panel.title == option.title && panel.iconCls == option.iconCls) {
+            exists = index;
+            return false;
+          } else if (!panel.iframe && panel.href == option.href && panel.title == option.title && panel.iconCls == option.iconCls) {
             exists = index;
             return false;
           }
@@ -679,6 +682,16 @@
         }
 
         // 添加新标签
+        if (option.href && option.iframe) {
+          let html = [];
+          html.push('<div class="panel-loading" style="position: absolute;width:100%;height:100%;">Loading...</div>');
+          html.push('<iframe width="100%" height="100%" allowtransparency="true" src="' + option.href + '"');
+          html.push(' style="background-color:transparent;border:none;margin-bottom:-5px;"');
+          html.push(' onload="this.previousSibling.remove()"');
+          html.push('></iframe>');
+          option.content = html.join('');
+          option.href = null;
+        }
         $tabs.tabs('add', option);
       },
 
