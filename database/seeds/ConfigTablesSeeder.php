@@ -32,15 +32,6 @@ class ConfigTablesSeeder extends Seeder
             ],
             [
                 'group' => '系统设置',
-                'name' => '系统版本',
-                'key' => 'app.version',
-                'value' => json_encode(config('app.version')),
-                'editor' => json_encode(['type' => 'textbox']),
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime(),
-            ],
-            [
-                'group' => '系统设置',
                 'name' => '版权信息',
                 'key' => 'app.copyright',
                 'value' => json_encode(config('app.copyright')),
