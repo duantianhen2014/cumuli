@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\ConfigSavedEvent;
 use Illuminate\Database\Eloquent\Model;
 
 class Config extends Model
@@ -13,6 +14,14 @@ class Config extends Model
     // 查询时自动转换类型
     protected $casts = [
         'editor' => 'array',
+    ];
+
+    /**
+     * 当配置发送变化时触发事件
+     * @var array
+     */
+    protected $events = [
+        'saved' => ConfigSavedEvent::class,
     ];
 
     public function getValueAttribute($value)

@@ -23,6 +23,7 @@
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
+        "mnabialek/laravel-sql-logger": "^1.1",
         "predis/predis": "^1.1",
         "reactivex/rxphp": "^2.0",
         "rx/child-process": "^1.0",
@@ -30,6 +31,7 @@
         "wangdong/cumuli-module-system-config": "^1.0",
         "wangdong/cumuli-module-system-page": "^1.0",
         "wangdong/cumuli-module-system-role": "^1.0",
+        "wangdong/cumuli-module-system-structure": "^1.0",
         "wangdong/cumuli-module-system-user": "^1.0"
     },
     "require-dev": {
