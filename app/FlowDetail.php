@@ -13,7 +13,7 @@ class FlowDetail extends Model
     /**
      * 获取审核人信息
      * @param $value
-     * @return array
+     * @return object
      */
     public function getCheckAttribute($value)
     {
@@ -29,10 +29,11 @@ class FlowDetail extends Model
             $check['structures'] = [0];
         }
 
-        $check['users'] = User::whereIn('id', $check['users'])->get();
-        $check['roles'] = Role::whereIn('id', $check['roles'])->get();
-        $check['structures'] = Structure::whereIn('id', $check['structures'])->get();
-        return $check;
+        return (object)[
+            'users' => User::whereIn('id', $check['users'])->get(),
+            'roles' => Role::whereIn('id', $check['roles'])->get(),
+            'structures' => Structure::whereIn('id', $check['structures'])->get(),
+        ];
     }
 
     /**
