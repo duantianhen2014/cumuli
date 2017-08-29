@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Events\ConfigSavedEvent;
+use App\Events\ConfigChangedEvent;
 use Illuminate\Database\Eloquent\Model;
 
 class Config extends Model
@@ -17,11 +17,12 @@ class Config extends Model
     ];
 
     /**
-     * 当配置发送变化时触发事件
+     * 当配置发生变化时触发事件
      * @var array
      */
     protected $events = [
-        'saved' => ConfigSavedEvent::class,
+        'saved' => ConfigChangedEvent::class,
+        'deleted' => ConfigChangedEvent::class,
     ];
 
     public function getValueAttribute($value)

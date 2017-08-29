@@ -16,8 +16,8 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
-        'App\Events\ConfigSavedEvent' => [
-            'App\Listeners\ConfigSavedEventListener',
+        'App\Events\ConfigChangedEvent' => [
+            'App\Listeners\ConfigChangedEventListener',
         ],
     ];
 

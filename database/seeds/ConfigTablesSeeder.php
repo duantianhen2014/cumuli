@@ -1,6 +1,6 @@
 <?php
 
-use App\Events\ConfigSavedEvent;
+use App\Events\ConfigChangedEvent;
 use Illuminate\Database\Seeder;
 
 class ConfigTablesSeeder extends Seeder
@@ -96,6 +96,6 @@ class ConfigTablesSeeder extends Seeder
             ],
         ]);
 
-        event(new ConfigSavedEvent()); // 更新缓存
+        event(new ConfigChangedEvent()); // 更新缓存
     }
 }

@@ -10,14 +10,12 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ConfigSavedEvent
+class ConfigChangedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * Create a new event instance.
-     *
-     * @return void
+     * ConfigChangedEvent constructor.
      */
     public function __construct()
     {
@@ -31,6 +29,6 @@ class ConfigSavedEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('model:config:saved');
+        return new PrivateChannel('event:config.changed');
     }
 }

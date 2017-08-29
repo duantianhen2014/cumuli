@@ -3,17 +3,13 @@
 namespace App\Listeners;
 
 use App\Config;
-use App\Events\ConfigSavedEvent;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\ConfigChangedEvent;
 use Illuminate\Support\Facades\Cache;
 
-class ConfigSavedEventListener
+class ConfigChangedEventListener
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
+     * ConfigChangedEventListener constructor.
      */
     public function __construct()
     {
@@ -22,14 +18,15 @@ class ConfigSavedEventListener
 
     /**
      * 缓存配置项
-     * @param ConfigSavedEvent $event
+     * @param ConfigChangedEvent $event
      */
-    public function handle(ConfigSavedEvent $event)
+    public function handle(ConfigChangedEvent $event)
     {
         $values = collect([]);
         Config::chunk(1000, function ($configs) use (&$values) {
             $values = $values->merge($configs);
         });
-        Cache::forever('event:config:saved:cache', $values);
+        // 写入永久缓存
+        Cache::forever('cache:config.changed', $values);
     }
 }
