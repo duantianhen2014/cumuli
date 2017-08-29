@@ -185,6 +185,7 @@ return [
         App\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Mnabialek\LaravelSqlLogger\Providers\ServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
