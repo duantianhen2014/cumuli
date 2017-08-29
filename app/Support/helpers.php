@@ -208,17 +208,17 @@ if (!function_exists('module_menu')) {
      * 获取模块右键菜单
      *
      * @param string|array $module
-     * @param array $includes
+     * @param array $only
      * @return string
      */
-    function module_menu($module = '', $includes = [])
+    function module_menu($module = '', $only = [])
     {
         if (!is_array($module)) {
             $module = module($module);
         }
         return collect(array_get($module, 'composer.extra.module.menu', []))
-            ->filter(function ($attributes, $title) use ($includes) {
-                return empty($includes) || in_array($title, $includes);
+            ->filter(function ($attributes, $title) use ($only) {
+                return empty($only) || in_array($title, $only);
             })
             ->filter(function ($attributes, $title) use ($module) {
                 return accesses()->search(function ($item) use ($module, $title) {
@@ -251,17 +251,17 @@ if (!function_exists('module_toolbar')) {
      * 获取模块工具栏
      *
      * @param string|array $module
-     * @param array $includes
+     * @param array $only
      * @return string
      */
-    function module_toolbar($module = '', $includes = [])
+    function module_toolbar($module = '', $only = [])
     {
         if (!is_array($module)) {
             $module = module($module);
         }
         return collect(array_get($module, 'composer.extra.module.toolbar', []))
-            ->filter(function ($attributes, $title) use ($includes) {
-                return empty($includes) || in_array($title, $includes);
+            ->filter(function ($attributes, $title) use ($only) {
+                return empty($only) || in_array($title, $only);
             })
             ->filter(function ($attributes, $title) use ($module) {
                 return accesses()->search(function ($item) use ($module, $title) {
