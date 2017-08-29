@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ConfigSavedEvent;
 use Illuminate\Database\Seeder;
 
 class ConfigTablesSeeder extends Seeder
@@ -94,5 +95,7 @@ class ConfigTablesSeeder extends Seeder
                 'updated_at' => new DateTime(),
             ],
         ]);
+
+        event(new ConfigSavedEvent()); // 更新缓存
     }
 }
