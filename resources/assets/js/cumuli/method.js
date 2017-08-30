@@ -182,6 +182,7 @@
           if (typeof merge == 'object') $.extend(option, merge);
           option.submit = option.submit || option.href;
 
+          if (typeof option.id != 'undefined') delete option.id;
           $(option.dialog || that.dialog).dialog(option).dialog('center');
         });
       },
@@ -213,6 +214,7 @@
           option.href = null;
         }
 
+        if (typeof option.id != 'undefined') delete option.id;
         $(option.dialog || that.dialog).dialog(option).dialog('center');
 
         return option.dialog || that.dialog;
@@ -235,6 +237,7 @@
         if (typeof merge == 'object') $.extend(option, merge);
 
         option['href'] = null;
+        if (typeof option.id != 'undefined') delete option.id;
         $(option.dialog || that.dialog).dialog(option).dialog('center');
 
         return option.dialog || that.dialog;
@@ -249,6 +252,7 @@
         if (typeof merge == 'object') $.extend(option, merge);
 
         option['href'] = null;
+        if (typeof option.id != 'undefined') delete option.id;
         $(option.dialog || dialog).dialog(option).dialog('center');
 
         return option.dialog || dialog;
@@ -383,7 +387,7 @@
   // flow方法
   $.extend($.cumuli, {
     flow: {
-      items: ['title', 'icon', 'width', 'height'],
+      items: ['title', 'icon', 'width', 'height', 'href', 'submit', 'flow'],
 
       option: function (e, merge) {
         let option = $.extend({}, $.cumuli.config.flow); // 读取默认配置文件
@@ -406,6 +410,13 @@
 
         //合并参数
         if (typeof merge == 'object') $.extend(option, merge);
+        option.submit = option.submit || option.href;
+
+        // 附加参数
+        if (option.flow) {
+          option.href += option.href.indexOf('?') != -1 ? '&flow=' + option.flow : '?flow=' + option.flow;
+          option.submit += option.submit.indexOf('?') != -1 ? '&flow=' + option.flow : '?flow=' + option.flow;
+        }
 
         return option;
       },
@@ -415,6 +426,7 @@
 
         return new Promise(function (resolve, reject) {
           let dialog = $.cumuli.dialog.page(e, $.extend({
+            dialog: '#cumuli-dialog-second',
             buttons: [
               {
                 text: '通过',
@@ -425,10 +437,8 @@
                       let isValid = $(this).form('validate');
                       if (!isValid) return false;
 
-                      let formData = new FormData(this);
-                      formData.append('button', 1);
-
-                      $.cumuli.request.post(option['submit'], formData).then(function (data) {
+                      let url = option.submit + option.submit.indexOf('?') != -1 ? '&button=1' : '?button=1';
+                      $.cumuli.request.post(url, this).then(function (data) {
                         $(dialog).dialog('close');
                         resolve(1);
                       }, function (data) {
@@ -450,10 +460,8 @@
                       let isValid = $(this).form('validate');
                       if (!isValid) return false;
 
-                      let formData = new FormData(this);
-                      formData.append('button', 0);
-
-                      $.cumuli.request.post(option['submit'], formData).then(function (data) {
+                      let url = option.submit + option.submit.indexOf('?') != -1 ? '&button=0' : '?button=0';
+                      $.cumuli.request.post(url, this).then(function (data) {
                         $(dialog).dialog('close');
                         resolve(0);
                       }, function (data) {
@@ -475,10 +483,8 @@
                       let isValid = $(this).form('validate');
                       if (!isValid) return false;
 
-                      let formData = new FormData(this);
-                      formData.append('button', -1);
-
-                      $.cumuli.request.post(option['submit'], formData).then(function (data) {
+                      let url = option.submit + option.submit.indexOf('?') != -1 ? '&button=-1' : '?button=-1';
+                      $.cumuli.request.post(url, this).then(function (data) {
                         $(dialog).dialog('close');
                         resolve(-1);
                       }, function (data) {

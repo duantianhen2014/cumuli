@@ -55,6 +55,7 @@
   // flow默认配置
   $.extend($.cumuli.config, {
     flow: {
+      flow: 0,
       href: '/system/page/flow',
       title: '审批',
       iconCls: 'fa fa-gavel',

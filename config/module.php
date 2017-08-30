@@ -15,6 +15,7 @@ return [
 
         // 审批配置
         'flow' => [
+            'flow' => 0,
             'href' => '/system/page/flow',
             'title' => '审批',
             'iconCls' => 'fa fa-gavel',
