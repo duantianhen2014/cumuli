@@ -30,6 +30,7 @@
         "rx/child-process": "^1.0",
         "rx/websocket": "^1.0",
         "wangdong/cumuli-module-system-config": "^1.0",
+        "wangdong/cumuli-module-system-flow": "^1.0",
         "wangdong/cumuli-module-system-page": "^1.0",
         "wangdong/cumuli-module-system-role": "^1.0",
         "wangdong/cumuli-module-system-structure": "^1.0",
