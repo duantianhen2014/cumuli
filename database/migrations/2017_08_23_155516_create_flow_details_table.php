@@ -15,6 +15,7 @@ class CreateFlowDetailsTable extends Migration
     {
         Schema::create('flow_details', function (Blueprint $table) {
             $table->increments('id')->comment('ID');
+            $table->string('name')->nullable()->comment('名称');
             $table->integer('flow_id')->unsigned()->comment('流程ID');
             $table->string('form')->nullable()->comment('表单地址');
             $table->string('view')->nullable()->comment('查看地址');
