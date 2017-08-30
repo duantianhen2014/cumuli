@@ -33,8 +33,8 @@ class Flow extends Model
      * 多对多的多态关联
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-//    public function leaves()
+//    public function roles()
 //    {
-//        return $this->morphedByMany('App\Leave', 'task', 'flow_progresses');
+//        return $this->morphedByMany('App\Role', 'task', 'flow_progresses');
 //    }
 }

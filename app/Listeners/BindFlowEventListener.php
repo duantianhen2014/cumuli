@@ -2,30 +2,25 @@
 
 namespace App\Listeners;
 
+use App\Flow;
 use App\Events\BindFlowEvent;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class BindFlowEventListener
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param  BindFlowEvent  $event
-     * @return void
+     * 绑定工作流
+     * @param BindFlowEvent $event
      */
     public function handle(BindFlowEvent $event)
     {
-        //
+        $model = $event->model;
+        if ($model->flowCode) {
+            $flow = Flow::where('code', $model->flowCode)->first();
+
+            // 绑定数据
+            if ($flow && method_exists($model, 'progresses')) {
+                $model->progresses()->create(['flow_id' => $flow->id]);
+            }
+        }
     }
 }

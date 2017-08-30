@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class FlowProgress extends Model
 {
     protected $fillable = [
-        'progress', 'status', 'log',
+        'flow_id', 'progress', 'status', 'log',
     ];
 
     // 查询时自动转换类型

@@ -84,6 +84,29 @@ php artisan install
 
 [模块开发文档](module/README.md)
 
+## 工作流使用
+
+> 只需要在当前model中定义下面代码即可
+
+```
+// 绑定工作流，与flow表code对应
+public $flowCode = '24002133e3';
+
+// 事件监听
+protected $events = [
+    'created' => BindFlowEvent::class,
+];
+
+/**
+ * 多态关联工作流
+ * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+ */
+public function progresses()
+{
+    return $this->morphMany('App\FlowProgress', 'task');
+}
+```
+
 ## nginx配置
 
 ```

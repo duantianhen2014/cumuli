@@ -14,14 +14,15 @@ class BindFlowEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $model;
+
     /**
-     * Create a new event instance.
-     *
-     * @return void
+     * BindFlowEvent constructor.
+     * @param $model
      */
-    public function __construct()
+    public function __construct($model)
     {
-        //
+        $this->model = $model;
     }
 
     /**
