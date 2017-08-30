@@ -380,6 +380,132 @@
     }
   });
 
+  // flow方法
+  $.extend($.cumuli, {
+    flow: {
+      items: ['title', 'icon', 'width', 'height'],
+
+      option: function (e, merge) {
+        let option = $.extend({}, $.cumuli.config.flow); // 读取默认配置文件
+        if (!e) return option;
+
+        for (let i = 0; i < this.items.length; i++) {
+          let key = this.items[i];
+          let value = $(e).data(key) || $(e).attr(key);
+
+          switch (key) {
+            case 'icon':
+              if (!value) value = $(e).attr('iconCls');
+              key = 'iconCls';
+              break;
+          }
+
+          if (typeof value == 'undefined') continue;
+          option[key] = value;
+        }
+
+        //合并参数
+        if (typeof merge == 'object') $.extend(option, merge);
+
+        return option;
+      },
+
+      dialog: function (e, merge) {
+        let option = this.option(e, merge);
+
+        return new Promise(function (resolve, reject) {
+          let dialog = $.cumuli.dialog.page(e, $.extend({
+            buttons: [
+              {
+                text: '通过',
+                iconCls: 'fa fa-check-square',
+                handler: function () {
+                  $('form:first', dialog).form('submit', {
+                    onSubmit: function () {
+                      let isValid = $(this).form('validate');
+                      if (!isValid) return false;
+
+                      let formData = new FormData(this);
+                      formData.append('button', 1);
+
+                      $.cumuli.request.post(option['submit'], formData).then(function (data) {
+                        $(dialog).dialog('close');
+                        resolve(1);
+                      }, function (data) {
+                        $.cumuli.message.show(data.message || '操作失败', 'error');
+                        reject(data);
+                      });
+
+                      return false;
+                    }
+                  });
+                }
+              },
+              {
+                text: '不通过',
+                iconCls: 'fa fa-minus-square',
+                handler: function () {
+                  $('form:first', dialog).form('submit', {
+                    onSubmit: function () {
+                      let isValid = $(this).form('validate');
+                      if (!isValid) return false;
+
+                      let formData = new FormData(this);
+                      formData.append('button', 0);
+
+                      $.cumuli.request.post(option['submit'], formData).then(function (data) {
+                        $(dialog).dialog('close');
+                        resolve(0);
+                      }, function (data) {
+                        $.cumuli.message.show(data.message || '操作失败', 'error');
+                        reject(data);
+                      });
+
+                      return false;
+                    }
+                  });
+                }
+              },
+              {
+                text: '驳回',
+                iconCls: 'fa fa-square',
+                handler: function () {
+                  $('form:first', dialog).form('submit', {
+                    onSubmit: function () {
+                      let isValid = $(this).form('validate');
+                      if (!isValid) return false;
+
+                      let formData = new FormData(this);
+                      formData.append('button', -1);
+
+                      $.cumuli.request.post(option['submit'], formData).then(function (data) {
+                        $(dialog).dialog('close');
+                        resolve(-1);
+                      }, function (data) {
+                        $.cumuli.message.show(data.message || '操作失败', 'error');
+                        reject(data);
+                      });
+
+                      return false;
+                    }
+                  });
+                }
+              },
+              {
+                text: '关闭',
+                iconCls: 'fa fa-window-close',
+                handler: function () {
+                  $(dialog).dialog('close');
+                }
+              },
+            ],
+          }, option));
+        });
+
+      },
+    }
+  });
+
   // image方法
   $.extend($.cumuli, {
     image: {

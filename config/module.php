@@ -12,9 +12,20 @@ return [
 
     // 页面中的js配置项，调用位置 resources/views/layouts/app.blade.php
     'config' => [
+
+        // 审批配置
+        'flow' => [
+            'href' => '/system/page/flow',
+            'title' => '审批',
+            'iconCls' => 'fa fa-gavel',
+            'width' => 400,
+            'height' => 400,
+        ],
+
+        // 上传配置
         'upload' => [
             'url' => config('filesystems.disks.public.url'),
-        ]
+        ],
     ],
 
 ];

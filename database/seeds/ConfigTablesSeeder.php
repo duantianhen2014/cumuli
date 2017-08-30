@@ -86,6 +86,15 @@ class ConfigTablesSeeder extends Seeder
                 'updated_at' => new DateTime(),
             ],
             [
+                'group' => '默认页面',
+                'name' => '审批地址',
+                'key' => 'module.config.flow.href',
+                'value' => json_encode(config('module.config.flow.href')),
+                'editor' => json_encode(['type' => 'textbox']),
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime(),
+            ],
+            [
                 'group' => '前端配置',
                 'name' => '上传地址',
                 'key' => 'module.config.upload.url',

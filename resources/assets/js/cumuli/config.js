@@ -52,6 +52,17 @@
     }
   });
 
+  // flow默认配置
+  $.extend($.cumuli.config, {
+    flow: {
+      href: '/system/page/flow',
+      title: '审批',
+      iconCls: 'fa fa-gavel',
+      width: 400,
+      height: 400,
+    }
+  });
+
   // message默认配置
   $.extend($.cumuli.config, {
     message: {
