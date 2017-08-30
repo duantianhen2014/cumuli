@@ -7,8 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Flow extends Model
 {
     protected $fillable = [
-        'name', 'description', 'success', 'fail',
+        'name', 'code', 'description', 'success', 'fail',
     ];
+
+    /**
+     * 唯一编号
+     * @param $value
+     */
+    public function setCodeAttribute($value)
+    {
+        $this->attributes['code'] = $value ?: bin2hex(random_bytes(5));
+    }
 
     /**
      * 一对多关联

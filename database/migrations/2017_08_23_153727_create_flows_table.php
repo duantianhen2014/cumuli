@@ -16,6 +16,7 @@ class CreateFlowsTable extends Migration
         Schema::create('flows', function (Blueprint $table) {
             $table->increments('id')->comment('ID');
             $table->string('name')->comment('名称');
+            $table->string('code')->comment('唯一编号')->unique();
             $table->string('description')->nullable()->comment('描述');
             $table->string('success')->nullable()->comment('成功回调地址');
             $table->string('fail')->nullable()->comment('失败回调地址');

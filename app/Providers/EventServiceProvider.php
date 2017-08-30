@@ -13,11 +13,13 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\Event' => [
-            'App\Listeners\EventListener',
-        ],
+        // 更新自定义配置缓存
         'App\Events\ConfigChangedEvent' => [
             'App\Listeners\ConfigChangedEventListener',
+        ],
+        // 绑定工作流到对应数据
+        'App\Events\BindFlowEvent' => [
+            'App\Listeners\BindFlowEventListener',
         ],
     ];
 
