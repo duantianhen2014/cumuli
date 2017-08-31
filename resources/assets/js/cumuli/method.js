@@ -437,8 +437,8 @@
                       let isValid = $(this).form('validate');
                       if (!isValid) return false;
 
-                      let url = option.submit + option.submit.indexOf('?') != -1 ? '&button=1' : '?button=1';
-                      $.cumuli.request.post(url, this).then(function (data) {
+                      let subfix = option.submit.indexOf('?') != -1 ? '&button=1' : '?button=1';
+                      $.cumuli.request.post(option.submit + subfix, this).then(function (data) {
                         $(dialog).dialog('close');
                         resolve(1);
                       }, function (data) {
@@ -460,8 +460,8 @@
                       let isValid = $(this).form('validate');
                       if (!isValid) return false;
 
-                      let url = option.submit + option.submit.indexOf('?') != -1 ? '&button=0' : '?button=0';
-                      $.cumuli.request.post(url, this).then(function (data) {
+                      let subfix = option.submit.indexOf('?') != -1 ? '&button=0' : '?button=0';
+                      $.cumuli.request.post(option.submit + subfix, this).then(function (data) {
                         $(dialog).dialog('close');
                         resolve(0);
                       }, function (data) {
@@ -483,8 +483,8 @@
                       let isValid = $(this).form('validate');
                       if (!isValid) return false;
 
-                      let url = option.submit + option.submit.indexOf('?') != -1 ? '&button=-1' : '?button=-1';
-                      $.cumuli.request.post(url, this).then(function (data) {
+                      let subfix = option.submit.indexOf('?') != -1 ? '&button=-1' : '?button=-1';
+                      $.cumuli.request.post(option.submit + subfix, this).then(function (data) {
                         $(dialog).dialog('close');
                         resolve(-1);
                       }, function (data) {

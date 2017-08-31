@@ -30,6 +30,16 @@ class Flow extends Model
     }
 
     /**
+     * 一对多关联
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function progresses()
+    {
+        return $this->hasMany('App\FlowProgress');
+    }
+
+    /**
      * 多对多的多态关联
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
