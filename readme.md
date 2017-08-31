@@ -86,7 +86,7 @@ php artisan install
 
 ## 工作流使用
 
-> 只需要在当前model中定义下面代码即可
+> 只需要在当前model中定义下面代码即可 (>= 1.2.0)
 
 ```
 // 绑定工作流，与flow表code对应
