@@ -77,7 +77,7 @@
   $.extend($.cumuli.config, {
     page: {
       iconCls: null,
-      cache: true,
+      cache: false,
       closable: true,
     }
   });
