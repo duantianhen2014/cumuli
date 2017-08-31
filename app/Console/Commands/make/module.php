@@ -151,7 +151,7 @@ class module extends GeneratorCommand
 <script type="text/javascript">
     \$('#{{ attr_id('panel') }}').handle({
         run: function (e) {
-            alert(\$(e).text());
+            \$(e).cumuli('dialog.content', {title:'dialog', width: 400, height: 300});
         }
     });
 </script>
