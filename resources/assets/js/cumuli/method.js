@@ -429,7 +429,7 @@
             dialog: '#cumuli-dialog-second',
             buttons: [
               {
-                text: '通过',
+                text: '同意',
                 iconCls: 'fa fa-check-square',
                 handler: function () {
                   $('form:first', dialog).form('submit', {
@@ -452,7 +452,7 @@
                 }
               },
               {
-                text: '不通过',
+                text: '拒绝',
                 iconCls: 'fa fa-minus-square',
                 handler: function () {
                   $('form:first', dialog).form('submit', {
@@ -475,7 +475,7 @@
                 }
               },
               {
-                text: '驳回',
+                text: '打回',
                 iconCls: 'fa fa-square',
                 handler: function () {
                   $('form:first', dialog).form('submit', {
