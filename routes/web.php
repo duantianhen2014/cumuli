@@ -20,10 +20,10 @@ Route::get('/', function () {
 })->middleware('auth');
 
 // 退出登录
-Route::any('logout', function () {
+Route::get('logout', function () {
     Auth::logout();
     return redirect('/');
-})->middleware('auth');
+});
 
 // 加载模块, 统一采用以前版本的controller方式
 $module = module();
