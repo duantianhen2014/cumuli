@@ -19,7 +19,11 @@ class BindFlowEventListener
 
             // 绑定数据
             if ($flow && method_exists($model, 'progresses')) {
-                $model->progresses()->create(['flow_id' => $flow->id]);
+                $model->progresses()->create([
+                    'flow_id' => $flow->id,
+                    'created_by' => null,
+                    'updated_by' => null,
+                ]);
             }
         }
     }
