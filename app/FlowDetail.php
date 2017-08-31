@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class FlowDetail extends Model
 {
     protected $fillable = [
-        'check', 'form', 'view', 'success', 'fail', 'order_by',
+        'name', 'check', 'form', 'view', 'success', 'fail', 'order_by',
     ];
 
     /**
