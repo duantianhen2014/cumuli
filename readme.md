@@ -94,7 +94,7 @@ public $flowCode = '24002133e3';
 
 // 事件监听
 protected $events = [
-    'created' => BindFlowEvent::class,
+    'created' => \App\Events\FlowBindEvent::class,
 ];
 
 /**
