@@ -69,7 +69,7 @@ class FlowProgressChangeEventListener
         }
 
         $check = 3;
-        if (!$detail->check->users->pluck('id')->has($user->id)) {
+        if ($detail->check->users->pluck('id')->search($user->id) === false) {
             $check--;
         }
         if ($check < 3 && !$detail->check->roles->pluck('id')->intersect($user->roles->pluck('id'))->count()) {
