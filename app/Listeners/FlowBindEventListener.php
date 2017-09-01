@@ -2,16 +2,17 @@
 
 namespace App\Listeners;
 
+use Auth;
 use App\Flow;
-use App\Events\BindFlowEvent;
+use App\Events\FlowBindEvent;
 
-class BindFlowEventListener
+class FlowBindEventListener
 {
     /**
      * 绑定工作流
-     * @param BindFlowEvent $event
+     * @param FlowBindEvent $event
      */
-    public function handle(BindFlowEvent $event)
+    public function handle(FlowBindEvent $event)
     {
         $model = $event->model;
         if ($model->flowCode) {
@@ -21,8 +22,8 @@ class BindFlowEventListener
             if ($flow && method_exists($model, 'progresses')) {
                 $model->progresses()->create([
                     'flow_id' => $flow->id,
-                    'created_by' => null,
-                    'updated_by' => null,
+                    'created_by' => Auth::User()->id,
+                    'updated_by' => Auth::User()->id,
                 ]);
             }
         }

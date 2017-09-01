@@ -2,7 +2,8 @@
 
 namespace App;
 
-use Auth;
+use App\Events\FlowProgressChangeEvent;
+use App\Events\FlowProgressChangedEvent;
 use Illuminate\Database\Eloquent\Model;
 
 class FlowProgress extends Model
@@ -17,23 +18,11 @@ class FlowProgress extends Model
         'log' => 'array',
     ];
 
-    /**
-     * 创建人
-     * @param $value
-     */
-    public function setCreatedByAttribute($value)
-    {
-        $this->attributes['created_by'] = $value ?: Auth::User()->id;
-    }
-
-    /**
-     * 修改人
-     * @param $value
-     */
-    public function setUpdatedByAttribute($value)
-    {
-        $this->attributes['updated_by'] = $value ?: Auth::User()->id;
-    }
+    // 事件监听
+    protected $events = [
+        'updating' => FlowProgressChangeEvent::class, // 记录日志等
+        'updated' => FlowProgressChangedEvent::class, // 触发钩子等
+    ];
 
     /**
      * 普通多态关联
