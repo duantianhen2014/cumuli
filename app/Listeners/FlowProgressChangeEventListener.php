@@ -32,6 +32,7 @@ class FlowProgressChangeEventListener
                     'step' => $model->progress + 1,
                     'status' => 'success',
                     'user' => $user,
+                    'time' => new \DateTime(),
                 ]);
                 break;
             case 'fail':
@@ -42,6 +43,7 @@ class FlowProgressChangeEventListener
                     'step' => $model->progress + 1,
                     'status' => 'fail',
                     'user' => $user,
+                    'time' => new \DateTime(),
                 ]);
                 break;
             case 'wait':
@@ -52,6 +54,7 @@ class FlowProgressChangeEventListener
                     'step' => $model->progress,
                     'status' => 'wait',
                     'user' => $user,
+                    'time' => new \DateTime(),
                 ]);
                 break;
             case 'back':
@@ -62,6 +65,7 @@ class FlowProgressChangeEventListener
                     'step' => $model->progress + 2,
                     'status' => 'back',
                     'user' => $user,
+                    'time' => new \DateTime(),
                 ]);
                 break;
         }
