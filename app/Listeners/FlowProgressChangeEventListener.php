@@ -29,6 +29,7 @@ class FlowProgressChangeEventListener
                 array_push($log, [
                     'type' => 'operate',
                     'operate' => 1,
+                    'step' => $model->progress + 1,
                     'status' => 'success',
                     'user' => $user,
                 ]);
@@ -38,6 +39,7 @@ class FlowProgressChangeEventListener
                 array_push($log, [
                     'type' => 'operate',
                     'operate' => 0,
+                    'step' => $model->progress + 1,
                     'status' => 'fail',
                     'user' => $user,
                 ]);
@@ -47,6 +49,7 @@ class FlowProgressChangeEventListener
                 array_push($log, [
                     'type' => 'operate',
                     'operate' => 1,
+                    'step' => $model->progress,
                     'status' => 'wait',
                     'user' => $user,
                 ]);
@@ -56,6 +59,7 @@ class FlowProgressChangeEventListener
                 array_push($log, [
                     'type' => 'operate',
                     'operate' => -1,
+                    'step' => $model->progress + 2,
                     'status' => 'back',
                     'user' => $user,
                 ]);

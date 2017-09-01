@@ -437,14 +437,38 @@
                       let isValid = $(this).form('validate');
                       if (!isValid) return false;
 
-                      let subfix = option.submit.indexOf('?') != -1 ? '&button=1' : '?button=1';
-                      $.cumuli.request.post(option.submit + subfix, this).then(function (data) {
-                        $(dialog).dialog('close');
-                        resolve(1);
-                      }, function (data) {
-                        $.cumuli.message.show(data.message || '操作失败', 'error');
-                        reject(data);
-                      });
+                      let button = 1;
+                      let subfix = (option.submit.indexOf('?') != -1 ? '&button=' : '?button=') + button;
+                      let $panel = $('.easyui-accordion:first', dialog).accordion('panels').filter(panel => !!$(panel).attr('selected')).pop();
+
+                      // 需要先提交自定义表单后提交审核
+                      let submit = $panel.attr('submit') == 'true' ? $panel.attr('href') : (option.submit + subfix);
+                      $.cumuli.request.post(submit, this)
+                        .then(
+                          data => {
+                            if ($panel.attr('submit') == 'true') {
+                              $.cumuli.message.show('表单提交成功', 'info');
+                              $.cumuli.request.post(option.submit + subfix, [])
+                                .then(
+                                  data => {
+                                    $(dialog).dialog('close');
+                                    resolve(button);
+                                  },
+                                  err => {
+                                    $.cumuli.message.show(err.message || '表单提交失败', 'error');
+                                    reject(err);
+                                  }
+                                )
+                            } else {
+                              $(dialog).dialog('close');
+                              resolve(button);
+                            }
+                          },
+                          err => {
+                            $.cumuli.message.show(err.message || '操作失败', 'error');
+                            reject(err);
+                          }
+                        );
 
                       return false;
                     }
@@ -460,14 +484,38 @@
                       let isValid = $(this).form('validate');
                       if (!isValid) return false;
 
-                      let subfix = option.submit.indexOf('?') != -1 ? '&button=0' : '?button=0';
-                      $.cumuli.request.post(option.submit + subfix, this).then(function (data) {
-                        $(dialog).dialog('close');
-                        resolve(0);
-                      }, function (data) {
-                        $.cumuli.message.show(data.message || '操作失败', 'error');
-                        reject(data);
-                      });
+                      let button = 0;
+                      let subfix = (option.submit.indexOf('?') != -1 ? '&button=' : '?button=') + button;
+                      let $panel = $('.easyui-accordion:first', dialog).accordion('panels').filter(panel => !!$(panel).attr('selected')).pop();
+
+                      // 需要先提交自定义表单后提交审核
+                      let submit = $panel.attr('submit') == 'true' ? $panel.attr('href') : (option.submit + subfix);
+                      $.cumuli.request.post(submit, this)
+                        .then(
+                          data => {
+                            if ($panel.attr('submit') == 'true') {
+                              $.cumuli.message.show('表单提交成功', 'info');
+                              $.cumuli.request.post(option.submit + subfix, [])
+                                .then(
+                                  data => {
+                                    $(dialog).dialog('close');
+                                    resolve(button);
+                                  },
+                                  err => {
+                                    $.cumuli.message.show(err.message || '表单提交失败', 'error');
+                                    reject(err);
+                                  }
+                                )
+                            } else {
+                              $(dialog).dialog('close');
+                              resolve(button);
+                            }
+                          },
+                          err => {
+                            $.cumuli.message.show(err.message || '操作失败', 'error');
+                            reject(err);
+                          }
+                        );
 
                       return false;
                     }
@@ -483,14 +531,38 @@
                       let isValid = $(this).form('validate');
                       if (!isValid) return false;
 
-                      let subfix = option.submit.indexOf('?') != -1 ? '&button=-1' : '?button=-1';
-                      $.cumuli.request.post(option.submit + subfix, this).then(function (data) {
-                        $(dialog).dialog('close');
-                        resolve(-1);
-                      }, function (data) {
-                        $.cumuli.message.show(data.message || '操作失败', 'error');
-                        reject(data);
-                      });
+                      let button = -1;
+                      let subfix = (option.submit.indexOf('?') != -1 ? '&button=' : '?button=') + button;
+                      let $panel = $('.easyui-accordion:first', dialog).accordion('panels').filter(panel => !!$(panel).attr('selected')).pop();
+
+                      // 需要先提交自定义表单后提交审核
+                      let submit = $panel.attr('submit') == 'true' ? $panel.attr('href') : (option.submit + subfix);
+                      $.cumuli.request.post(submit, this)
+                        .then(
+                          data => {
+                            if ($panel.attr('submit') == 'true') {
+                              $.cumuli.message.show('表单提交成功', 'info');
+                              $.cumuli.request.post(option.submit + subfix, [])
+                                .then(
+                                  data => {
+                                    $(dialog).dialog('close');
+                                    resolve(button);
+                                  },
+                                  err => {
+                                    $.cumuli.message.show(err.message || '表单提交失败', 'error');
+                                    reject(err);
+                                  }
+                                )
+                            } else {
+                              $(dialog).dialog('close');
+                              resolve(button);
+                            }
+                          },
+                          err => {
+                            $.cumuli.message.show(err.message || '操作失败', 'error');
+                            reject(err);
+                          }
+                        );
 
                       return false;
                     }
