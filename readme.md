@@ -107,6 +107,13 @@ public function progresses()
 }
 ```
 
+当通过该model创建新的数据后，只需前端调用以下代码即可
+
+```
+// id 为flow_progresses表主键id，php可通过$model->progresses获取数据中的id字段
+$.cumuli.flow.dialog(null, {flow: id}).then(success, error)
+``` 
+
 ## nginx配置
 
 ```
