@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use Illuminate\Support\Facades\Log;
+use App\Jobs\TriggerFlowHook;
 use App\Events\FlowProgressChangedEvent;
 
 class FlowProgressChangedEventListener
@@ -28,7 +29,7 @@ class FlowProgressChangedEventListener
                 ]
             ]);
 
-        Log::debug($url);
+        dispatch(new TriggerFlowHook($url));
     }
 
     /**
