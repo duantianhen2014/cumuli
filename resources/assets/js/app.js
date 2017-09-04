@@ -1,6 +1,9 @@
 // TODO 请不要随意调整顺序
 window.$ = window.jQuery = require('jquery');
 window.moment = require('moment');
+require('moment/locale/en-gb');
+require('moment/locale/zh-cn');
+
 require('lightgallery.js');
 require('lg-autoplay.js');
 require('lg-fullscreen.js');
