@@ -26,7 +26,7 @@ class Flow extends Model
      */
     public function details()
     {
-        return $this->hasMany('App\FlowDetail');
+        return $this->hasMany('App\FlowDetail')->orderBy('order_by');
     }
 
     /**
