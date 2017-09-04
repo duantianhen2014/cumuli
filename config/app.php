@@ -15,7 +15,7 @@ return [
     'title' => env('APP_NAME', 'Cumuli系统'),
     'name' => env('APP_NAME', 'Cumuli系统'),
     'icon' => env('APP_ICON', 'fa fa-cloud'),
-    'version' => 'v1.2.2',
+    'version' => 'v1.2.3',
     'copyright' => '<div align="center">&copy; 2017 Cumuli系统</div>',
 
     /*
