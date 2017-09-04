@@ -29,6 +29,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\FlowProgressChangedEvent' => [
             'App\Listeners\FlowProgressChangedEventListener',
         ],
+        // 监听工作流进度保存，用于触发通知
+        'App\Events\FlowProgressSavedEvent' => [
+            'App\Listeners\FlowProgressSavedEventListener',
+        ],
     ];
 
     /**

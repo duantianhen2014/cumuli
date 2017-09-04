@@ -4,6 +4,7 @@ namespace App;
 
 use App\Events\FlowProgressChangeEvent;
 use App\Events\FlowProgressChangedEvent;
+use App\Events\FlowProgressSavedEvent;
 use Illuminate\Database\Eloquent\Model;
 
 class FlowProgress extends Model
@@ -22,6 +23,7 @@ class FlowProgress extends Model
     protected $events = [
         'updating' => FlowProgressChangeEvent::class, // 记录日志等
         'updated' => FlowProgressChangedEvent::class, // 触发钩子等
+        'saved' => FlowProgressSavedEvent::class, // 触发消息通知等
     ];
 
     /**
