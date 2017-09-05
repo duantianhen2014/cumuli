@@ -23,22 +23,15 @@ class FlowProgressSavedEventListener
             return false;
         }
 
-        $users = collect([]);
+        // 发送通知，只需要其中任何一人查看即可
         if ($detail->check->users) {
-            $users = $users->merge($detail->check->users);
+            Notification::send($detail->check->users, new FlowCheck($model));
         }
         if ($detail->check->roles) {
-            $detail->check->roles->each(function ($role) use (&$users) {
-                $users = $users->merge($role->users);
-            });
+            Notification::send($detail->check->roles, new FlowCheck($model));
         }
         if ($detail->check->structures) {
-            $detail->check->structures->each(function ($structure) use (&$users) {
-                $users = $users->merge($structure->users);
-            });
+            Notification::send($detail->check->structures, new FlowCheck($model));
         }
-
-        // 给用户发送通知
-        Notification::send($users->unique('id')->values(), new FlowCheck($model));
     }
 }

@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
 class Structure extends Model
 {
+    use Notifiable;
+
     protected $fillable = [
         'name', 'description', 'parent_id',
     ];
