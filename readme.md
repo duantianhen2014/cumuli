@@ -1,53 +1,84 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Cumuli系统
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+[![Latest Stable Version](https://poser.pugx.org/wangdong/cumuli/version)](https://packagist.org/packages/wangdong/cumuli) 
+[![Latest Unstable Version](https://poser.pugx.org/wangdong/cumuli/v/unstable)](https://packagist.org/packages/wangdong/cumuli) 
+[![Total Downloads](https://poser.pugx.org/wangdong/cumuli/downloads)](https://packagist.org/packages/wangdong/cumuli) 
+[![License](https://poser.pugx.org/wangdong/cumuli/license)](https://packagist.org/packages/wangdong/cumuli)
+[![composer.lock available](https://poser.pugx.org/wangdong/cumuli/composerlock)](https://packagist.org/packages/wangdong/cumuli)
 
-## About Laravel
+## 捐赠作者
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+<img src="resources/assets/img/alipay.png" width="240" alt="支付宝捐赠" />
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 开发前准备
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+1. 安装编辑器插件: http://editorconfig.org/#download
+2. 安装composer命令: 参考https://getcomposer.org
 
-## Learning Laravel
+## 数据库支持
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+1. mysql
+   - 创建数据库`mysql -e "create database cumuli"`
+   - 修改.env中`DB_CONNECTION=mysql`
+   - 修改.env中`DB_`开头其他配置
+2. postgresql
+   - root用户下创建数据库`runuser -l postgres -c "psql -c 'create database cumuli'"`
+   - 修改.env中`DB_CONNECTION=pgsql`
+   - 修改.env中`DB_`开头其他配置
+3. sqlite 
+   - 创建数据库`touch database/database.sqlite`
+   - 修改.env中`DB_CONNECTION=sqlite`
+   - 移除.env中其他`DB_`开头配置
+4. sqlserver (未测试)
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+## 配置国内加速
 
-## Laravel Sponsors
+**配置composer**
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
+```
+composer config -g repo.packagist composer https://packagist.phpcomposer.com
+```
 
-- **[Vehikl](http://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
+## 初始化脚本
 
-## Contributing
+**通过composer方式**
+```
+composer create-project wangdong/cumuli cumuli
+cd cumuli
+php artisan cumuli:install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+**其他方式**
+```
+git clone https://github.com/repertory/cumuli.git cumuli
+cd cumuli
+composer install
+php -r "file_exists('.env') || copy('.env.example', '.env');"
+php artisan cumuli:install
+```
 
-## Security Vulnerabilities
+## nginx配置
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+```
+server {
+    listen       80;
+    server_name  cumuli.dev;
+    root         /var/www/html/cumuli/public;
 
-## License
+    location / {
+        index  index.html index.htm index.php;
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+    location ~ \.php$ {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+}
+```
+
+## 开源协议
+
+2.0.0版本开始调整为MIT协议
