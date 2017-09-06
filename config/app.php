@@ -177,6 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Cumuli\Support\ServiceProvider::class,
     ],
 
     /*
