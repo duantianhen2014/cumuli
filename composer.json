@@ -18,7 +18,7 @@
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "wangdong/laravel-cumuli": "2.0.*"
+        "wangdong/laravel-cumuli": "2.0.*-dev"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
@@ -62,6 +62,7 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "secure-http": true
     }
 }
