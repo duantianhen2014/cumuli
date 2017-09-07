@@ -81,4 +81,4 @@ server {
 
 ## 开源协议
 
-2.0.0版本开始调整为MIT协议
+[MIT协议](LICENSE)
