@@ -18,7 +18,7 @@
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "wangdong/laravel-cumuli": "2.0.*-dev"
+        "wangdong/laravel-cumuli": "2.0.*"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
@@ -60,6 +60,12 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
+        ],
+        "post-install-cmd": [
+            "@php artisan cumuli:cache"
+        ],
+        "post-update-cmd": [
+            "@php artisan cumuli:cache"
         ]
     },
     "config": {
